@@ -5,9 +5,52 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 66.25%;
 }
-
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+p{
+  margin: 0!important;
+  padding: 0;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+:root{
+  /* --back-color:#0f0e17; */
+  --back-color:#eff0f3;
+  --head-color:#0d0d0d;
+  --text-color:#2a2a2a;
+  --link-color:#ff8906;
+  --btn-color:rgb(0, 140, 255);
+}
+.inputBox p{
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+.inputBox input::placeholder{
+  font-size: 1rem;
+}
+.inputBox input{
+  width: 100%;
+  height: calc(13px + 1.7vw);
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+
+@media screen and ( max-width:700px) {
+  html{
+      font-size: 57.25%
+  }
+}
+@media screen and ( max-width:500px) {
+  html{
+      font-size: 47.25%
+  }
 }

@@ -1,0 +1,30 @@
+.signup-wrapper{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup{
+    width: 50%;
+    margin: auto;
+    padding: 3px;
+}
+.signup__title{
+    text-align: center;
+    font-weight: 700;
+    font-size: 2.3rem;
+    text-decoration: underline;
+}
+.signup form{
+    width: 90%;
+    margin: 1% auto;
+
+}
+
+@media screen  and (max-width:500px){
+    .signup{
+        width: 100%;
+    }
+}
