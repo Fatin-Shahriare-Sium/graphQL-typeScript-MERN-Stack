@@ -1,0 +1,66 @@
+.main{
+    width: 100%;
+    height: 100vh;
+    background-color: var(--back-color);
+    .main-head{
+        height: 9vh;
+        width: 93%;
+        margin: 0px auto;
+    }
+    .main-body{
+        height: 91vh;
+    }
+}
+// main-navbar scss start
+
+.main-navbar{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 8vh;
+    p{
+        font-size: 1.7rem;
+        font-weight: 700;
+        color: var(--head-color);
+    }
+    .main-navbar__searchBox{
+        width: 43%;
+        input{
+            width: 100%;
+            height: calc(27px + 1vw);
+           margin-top: 1%;
+
+           &::placeholder{
+               font-size: 1rem;
+               font-weight: 500;
+           }
+        }
+        
+    }
+
+    .main-navbar__btnContainer{
+        width: 13%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        button{
+            font-size: 1rem;
+            width: max-content;
+            outline: none;
+            border: none;
+            border: 3px solid var(--btn-color);
+            padding: 1px 5px;
+            text-align: center;
+            border-radius: 7px;
+        }
+        button:nth-child(1){
+            background-color: var(--head-color);
+            color: var(--back-color);
+        }
+    }
+
+
+
+
+}
+

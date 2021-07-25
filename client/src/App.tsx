@@ -3,6 +3,7 @@ import Signup from './component/signup/signup';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Login from './component/login/login';
+import Main from './component/main/main';
 function App() {
 
 
@@ -15,7 +16,10 @@ function App() {
     <ApolloProvider client={client}>
       <BrowserRouter>
         <Switch>
-          <Route exact path='/signup'>
+          <Route exact path='/'>
+            <Main />
+          </Route>
+          <Route path='/signup'>
             <Signup />
           </Route>
           <Route path='/login'>
