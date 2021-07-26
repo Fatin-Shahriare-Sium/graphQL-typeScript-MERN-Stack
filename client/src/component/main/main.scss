@@ -9,7 +9,23 @@
     }
     .main-body{
         height: 91vh;
+        display: flex;
     }
+}
+
+.main-body{
+
+}
+.main-body__column1{
+    flex: .3;
+}
+.main-body__column2{
+
+    flex:.4
+}
+.main-body__column3{
+    background-color: greenyellow;
+    flex: .3
 }
 // main-navbar scss start
 
@@ -38,29 +54,25 @@
         
     }
 
-    .main-navbar__btnContainer{
-        width: 13%;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        button{
-            font-size: 1rem;
-            width: max-content;
-            outline: none;
-            border: none;
-            border: 3px solid var(--btn-color);
-            padding: 1px 5px;
-            text-align: center;
-            border-radius: 7px;
-        }
-        button:nth-child(1){
-            background-color: var(--head-color);
-            color: var(--back-color);
-        }
-    }
-
-
-
-
 }
 
+.main-navbar__btnContainer{
+    width: 13%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    button{
+        font-size: 1rem;
+        width: max-content;
+        outline: none;
+        border: none;
+        border: 3px solid var(--btn-color);
+        padding: 1px 5px;
+        text-align: center;
+        border-radius: 7px;
+    }
+    button:nth-child(1){
+        background-color: var(--head-color);
+        color: var(--back-color);
+    }
+}

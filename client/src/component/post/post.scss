@@ -1,0 +1,10 @@
+.create-post{
+    display: flex;
+
+}
+
+.create-post__user img{
+    width: 70px;
+    clip-path: circle();
+    object-fit: contain;
+}
