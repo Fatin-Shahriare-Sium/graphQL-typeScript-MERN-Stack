@@ -1,10 +1,60 @@
 .create-post{
     display: flex;
+    width: 100%;
+    .create-post__user{
+        width: 10%;
 
+        
+    }
+    .create-post__editor{
+        width: 80%;
+    }
 }
 
 .create-post__user img{
     width: 70px;
     clip-path: circle();
     object-fit: contain;
+}
+
+.create-post__editor{
+    textarea{
+        width: 100%!important;
+        min-height: 15vh;
+        resize: none;
+        border: none;
+        background-color: inherit;
+        overflow-y: hidden;
+        outline: none;
+    }
+}
+
+.create-post__editor--bottom{
+    height: 7vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .post__editor--toolbar{
+        width: 57%;
+        display: flex;
+    }
+}
+
+.input-container{
+    position: relative;
+    width: 30px;
+    display: flex;
+    input{
+        position: absolute;
+        opacity: 0;
+        width: 21px;
+        left: 0;
+        cursor: pointer!important;
+    }
+
+} 
+
+.create-post__editor__imgShower{
+
+
 }
