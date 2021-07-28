@@ -20,12 +20,12 @@
 .create-post__editor{
     textarea{
         width: 100%!important;
-        min-height: 15vh;
         resize: none;
         border: none;
         background-color: inherit;
         overflow-y: hidden;
         outline: none;
+        margin: 1%;
     }
 }
 
@@ -55,6 +55,31 @@
 } 
 
 .create-post__editor__imgShower{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+    div{
+        position: relative;
+        P{
+            color: rgb(0, 0, 0);
+            position: absolute;
+            font-weight: 700;
+            font-size: 1.3rem;
+            border-radius: 50%;
+            padding:0px 7px;
+            top: 1%;
+            left: 1%;
+            background-color: rgba(0, 137, 255 ,.3);
+            cursor: pointer;
+            transition: all .3s ease;
+            &:hover{
+                background-color: rgba(0, 137, 255,1);
+            }
+            
+        }
+    
+    }
 
 
 }
