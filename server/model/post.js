@@ -5,13 +5,16 @@ let postSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'user'
     },
-    postContent: String,
+    text: String,
+    imgs: Array,
     likes: [{
         type: Schema.Types.ObjectId,
         ref: 'user'
     }],
-    comments: '',
-    tags: Array,
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: "comment"
+    }],
     dislikes: [{
         type: Schema.Types.ObjectId,
         ref: 'user'

@@ -1,3 +1,4 @@
+const createPostMutationResolver = require('./postResolver/createPost.resolver.js')
 let createUserMutationResolver = require('./userResolver/createUser.resolver.js')
 const userLoginMutationResolver = require('./userResolver/userLogin.resolver.js')
 
@@ -12,7 +13,8 @@ let rootResolvers = {
     },
     Mutation: {
         createUser: createUserMutationResolver,
-        login: userLoginMutationResolver
+        login: userLoginMutationResolver,
+        createPost: createPostMutationResolver
     }
 }
 

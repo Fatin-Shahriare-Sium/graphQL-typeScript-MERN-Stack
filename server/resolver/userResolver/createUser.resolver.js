@@ -1,12 +1,15 @@
 
 let User = require('../../model/user.js')
 let jwt = require('jsonwebtoken')
-let bcrypt = require('bcrypt')
+let bcrypt = require('bcrypt');
+const Profile = require('../../model/Profile.js');
+
 createUserMutationResolver = async (parent, args, ctx, info) => {
-    console.log(parent, args);
-    let { name, email, password } = args
+    console.log(args);
+    let { name, email, password, gender } = args
     let hashedPassWord = await bcrypt.hash(password, 11)
     let alreadyUsed = await User.find({ email: email })
+
     if (alreadyUsed.length > 0) {
         return {
             token: '',
@@ -18,11 +21,24 @@ createUserMutationResolver = async (parent, args, ctx, info) => {
             success: false
         }
     }
+    let newProfile = new Profile({
+        name,
+        profileImg: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkRUKRJvv-AznH1erobEqUZ0zrLdP8bzGFe5BSNJ5E2KQWS6Ga9-ZCIuS0wHNOIG4b758&usqp=CAU',
+        coverImg: '',
+        address: '',
+        gender: gender,
+        brithDate: ''
+    })
+
+    let profilex = await newProfile.save()
+
     let newUser = new User({
         name,
         email,
         password: hashedPassWord,
-        profilePic: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkRUKRJvv-AznH1erobEqUZ0zrLdP8bzGFe5BSNJ5E2KQWS6Ga9-ZCIuS0wHNOIG4b758&usqp=CAU'
+        profilePic: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkRUKRJvv-AznH1erobEqUZ0zrLdP8bzGFe5BSNJ5E2KQWS6Ga9-ZCIuS0wHNOIG4b758&usqp=CAU',
+        profile: profilex._id,
+        posts: []
     })
 
     let userx = await newUser.save()
@@ -32,6 +48,7 @@ createUserMutationResolver = async (parent, args, ctx, info) => {
     return {
         token,
         user: {
+            id: userx._id,
             name: userx.name,
             email: userx.email,
             profilePic: userx.profilePic

@@ -4,8 +4,8 @@ let profileSchema = new Schema({
     name: String,
     profileImg: String,
     coverImg: String,
-    Address: String,
-    Gender: String,
+    address: String,
+    gender: String,
     brithDate: String
 })
 

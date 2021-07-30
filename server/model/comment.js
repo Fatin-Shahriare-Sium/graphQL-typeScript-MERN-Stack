@@ -5,6 +5,8 @@ let commentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'user'
     },
+    userName: String,
+    profilePic: String,
     commentText: String,
     likes: [{
         type: Schema.Types.ObjectId,

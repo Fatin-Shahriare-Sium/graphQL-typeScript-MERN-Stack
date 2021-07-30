@@ -1,5 +1,6 @@
 let { gql } = require('apollo-server')
-let RootTypeDefs = gql`
+const postTypeDefs = require('./post.typeDefs')
+let UserTypeDefs = gql`
 
     type Details{
         myCreator:String
@@ -7,9 +8,9 @@ let RootTypeDefs = gql`
     }
     "Created User obj after createUser mutation "
     type CreatedUser{
+        id:String,
         email:String,
         name:String,
-        password:String,
         profilePic:String
     }
 
@@ -37,12 +38,14 @@ let RootTypeDefs = gql`
     }
 
     type Mutation{
-        createUser(email:String!,name:String!,password:String!):createUserMutationResponse
+        createUser(email:String!,name:String!,password:String!,gender:String!):createUserMutationResponse
         login(email:String!,password:String!):LoginMutationResponse
     }
 
     
 
 `
+
+let RootTypeDefs = [UserTypeDefs, postTypeDefs]
 
 module.exports = RootTypeDefs

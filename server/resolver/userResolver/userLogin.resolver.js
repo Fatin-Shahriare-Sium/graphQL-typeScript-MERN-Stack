@@ -24,6 +24,7 @@ let userLoginMutationResolver = async (parent, args, ctx) => {
         return {
             token,
             user: {
+                id: userx._id,
                 name: userx.name,
                 email: userx.email,
                 profilePic: userx.profilePic
