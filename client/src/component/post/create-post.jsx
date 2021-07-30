@@ -4,16 +4,23 @@ import addImg from '../../assets/addImg.svg'
 import addEmoji from '../../assets/addEmoji.png'
 import Picker from 'emoji-picker-react';
 import Alert from '../alert/alert';
+import UseCreatePost from '../hooks/useCreatePost';
 
 const CreatePost = () => {
+    let { handleCreatePost } = UseCreatePost()
     let [postText, setPostText] = useState('')
     let [showPalet, setShowPalet] = useState(false)
     let [imgContainer, setImgContainer] = useState([])
     let [divStyle, setDivStyle] = useState({ width: "47%", height: '170px', margin: "1%" })
     let [alert, setAlert] = useState(false)
+    let [uploadError, setUploadError] = useState({ msg: '', color: '' })
     function handlePalet() {
         setShowPalet(pre => !pre)
     }
+
+    useEffect(() => {
+        console.log(process.env.REACT_APP_IMG_UPLOAD_URL);
+    })
 
     useEffect(() => {
         if (imgContainer.length == 2) {
@@ -30,20 +37,39 @@ const CreatePost = () => {
         console.log(e);
         //270,170
         let img = e.target.files[0]
+        if (img.size > 17000) {
 
-        let url = URL.createObjectURL(img)
-        console.log(img);
+            return setUploadError({
+                msg: "Can't use more than 17kb size",
+                color: 'warning'
+            })
+        } else {
+            setUploadError({ msg: '', color: '' })
+        }
+        let overlay = document.getElementById('img-shower-overlay')
+        overlay.style.display = 'flex'
+        const data = new FormData();
+        data.append('file', img)
+        data.append('upload_preset', 'taskman');
+        fetch('https://api.Cloudinary.com/v1_1/sium/image/upload', {
+            method: 'POST',
+            body: data
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data);
+                let { asset_id, url } = data
+                setImgContainer([...imgContainer, { id: asset_id, src: url }])
+                overlay.style.display = 'none'
+            })
 
-        setImgContainer([...imgContainer, { id: img.size, src: url }])
+
+
 
 
     }
 
     function handleRomove(id) {
         let filteredImg = imgContainer.filter(sig => sig.id !== id)
-
-
-
         setImgContainer([...filteredImg])
 
     }
@@ -80,7 +106,6 @@ const CreatePost = () => {
             }
 
         })
-        console.log(postText.length);
     }, [postText])
     return (
         <div className='create-post'>
@@ -92,16 +117,22 @@ const CreatePost = () => {
                 <textarea id='editor' style={{ minHeight: '15vh' }} placeholder='create post' value={postText} onChange={(event) => setPostText(event.target.value)}>
 
                 </textarea>
-
-                <div id='post-editor-imgShower' className='create-post__editor__imgShower'>
+                {uploadError && <Alert text={uploadError.msg} color={uploadError.color} />}
+                <div className='create-post__editor__imgShower'>
 
                     {imgContainer.map((sig) =>
-                        <div style={divStyle} id='single-img__container'>
+                        <div className='single-img__container' style={divStyle} id='single-img__container'>
                             <img style={{ width: '100%', height: '100%', borderRadius: '13px' }} src={sig.src} alt='' />
                             <p onClick={() => handleRomove(sig.id)}>&#x2715;</p>
                         </div>
 
                     )}
+
+                    <div id='img-shower-overlay' className='img-shower-overlay'>
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
                 </div>
                 {/* {alert && <Alert text={ } color={ } />} */}
                 <div className="create-post__editor--bottom">
@@ -127,7 +158,7 @@ const CreatePost = () => {
 
                         }
 
-                        <p>Post</p>
+                        <p onClick={() => handleCreatePost(postText, imgContainer)}>Post</p>
                     </div>
                 </div>
                 {showPalet && <div className='emoji-palet' style={{ display: "flex", justifyContent: 'center', alignItems: 'center' }} >

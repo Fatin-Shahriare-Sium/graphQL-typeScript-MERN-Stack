@@ -59,8 +59,12 @@
     align-items: center;
     width: 100%;
     flex-wrap: wrap;
-    div{
+    position: relative;
+
+
+    .single-img__container{
         position: relative;
+
         P{
             color: rgb(0, 0, 0);
             position: absolute;
@@ -78,8 +82,10 @@
             }
             
         }
-    
     }
+       
+    
+    
 
 
 }
@@ -130,4 +136,17 @@
     
         //77
     }
+}
+
+.img-shower-overlay{
+    position: absolute;
+    background-color: rgba(0,0,0,.9);
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    display: none;
 }

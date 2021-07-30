@@ -4,6 +4,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Login from './component/login/login';
 import Main from './component/main/main';
+import DataProvider from './store';
 function App() {
 
 
@@ -13,21 +14,23 @@ function App() {
 
   })
   return (
-    <ApolloProvider client={client}>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path='/'>
-            <Main />
-          </Route>
-          <Route path='/signup'>
-            <Signup />
-          </Route>
-          <Route path='/login'>
-            <Login />
-          </Route>
-        </Switch>
-      </BrowserRouter>
-    </ApolloProvider>
+    <DataProvider>
+      <ApolloProvider client={client}>
+        <BrowserRouter>
+          <Switch>
+            <Route exact path='/'>
+              <Main />
+            </Route>
+            <Route path='/signup'>
+              <Signup />
+            </Route>
+            <Route path='/login'>
+              <Login />
+            </Route>
+          </Switch>
+        </BrowserRouter>
+      </ApolloProvider>
+    </DataProvider>
   );
 }
 
