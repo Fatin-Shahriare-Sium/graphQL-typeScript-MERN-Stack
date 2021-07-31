@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 interface DataContextValue {
     auth: authState | undefined
 }
-
-let DataContext = React.createContext<DataContextValue | null>(null)
 
 interface authState {
     token: string | null,
@@ -15,15 +13,25 @@ interface authState {
     }
 }
 
+let DataContext = React.createContext<DataContextValue>({ auth: undefined })
+
+export let useData = () => {
+
+    return useContext(DataContext)
+
+
+}
+
+
 const DataProvider: React.FC = ({ children }) => {
     let [auth, setAuth] = useState<authState>()
+    let [loading, setLoading] = useState(true)
 
     useEffect(() => {
         let jsonUserx: any = localStorage.getItem("__userx")
         let userx = JSON.parse(jsonUserx)
         let token = localStorage.getItem('__tokenx')
 
-        console.log();
         setAuth({
             token,
             user: {
@@ -33,6 +41,7 @@ const DataProvider: React.FC = ({ children }) => {
             }
         })
 
+        setLoading(false)
 
 
 
@@ -47,7 +56,7 @@ const DataProvider: React.FC = ({ children }) => {
     }
     return (
         <DataContext.Provider value={value}>
-            {children}
+            {!loading && children}
         </DataContext.Provider>
     )
 }

@@ -6,13 +6,14 @@ import Picker from 'emoji-picker-react';
 import Alert from '../alert/alert';
 import UseCreatePost from '../hooks/useCreatePost';
 
+
 const CreatePost = () => {
-    let { handleCreatePost } = UseCreatePost()
+
+    let { handleCreatePost, error } = UseCreatePost()
     let [postText, setPostText] = useState('')
     let [showPalet, setShowPalet] = useState(false)
     let [imgContainer, setImgContainer] = useState([])
     let [divStyle, setDivStyle] = useState({ width: "47%", height: '170px', margin: "1%" })
-    let [alert, setAlert] = useState(false)
     let [uploadError, setUploadError] = useState({ msg: '', color: '' })
     function handlePalet() {
         setShowPalet(pre => !pre)
@@ -38,12 +39,13 @@ const CreatePost = () => {
         //270,170
         let img = e.target.files[0]
         if (img.size > 17000) {
-
             return setUploadError({
-                msg: "Can't use more than 17kb size",
+                msg: "Can't upload img more than 17kb",
                 color: 'warning'
             })
-        } else {
+
+        }
+        else {
             setUploadError({ msg: '', color: '' })
         }
         let overlay = document.getElementById('img-shower-overlay')
@@ -67,6 +69,7 @@ const CreatePost = () => {
 
 
     }
+
 
     function handleRomove(id) {
         let filteredImg = imgContainer.filter(sig => sig.id !== id)
@@ -94,7 +97,7 @@ const CreatePost = () => {
             }
 
             if (e.target.textLength > 500) {
-
+                circleBar.style.strokeDashoffset = 0
                 circleBar.style.stroke = 'red'
                 e.target.style.color = 'red'
 
@@ -117,7 +120,7 @@ const CreatePost = () => {
                 <textarea id='editor' style={{ minHeight: '15vh' }} placeholder='create post' value={postText} onChange={(event) => setPostText(event.target.value)}>
 
                 </textarea>
-                {uploadError && <Alert text={uploadError.msg} color={uploadError.color} />}
+                {uploadError.msg && <Alert text={uploadError.msg} color={uploadError.color} />}
                 <div className='create-post__editor__imgShower'>
 
                     {imgContainer.map((sig) =>
@@ -134,7 +137,7 @@ const CreatePost = () => {
                         </div>
                     </div>
                 </div>
-                {/* {alert && <Alert text={ } color={ } />} */}
+                {error && <Alert text={error.msg} color={error.color} />}
                 <div className="create-post__editor--bottom">
                     <div className='post__editor--toolbar'>
                         <div className='input-container'>
