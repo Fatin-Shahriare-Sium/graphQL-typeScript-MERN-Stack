@@ -5,7 +5,7 @@ import home from '../../assets/home.svg'
 import bell from '../../assets/bell.svg'
 import key from '../../assets/key.svg'
 import user from '../../assets/user.svg'
-import bookmark from '../../assets/bookmark.svg'
+import bookmark from '../../assets/bookmark-fill.svg'
 const UserSidebar = () => {
     return (
         <div className='user-sidebar'>

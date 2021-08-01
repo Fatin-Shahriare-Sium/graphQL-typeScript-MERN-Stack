@@ -2,6 +2,7 @@ import React from 'react'
 import CreatePost from '../post/create-post';
 import UserSidebar from '../user-sidebar/user-sidebar';
 import MainNavbar from './main-navbar';
+import ShowPost from '../show-post/show-post'
 import './main.scss'
 const Main = () => {
     return (
@@ -17,6 +18,7 @@ const Main = () => {
                 </div>
                 <div className="main-body__column2">
                     <CreatePost />
+                    <ShowPost />
                 </div>
                 <div className="main-body__column3">
 
