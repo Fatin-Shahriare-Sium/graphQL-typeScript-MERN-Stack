@@ -14,8 +14,9 @@ function App() {
 
   })
   return (
-    <DataProvider>
-      <ApolloProvider client={client}>
+
+    <ApolloProvider client={client}>
+      <DataProvider>
         <BrowserRouter>
           <Switch>
             <Route exact path='/'>
@@ -29,8 +30,9 @@ function App() {
             </Route>
           </Switch>
         </BrowserRouter>
-      </ApolloProvider>
-    </DataProvider>
+      </DataProvider>
+    </ApolloProvider>
+
   );
 }
 

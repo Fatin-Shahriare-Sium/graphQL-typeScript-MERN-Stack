@@ -1,8 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { gql, useLazyQuery } from '@apollo/client'
+import React, { useContext, useEffect, useReducer, useState } from 'react'
+import PostReducer, { INITIAL_STATE, POST_ACTION_TYPE } from './postReducer'
+import { POST_DATA } from './postReducer'
+let FETCH_POST = gql`
+    query{
+  allPosts {
+        _id,
+          text,
+          likes,
+         dislikes,
+         comments{
+             user
+             commentText
+         }
+         user,
+         createdAt,
+         updatedAt,
+  }
+}
+  
+    `
 
-interface DataContextValue {
+
+interface DataContextValue extends POST_DATA {
     auth: authState | undefined
 }
+
+
 
 interface authState {
     token: string | null,
@@ -13,7 +37,7 @@ interface authState {
     }
 }
 
-let DataContext = React.createContext<DataContextValue>({ auth: undefined })
+let DataContext = React.createContext<DataContextValue>({ auth: undefined, posts: [] })
 
 export let useData = () => {
 
@@ -24,8 +48,12 @@ export let useData = () => {
 
 
 const DataProvider: React.FC = ({ children }) => {
+    let [state, dispatch] = useReducer(PostReducer, INITIAL_STATE)
+    let [fetchPostTigger, { data }] = useLazyQuery(FETCH_POST)
     let [auth, setAuth] = useState<authState>()
     let [loading, setLoading] = useState(true)
+
+
 
     useEffect(() => {
         let jsonUserx: any = localStorage.getItem("__userx")
@@ -41,18 +69,31 @@ const DataProvider: React.FC = ({ children }) => {
             }
         })
 
+
         setLoading(false)
 
-
-
-
-
-        // localStorage.setItem("__tokenx", login.token)
-        // localStorage.setItem("", JSON.stringify(login.user))
     }, [localStorage.getItem('__userx')])
 
+
+    useEffect(() => {
+        fetchPostTigger()
+        console.log('data', data);
+        if (data) {
+            dispatch({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: data })
+        }
+
+    }, [data])
+
+    useEffect(() => {
+
+
+
+    }, [JSON.stringify(state)])
+
     let value = {
-        auth
+        auth,
+        posts: state.posts
+
     }
     return (
         <DataContext.Provider value={value}>
