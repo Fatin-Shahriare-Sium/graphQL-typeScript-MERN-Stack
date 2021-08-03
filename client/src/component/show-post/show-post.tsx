@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './show-post.scss'
 import img2 from '../../assets/img2.png'
 import like from '../../assets/like.svg'
 import dislike from '../../assets/dislike.svg'
 import comment from '../../assets/comment.svg'
 import bookmark from '../../assets/bookmark.svg'
+
 let IMG_CONTAINER_DIVSTYLE = [
     { width: "100%", height: '270px', margin: "1%" },
     { width: "47%", height: '230px', margin: "1%" },
@@ -13,24 +14,90 @@ let IMG_CONTAINER_DIVSTYLE = [
 
 ]
 
-const ShowPost = () => {
+interface SINGLE_POST_IMGS {
+    id: string,
+    src: string
+}
+
+interface SINGLE_POST_PROPS {
+    id: string,
+    user: {
+        _id: string,
+        name: string,
+        profilePic: string,
+    },
+    text: string,
+    imgs: SINGLE_POST_IMGS[]
+}
+
+const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs }) => {
+
+    let [truncated, setTruncated] = useState(false)
+
+    useEffect(() => {
+
+        if (text.length > 277) {
+            setTruncated(true)
+
+        }
+
+    }, [text])
+
+    function handleReadmore(id: string) {
+        let readmoreBtn: any = document.getElementById(`readMore-btn-${id}`)
+        let postText: any = document.getElementById(`post-text-shower-${id}`)
+        console.dir(readmoreBtn);
+        console.dir(postText);
+
+        if (readmoreBtn.textContent == 'Read More') {
+            readmoreBtn.innerText = 'Show less'
+            postText.innerText = text
+        } else {
+            readmoreBtn.innerText = "Read More"
+            postText.innerText = textTruncate(text)
+        }
+
+    }
+
+    function textTruncate(textx: string) {
+
+
+        if (textx.length > 277) {
+
+            return textx.substr(0, 277) + '...'
+
+
+        } else {
+
+            return textx
+        }
+
+    }
+
     return (
         <div className='show-post'>
             <div className="show-post__left">
-                <img src="https://sportstar.thehindu.com/football/article32903363.ece/ALTERNATES/LANDSCAPE_1200/antony-ajax" alt="" />
+                <img src={user.profilePic} alt="" />
             </div>
             <div className="show-post__right">
                 <div className="show-post__right--header">
 
                 </div>
                 <div className="show-post__right--body">
-                    <p id='post-text-shower'>An 'error' is a deviation from accuracy or correctness. A 'mistake' is an error caused by a fault: the fault being misjudgment, carelessness, or forgetfulness. Now, say that I run a stop sign because I was in a hurry, and wasn't concentrating, and the police stop me, that is a mistake</p>
+                    <div className='show-post__right--body__user-info'>
+                        <p className='user-info__name'>{user.name}</p>
+                        <p style={{ fontSize: '.7rem', fontWeight: 500 }}>A day ago</p>
+                    </div>
+                    <p id={`post-text-shower-${id}`}>{textTruncate(text)}</p>
                     {/* 277 string */}
-                    <p style={{ fontWeight: 700, cursor: "pointer" }} className='mt-1'>Read More</p>
+                    {
+                        truncated && <p onClick={() => handleReadmore(id)} key={text} id={`readMore-btn-${id}`} style={{ fontWeight: 700, cursor: "pointer" }} className='mt-1'>Read More</p>
+                    }
+
                     <div className="show-post__right--body__img-shower">
-                        <div style={IMG_CONTAINER_DIVSTYLE[0]}>
-                            <img src={img2} alt="" />
-                        </div>
+                        {imgs.map((sig, index) => <div style={IMG_CONTAINER_DIVSTYLE[imgs.length - 1]}>
+                            <img src={sig.src} alt="" />
+                        </div>)}
 
                     </div>
 

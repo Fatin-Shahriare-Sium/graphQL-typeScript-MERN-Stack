@@ -19,7 +19,7 @@ const UseCreatePost = () => {
 
     let [createPost] = useMutation(CREATE_POST_DATA)
 
-    let [error, setError] = useState<{ msg: string, color: string }>()
+    let [error, setError] = useState<{ msg: string, color: string, ableToCreate: boolean }>()
 
 
 
@@ -35,12 +35,20 @@ const UseCreatePost = () => {
         if (textArray.length >= 500) {
             return setError({
                 msg: "Can't write more than 500 words",
-                color: 'danger'
+                color: 'danger',
+                ableToCreate: false
             })
         }
 
         let data = await createPost({ variables: { userId: auth?.user.id, text, imgs } })
 
+        if (data) {
+            setError({
+                msg: 'Successfully,created a post',
+                color: "success",
+                ableToCreate: true
+            })
+        }
 
         console.log(data);
 

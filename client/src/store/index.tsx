@@ -13,7 +13,15 @@ let FETCH_POST = gql`
              user
              commentText
          }
-         user,
+         user{
+             _id,
+             name,
+             profilePic
+         }
+         imgs{
+             id,
+             src
+         }
          createdAt,
          updatedAt,
   }
@@ -69,26 +77,25 @@ const DataProvider: React.FC = ({ children }) => {
             }
         })
 
-
         setLoading(false)
+
 
     }, [localStorage.getItem('__userx')])
 
-
     useEffect(() => {
         fetchPostTigger()
-        console.log('data', data);
+    }, [])
+
+    useEffect(() => {
+
+
         if (data) {
-            dispatch({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: data })
+            dispatch({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: data.allPosts })
         }
 
     }, [data])
 
-    useEffect(() => {
 
-
-
-    }, [JSON.stringify(state)])
 
     let value = {
         auth,

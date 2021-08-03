@@ -4,7 +4,10 @@ import UserSidebar from '../user-sidebar/user-sidebar';
 import MainNavbar from './main-navbar';
 import ShowPost from '../show-post/show-post'
 import './main.scss'
+import { useData } from '../../store';
+
 const Main = () => {
+    let { posts } = useData()
     return (
         <div className='main'>
             <div className="main-head">
@@ -18,7 +21,9 @@ const Main = () => {
                 </div>
                 <div className="main-body__column2">
                     <CreatePost />
-                    <ShowPost />
+                    {posts && posts.map((sig, index) =>
+                        <ShowPost key={sig._id} id={sig._id} text={sig.text} user={sig.user} imgs={sig.imgs} />
+                    )}
                 </div>
                 <div className="main-body__column3">
 

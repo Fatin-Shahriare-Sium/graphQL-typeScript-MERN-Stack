@@ -1,15 +1,23 @@
 .show-post{
 
     width: 100%;
-    min-height: 47vh;
+    min-height: 33vh;
     display: flex;
+    margin: 1% 0px;
 
     .show-post__left{
         width: 10%;
+        position: relative;
         img{
-            width: 70px;
+            position: absolute;
+            left: 27%;
+            top: 7%;
+            transform: translate(-13%, -27%);
+            width: 43px;
             clip-path: circle();
             object-fit: contain;
+
+           
         }
     }
 
@@ -44,6 +52,18 @@
     align-items: center;
     margin-top: 1%;
 }
+.show-post__right--body__user-info{
+    .user-info__name{
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--head-color);
+        cursor: pointer;
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+}
+
 
 .social-box-icon{
     margin-top: 2.3%;

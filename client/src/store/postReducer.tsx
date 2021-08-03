@@ -12,13 +12,26 @@ interface SingleComment {
     dislikes: [string],
     reply: [SingleComment]
 }
+
+interface User {
+    _id: string,
+    name: string,
+    profilePic: string
+}
+
+interface SINGLE_POST_IMGS {
+    id: string,
+    src: string
+}
+
 interface SinglePost {
     _id: string,
     text: string,
     likes: [string],
     comments: [SingleComment],
     dislikes: [string],
-    user: string,
+    user: User,
+    imgs: SINGLE_POST_IMGS[],
     userName: string,
     profilePic: string,
     createdAt: string,

@@ -38,7 +38,7 @@ const CreatePost = () => {
         console.log(e);
         //270,170
         let img = e.target.files[0]
-        if (img.size > 17000) {
+        if (img.size > 37000) {
             return setUploadError({
                 msg: "Can't upload img more than 17kb",
                 color: 'warning'
@@ -82,7 +82,8 @@ const CreatePost = () => {
             return `${postText}${emoji}`
         })
 
-    };
+    }
+
     useEffect(() => {
         let textArea = document.getElementById('editor')
         let circleBar = document.getElementById('circle-bar')
@@ -110,6 +111,19 @@ const CreatePost = () => {
 
         })
     }, [postText])
+
+    useEffect(() => {
+        let textArea = document.getElementById('editor')
+        let img_wrapper = document.getElementById('create-post__editor__imgShower')
+        console.dir(textArea);
+        if (error) {
+            if (error.ableToCreate) {
+                textArea.value = ''
+                textArea.style.minHeight = '15vh'
+                img_wrapper.innerHTML = ''
+            }
+        }
+    }, [error])
     return (
         <div className='create-post'>
             <div className='create-post__user'>
@@ -121,7 +135,7 @@ const CreatePost = () => {
 
                 </textarea>
                 {uploadError.msg && <Alert text={uploadError.msg} color={uploadError.color} />}
-                <div className='create-post__editor__imgShower'>
+                <div id='create-post__editor__imgShower' className='create-post__editor__imgShower'>
 
                     {imgContainer.map((sig) =>
                         <div className='single-img__container' style={divStyle} id='single-img__container'>
