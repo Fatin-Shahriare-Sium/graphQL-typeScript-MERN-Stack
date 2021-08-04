@@ -83,10 +83,13 @@ const DataProvider: React.FC = ({ children }) => {
     }, [localStorage.getItem('__userx')])
 
     useEffect(() => {
+
         fetchPostTigger()
+
     }, [])
 
     useEffect(() => {
+
 
 
         if (data) {

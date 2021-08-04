@@ -1,3 +1,4 @@
+import { useData } from "."
 
 
 export let INITIAL_STATE = {
@@ -8,9 +9,9 @@ interface SingleComment {
     userName: string,
     profilePic: string,
     commentText: string,
-    likes: [string],
-    dislikes: [string],
-    reply: [SingleComment]
+    likes: string[],
+    dislikes: string[],
+    reply: SingleComment[]
 }
 
 interface User {
@@ -27,9 +28,9 @@ interface SINGLE_POST_IMGS {
 interface SinglePost {
     _id: string,
     text: string,
-    likes: [string],
-    comments: [SingleComment],
-    dislikes: [string],
+    likes: string[],
+    comments: SingleComment[],
+    dislikes: string[],
     user: User,
     imgs: SINGLE_POST_IMGS[],
     userName: string,
@@ -38,8 +39,13 @@ interface SinglePost {
     updatedAt: string,
 }
 
+interface ModifiedPosts extends SinglePost {
+    liked: boolean,
+    disliked: boolean
+}
+
 export interface POST_DATA {
-    posts: SinglePost[] | []
+    posts: (ModifiedPosts | SinglePost)[]
 }
 
 export let POST_ACTION_TYPE = {
@@ -51,9 +57,30 @@ let PostReducer = (state: POST_DATA, action: any): POST_DATA => {
 
 
     if (action.type == POST_ACTION_TYPE.LOAD_ALLPOST) {
+
+        let jsonUserx: any = localStorage.getItem("__userx")
+        let userx = JSON.parse(jsonUserx)
+
+
+        let handleModifingsPosts = (): ModifiedPosts[] => {
+            let allPosts: any = action.payload
+            let modifiedPosts = allPosts.map((sig: any, index: any) => {
+                if (sig.likes.includes(userx.id)) {
+                    return { ...sig, liked: true, disliked: false }
+                } else if (sig.dislikes.includes(userx.id)) {
+                    return { ...sig, liked: false, disliked: true, p: 'y' }
+                } else {
+                    return { ...sig, liked: false, disliked: false }
+                }
+            })
+
+
+            return modifiedPosts;
+        }
         return {
             ...state,
-            posts: action.payload
+
+            posts: userx ? handleModifingsPosts() : action.payload
         }
 
     }

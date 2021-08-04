@@ -5,6 +5,7 @@ import like from '../../assets/like.svg'
 import dislike from '../../assets/dislike.svg'
 import comment from '../../assets/comment.svg'
 import bookmark from '../../assets/bookmark.svg'
+import useLDC from '../hooks/useLDC'
 
 let IMG_CONTAINER_DIVSTYLE = [
     { width: "100%", height: '270px', margin: "1%" },
@@ -27,13 +28,19 @@ interface SINGLE_POST_PROPS {
         profilePic: string,
     },
     text: string,
+    likes: string[],
+    dislikes: string[],
+    isLiked: boolean,
+    isDisliked: boolean,
     imgs: SINGLE_POST_IMGS[]
 }
 
-const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs }) => {
+const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, likes, dislikes, isLiked, isDisliked }) => {
 
     let [truncated, setTruncated] = useState(false)
 
+
+    let { handleLike } = useLDC()
     useEffect(() => {
 
         if (text.length > 277) {
@@ -113,9 +120,10 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs }) => {
                     </div>
                     <div className='social-box-icon'>
 
-                        <div className=''>
+                        <div onClick={() => handleLike(user._id, true, id)} className=''>
                             <img src={like} alt="" />
                             <p>Like</p>
+
                         </div>
 
                         <div>
@@ -136,7 +144,7 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs }) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
