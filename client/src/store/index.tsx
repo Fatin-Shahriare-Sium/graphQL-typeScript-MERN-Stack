@@ -1,5 +1,5 @@
 import { gql, useLazyQuery } from '@apollo/client'
-import React, { useContext, useEffect, useReducer, useState } from 'react'
+import React, { Dispatch, useContext, useEffect, useReducer, useState } from 'react'
 import PostReducer, { INITIAL_STATE, POST_ACTION_TYPE } from './postReducer'
 import { POST_DATA } from './postReducer'
 let FETCH_POST = gql`
@@ -31,7 +31,8 @@ let FETCH_POST = gql`
 
 
 interface DataContextValue extends POST_DATA {
-    auth: authState | undefined
+    auth: authState | undefined,
+    dispatch: Dispatch<any> | null
 }
 
 
@@ -45,7 +46,7 @@ interface authState {
     }
 }
 
-let DataContext = React.createContext<DataContextValue>({ auth: undefined, posts: [] })
+let DataContext = React.createContext<DataContextValue>({ auth: undefined, posts: [], dispatch: null })
 
 export let useData = () => {
 
@@ -102,7 +103,8 @@ const DataProvider: React.FC = ({ children }) => {
 
     let value = {
         auth,
-        posts: state.posts
+        posts: state.posts,
+        dispatch
 
     }
     return (

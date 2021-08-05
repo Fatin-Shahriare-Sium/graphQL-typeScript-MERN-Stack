@@ -8,7 +8,7 @@ import { useData } from '../../store';
 
 const Main = () => {
     let { posts } = useData()
-    console.log(posts);
+
 
     return (
         <div className='main'>
@@ -23,7 +23,7 @@ const Main = () => {
                 </div>
                 <div className="main-body__column2">
                     <CreatePost />
-                    {posts && posts.map((sig, index) =>
+                    {posts && posts.map((sig: any, index) =>
                         <ShowPost key={sig._id} id={sig._id} text={sig.text} user={sig.user} imgs={sig.imgs} likes={sig.likes} dislikes={sig.dislikes} isLiked={sig.liked} isDisliked={sig.disliked} />
                     )}
                 </div>

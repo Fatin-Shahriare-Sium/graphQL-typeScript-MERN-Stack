@@ -49,7 +49,8 @@ export interface POST_DATA {
 }
 
 export let POST_ACTION_TYPE = {
-    LOAD_ALLPOST: 'load-post'
+    LOAD_ALLPOST: 'load-post',
+    HANDLE_LIKE: 'handle-like'
 }
 
 
@@ -62,13 +63,13 @@ let PostReducer = (state: POST_DATA, action: any): POST_DATA => {
         let userx = JSON.parse(jsonUserx)
 
 
-        let handleModifingsPosts = (): ModifiedPosts[] => {
-            let allPosts: any = action.payload
-            let modifiedPosts = allPosts.map((sig: any, index: any) => {
+        let handleModifingsPosts = () => {
+            let allPosts: SinglePost[] = action.payload
+            let modifiedPosts: ModifiedPosts[] = allPosts.map((sig, index) => {
                 if (sig.likes.includes(userx.id)) {
                     return { ...sig, liked: true, disliked: false }
                 } else if (sig.dislikes.includes(userx.id)) {
-                    return { ...sig, liked: false, disliked: true, p: 'y' }
+                    return { ...sig, liked: false, disliked: true }
                 } else {
                     return { ...sig, liked: false, disliked: false }
                 }
@@ -82,6 +83,40 @@ let PostReducer = (state: POST_DATA, action: any): POST_DATA => {
 
             posts: userx ? handleModifingsPosts() : action.payload
         }
+
+    } else if (action.type == POST_ACTION_TYPE.HANDLE_LIKE) {
+        let postId = action.payload.postId
+        let userId = action.payload.userId
+
+        console.log(postId, userId);
+
+
+        let newPosts = [...state.posts] as ModifiedPosts[]
+
+        let findedPostIndex = newPosts.findIndex(sig => sig._id == postId)
+
+
+
+        if (newPosts[findedPostIndex].likes.includes(userId)) {
+
+            newPosts[findedPostIndex].likes = newPosts[findedPostIndex].likes.filter(sig => sig !== userId);
+            newPosts[findedPostIndex].liked = false
+
+            console.log('newPosts[findedPostIndex].likes.includes(userId)', newPosts[findedPostIndex]);
+            return {
+                ...state,
+                posts: newPosts
+            }
+        } else {
+            newPosts[findedPostIndex].likes = [...newPosts[findedPostIndex].likes, userId];
+            newPosts[findedPostIndex].liked = true
+            console.log('!newPosts[findedPostIndex].likes.includes(userId)', newPosts[findedPostIndex]);
+            return {
+                ...state,
+                posts: newPosts
+            }
+        }
+
 
     }
 

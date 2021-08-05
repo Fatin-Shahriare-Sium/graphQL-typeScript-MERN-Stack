@@ -40,7 +40,7 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, likes, di
     let [truncated, setTruncated] = useState(false)
 
 
-    let { handleLike } = useLDC()
+    let { handleLike, handleDislike } = useLDC()
     useEffect(() => {
 
         if (text.length > 277) {
@@ -112,7 +112,7 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, likes, di
                 <div className="show-post__right--footer">
                     <div className='social-box-summery'>
                         <div>
-                            30 likes
+                            {`${likes.length} likes`}
                         </div>
                         <div>
                             2 comments
@@ -120,13 +120,13 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, likes, di
                     </div>
                     <div className='social-box-icon'>
 
-                        <div onClick={() => handleLike(user._id, true, id)} className=''>
+                        <div onClick={() => handleLike(user._id, isLiked, id)} className=''>
                             <img src={like} alt="" />
                             <p>Like</p>
 
                         </div>
 
-                        <div>
+                        <div onClick={() => handleDislike(user._id, isLiked, id)}>
                             <img src={dislike} alt="" />
                             <p>Dislike</p>
                         </div>
