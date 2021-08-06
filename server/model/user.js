@@ -19,3 +19,4 @@ let UserSchema = new Schema({
 let User = model('user', UserSchema)
 
 module.exports = User
+
