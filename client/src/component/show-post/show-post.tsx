@@ -115,18 +115,21 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, likes, di
                             {`${likes.length} likes`}
                         </div>
                         <div>
+                            {`${dislikes.length} dislikes`}
+                        </div>
+                        <div>
                             2 comments
                         </div>
                     </div>
                     <div className='social-box-icon'>
 
-                        <div onClick={() => handleLike(user._id, isLiked, id)} className=''>
+                        <div onClick={() => handleLike(id)} className=''>
                             <img src={like} alt="" />
                             <p>Like</p>
 
                         </div>
 
-                        <div onClick={() => handleDislike(user._id, isLiked, id)}>
+                        <div onClick={() => handleDislike(id)}>
                             <img src={dislike} alt="" />
                             <p>Dislike</p>
                         </div>

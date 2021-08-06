@@ -39,18 +39,15 @@ interface SinglePost {
     updatedAt: string,
 }
 
-interface ModifiedPosts extends SinglePost {
-    liked: boolean,
-    disliked: boolean
-}
 
 export interface POST_DATA {
-    posts: (ModifiedPosts | SinglePost)[]
+    posts: SinglePost[] | []
 }
 
 export let POST_ACTION_TYPE = {
     LOAD_ALLPOST: 'load-post',
-    HANDLE_LIKE: 'handle-like'
+    HANDLE_LIKE: 'handle-like',
+    HANDLE_DISLIKE: 'handle-dislike'
 }
 
 
@@ -59,57 +56,49 @@ let PostReducer = (state: POST_DATA, action: any): POST_DATA => {
 
     if (action.type == POST_ACTION_TYPE.LOAD_ALLPOST) {
 
-        let jsonUserx: any = localStorage.getItem("__userx")
-        let userx = JSON.parse(jsonUserx)
 
-
-        let handleModifingsPosts = () => {
-            let allPosts: SinglePost[] = action.payload
-            let modifiedPosts: ModifiedPosts[] = allPosts.map((sig, index) => {
-                if (sig.likes.includes(userx.id)) {
-                    return { ...sig, liked: true, disliked: false }
-                } else if (sig.dislikes.includes(userx.id)) {
-                    return { ...sig, liked: false, disliked: true }
-                } else {
-                    return { ...sig, liked: false, disliked: false }
-                }
-            })
-
-
-            return modifiedPosts;
-        }
         return {
             ...state,
 
-            posts: userx ? handleModifingsPosts() : action.payload
+            posts: action.payload
         }
 
     } else if (action.type == POST_ACTION_TYPE.HANDLE_LIKE) {
-        let postId = action.payload.postId
-        let userId = action.payload.userId
+
+        let { userId, postId } = action.payload
 
         console.log(postId, userId);
 
+        //let newPosts=[...state.posts] will not work.it will give error like "Cannot assign to read only property 'likes' of object in ts"
+        //By doing cloning array using spread oparetor will do a shallow copy not deep copy.So,when you want to modify your array ts will 
+        // give error and say -- Cannot assign to read only property.to fix it ,you can do is map the array like-
+        // let newPosts = state.posts.map(sig => {
+        // return { ...sig }
+        //})
+        //I have been able to learn this by the grace of Allah.
 
-        let newPosts = [...state.posts] as ModifiedPosts[]
+        let newPosts = state.posts.map(sig => {
+            return { ...sig }
+        })
+
 
         let findedPostIndex = newPosts.findIndex(sig => sig._id == postId)
-
 
 
         if (newPosts[findedPostIndex].likes.includes(userId)) {
 
             newPosts[findedPostIndex].likes = newPosts[findedPostIndex].likes.filter(sig => sig !== userId);
-            newPosts[findedPostIndex].liked = false
 
-            console.log('newPosts[findedPostIndex].likes.includes(userId)', newPosts[findedPostIndex]);
             return {
                 ...state,
                 posts: newPosts
             }
+
         } else {
-            newPosts[findedPostIndex].likes = [...newPosts[findedPostIndex].likes, userId];
-            newPosts[findedPostIndex].liked = true
+            newPosts[findedPostIndex].likes = [...newPosts[findedPostIndex].likes, userId]
+
+            newPosts[findedPostIndex].dislikes = newPosts[findedPostIndex].dislikes.filter(sig => sig !== userId)
+
             console.log('!newPosts[findedPostIndex].likes.includes(userId)', newPosts[findedPostIndex]);
             return {
                 ...state,
@@ -117,6 +106,35 @@ let PostReducer = (state: POST_DATA, action: any): POST_DATA => {
             }
         }
 
+
+    } else if (action.type == POST_ACTION_TYPE.HANDLE_DISLIKE) {
+
+
+        let { userId, postId } = action.payload
+
+        let newPosts = state.posts.map(sig => {
+            return { ...sig }
+        })
+
+        let findedPostIndex = newPosts.findIndex(sig => sig._id == postId)
+        if (newPosts[findedPostIndex].dislikes.includes(userId)) {
+
+            newPosts[findedPostIndex].dislikes = newPosts[findedPostIndex].dislikes.filter(sig => sig !== userId)
+
+            return {
+                ...state,
+                posts: newPosts
+            }
+        } else {
+            newPosts[findedPostIndex].likes = newPosts[findedPostIndex].likes.filter(sig => sig !== userId)
+
+            newPosts[findedPostIndex].dislikes = [...newPosts[findedPostIndex].dislikes, userId]
+
+            return {
+                ...state,
+                posts: newPosts
+            }
+        }
 
     }
 

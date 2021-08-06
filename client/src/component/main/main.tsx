@@ -7,7 +7,7 @@ import './main.scss'
 import { useData } from '../../store';
 
 const Main = () => {
-    let { posts } = useData()
+    let { posts, auth } = useData()
 
 
     return (

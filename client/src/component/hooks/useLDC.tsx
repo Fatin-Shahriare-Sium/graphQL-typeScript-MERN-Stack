@@ -5,11 +5,14 @@ import { POST_ACTION_TYPE } from '../../store/postReducer'
 
 const useLDC = () => {
 
-    let { dispatch } = useData()
+    let { dispatch, auth } = useData()
+    let userId = auth!.user.id
+    console.log('userId', userId);
+
     let LIKE_HANDLER = gql`
          
-    mutation ($user:UserForHandleLike,$postId:String){
-        handleLike(user:$user,postId:$postId){
+    mutation ($userId:String,$postId:String){
+        handleLike(userId:$userId,postId:$postId){
             msg
         }
     }
@@ -17,8 +20,8 @@ const useLDC = () => {
    `
     let DISLIKE_HANDLER = gql`
          
-      mutation ($user:UserForHandleDislike,$postId:String){
-          handleDislike(user:$user,postId:$postId){
+      mutation ($userId:String,$postId:String){
+          handleDislike(userId:$userId,postId:$postId){
               msg
           }
       }
@@ -26,21 +29,14 @@ const useLDC = () => {
     let [likeHandler] = useMutation(LIKE_HANDLER)
     let [dislikeHandler] = useMutation(DISLIKE_HANDLER)
 
-    async function handleLike(userId: string, isLiked: boolean, postId: string) {
+    async function handleLike(postId: string) {
 
 
-
-        let user = {
-            id: userId,
-            isLiked
-        }
-
-        console.log('USER IN LDC', user);
 
 
         dispatch!({ type: POST_ACTION_TYPE.HANDLE_LIKE, payload: { postId, userId } })
 
-        let respones = await likeHandler({ variables: { user, postId } })
+        let respones = await likeHandler({ variables: { userId, postId } })
 
 
 
@@ -49,20 +45,12 @@ const useLDC = () => {
 
     }
 
-    async function handleDislike(userId: string, isLiked: boolean, postId: string) {
+    async function handleDislike(postId: string) {
 
 
+        dispatch!({ type: POST_ACTION_TYPE.HANDLE_DISLIKE, payload: { userId, postId } })
 
-        let user = {
-            id: userId,
-            isLiked
-        }
-
-        console.log('USER IN LDC', user);
-
-
-
-        let respones = await dislikeHandler({ variables: { user, postId } })
+        let respones = await dislikeHandler({ variables: { userId, postId } })
 
 
 
