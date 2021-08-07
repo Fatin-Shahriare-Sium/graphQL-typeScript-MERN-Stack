@@ -78,3 +78,36 @@
         }
     }
 }
+
+// comment-section start
+.comment-input .comment-input-wrapper {
+   display: flex;
+}
+
+.comment-input__main{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    textarea{
+        resize: none;
+        width: 90%;
+        padding-left: 3px;
+        height: 30px;
+        border-radius: 13px;
+        outline: none;
+        overflow: hidden;
+    }
+    div{
+        width: 90%;
+        display: flex;
+        margin-top: 1%;
+        justify-content: space-between;
+        align-items: center;
+       
+    }
+    .emoji-picker-react{
+        height: 177px!important;
+    }
+}
+
+// comment-section end

@@ -1,13 +1,14 @@
 import { gql, useMutation } from '@apollo/client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useData } from '../../store'
 import { POST_ACTION_TYPE } from '../../store/postReducer'
 
 const useLDC = () => {
-
+    let [error, setError] = useState()
     let { dispatch, auth } = useData()
     let userId = auth!.user.id
-    console.log('userId', userId);
+
+    console.log(userId);
 
     let LIKE_HANDLER = gql`
          
@@ -26,8 +27,20 @@ const useLDC = () => {
           }
       }
    `
+
+    let CREATE_COMMENT = gql`
+    
+    mutation ($userId:String,$text:String,$postId:String){
+        createComment(userId:$userId,text:$text,postId:$postId){
+            msg
+        }
+    }
+    
+    `
+
     let [likeHandler] = useMutation(LIKE_HANDLER)
     let [dislikeHandler] = useMutation(DISLIKE_HANDLER)
+    let [createComment] = useMutation(CREATE_COMMENT)
 
     async function handleLike(postId: string) {
 
@@ -40,7 +53,7 @@ const useLDC = () => {
 
 
 
-        console.log('respones back LDC', respones);
+        console.log('respones back in LDC -when like', respones);
 
 
     }
@@ -54,12 +67,31 @@ const useLDC = () => {
 
 
 
-        console.log('respones back LDC', respones);
+        console.log('respones back IN LDC -when dislike', respones);
+
+
 
 
     }
 
-    return { handleLike, handleDislike }
+    async function handleCreateComment(postId: string, text: string) {
+
+        console.log(text);
+
+        // dispatch!({ type: POST_ACTION_TYPE.HANDLE_DISLIKE, payload: { userId, postId } })
+
+        let respones = await createComment({ variables: { userId, postId, text } })
+
+
+
+        console.log('respones back IN LDC -when comment', respones);
+
+
+
+
+    }
+
+    return { handleLike, handleDislike, handleCreateComment }
 }
 
 export default useLDC;

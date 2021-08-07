@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react'
 import './show-post.scss'
 import img2 from '../../assets/img2.png'
 import like from '../../assets/like.svg'
+import likeFill from '../../assets/like-fill.svg'
 import dislike from '../../assets/dislike.svg'
+import dislikeFill from '../../assets/dislike-fill.svg'
 import comment from '../../assets/comment.svg'
 import bookmark from '../../assets/bookmark.svg'
 import useLDC from '../hooks/useLDC'
+import CommentSection from './comment-section'
 
 let IMG_CONTAINER_DIVSTYLE = [
     { width: "100%", height: '270px', margin: "1%" },
@@ -22,6 +25,7 @@ interface SINGLE_POST_IMGS {
 
 interface SINGLE_POST_PROPS {
     id: string,
+    currentUserId: string,
     user: {
         _id: string,
         name: string,
@@ -35,7 +39,7 @@ interface SINGLE_POST_PROPS {
     imgs: SINGLE_POST_IMGS[]
 }
 
-const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, likes, dislikes, isLiked, isDisliked }) => {
+const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, currentUserId, likes, dislikes, isLiked, isDisliked }) => {
 
     let [truncated, setTruncated] = useState(false)
 
@@ -110,6 +114,7 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, likes, di
 
                 </div>
                 <div className="show-post__right--footer">
+
                     <div className='social-box-summery'>
                         <div>
                             {`${likes.length} likes`}
@@ -121,16 +126,25 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, likes, di
                             2 comments
                         </div>
                     </div>
+
+                    {/* like/dislike/comments icons container */}
+
                     <div className='social-box-icon'>
 
                         <div onClick={() => handleLike(id)} className=''>
-                            <img src={like} alt="" />
+                            {likes.includes(currentUserId) ?
+                                <img style={{ width: '23px' }} src={likeFill} alt='' /> :
+                                <img src={like} alt="" />
+                            }
                             <p>Like</p>
 
                         </div>
 
                         <div onClick={() => handleDislike(id)}>
-                            <img src={dislike} alt="" />
+                            {dislikes.includes(currentUserId) ?
+                                <img style={{ width: '23px' }} src={dislikeFill} alt='' /> :
+                                <img src={dislike} alt="" />
+                            }
                             <p>Dislike</p>
                         </div>
 
@@ -145,6 +159,13 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, likes, di
                         </div>
 
                     </div>
+
+                    {/* comments container */}
+
+                    <div className='social-box-comments'>
+                        <CommentSection postId={id} />
+                    </div>
+
                 </div>
             </div>
         </div >

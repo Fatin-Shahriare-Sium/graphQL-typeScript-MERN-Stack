@@ -24,7 +24,7 @@ const Main = () => {
                 <div className="main-body__column2">
                     <CreatePost />
                     {posts && posts.map((sig: any, index) =>
-                        <ShowPost key={sig._id} id={sig._id} text={sig.text} user={sig.user} imgs={sig.imgs} likes={sig.likes} dislikes={sig.dislikes} isLiked={sig.liked} isDisliked={sig.disliked} />
+                        <ShowPost key={sig._id} id={sig._id} text={sig.text} currentUserId={auth!.user.id} user={sig.user} imgs={sig.imgs} likes={sig.likes} dislikes={sig.dislikes} isLiked={sig.liked} isDisliked={sig.disliked} />
                     )}
                 </div>
                 <div className="main-body__column3">
