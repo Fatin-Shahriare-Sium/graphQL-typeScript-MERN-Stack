@@ -71,6 +71,7 @@ let postTypeDefs = gql`
     createPost(text:String!,imgs:[SingleImg],userId:String!):CreatedPostMutationResponse
     handleLike(userId:String,postId:String):HandleLikeMutationResponse
     handleDislike(userId:String,postId:String):HandleDislikeMutationResponse
+    createComment(userId:String,text:String,postId:String):HandleDislikeMutationResponse
 }
 
 `

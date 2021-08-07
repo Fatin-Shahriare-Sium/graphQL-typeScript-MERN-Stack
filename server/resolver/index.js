@@ -4,6 +4,7 @@ const handleLikeMutationResolver = require('./postResolver/handleLike.js')
 const handleDislikeMutationResolve = require('./postResolver/handleDislike.js')
 let createUserMutationResolver = require('./userResolver/createUser.resolver.js')
 const userLoginMutationResolver = require('./userResolver/userLogin.resolver.js')
+const createCommentMutationResolver = require('./postResolver/createCommentMutationResolver.js')
 
 let rootResolvers = {
     Query: {
@@ -21,7 +22,8 @@ let rootResolvers = {
         login: userLoginMutationResolver,
         createPost: createPostMutationResolver,
         handleLike: handleLikeMutationResolver,
-        handleDislike: handleDislikeMutationResolve
+        handleDislike: handleDislikeMutationResolve,
+        createComment: createCommentMutationResolver
     }
 }
 
