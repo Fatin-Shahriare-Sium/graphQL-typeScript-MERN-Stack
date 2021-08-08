@@ -111,3 +111,40 @@
 }
 
 // comment-section end
+
+
+// single-comment start
+.single-comment{
+    display: flex;
+
+}
+.single-comment___main{
+    width: 90%;
+    position: relative;
+     &:hover .more-icon{
+        display: block;
+     }
+}
+.more-icon{
+    position: absolute;
+    top: 7%;
+    cursor: pointer;
+    display: none;
+    right: 3%;
+    img{
+        width: 13px;
+    }
+}
+.single-comment-socialBox{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 23%;
+    img{
+        width: 13px;
+        cursor: pointer;
+    }
+
+}
+
+// single-comment end

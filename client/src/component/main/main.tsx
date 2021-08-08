@@ -5,10 +5,12 @@ import MainNavbar from './main-navbar';
 import ShowPost from '../show-post/show-post'
 import './main.scss'
 import { useData } from '../../store';
+import SingleComment from '../show-post/single-comment';
 
 const Main = () => {
     let { posts, auth } = useData()
 
+    console.log(posts);
 
     return (
         <div className='main'>
@@ -23,9 +25,10 @@ const Main = () => {
                 </div>
                 <div className="main-body__column2">
                     <CreatePost />
-                    {posts && posts.map((sig: any, index) =>
-                        <ShowPost key={sig._id} id={sig._id} text={sig.text} currentUserId={auth!.user.id} user={sig.user} imgs={sig.imgs} likes={sig.likes} dislikes={sig.dislikes} isLiked={sig.liked} isDisliked={sig.disliked} />
+                    {posts && posts.map((sig, index) =>
+                        <ShowPost key={sig._id} post={sig} currentUserId={auth!.user.id} />
                     )}
+
                 </div>
                 <div className="main-body__column3">
 

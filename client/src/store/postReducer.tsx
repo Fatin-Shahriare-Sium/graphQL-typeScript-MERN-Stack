@@ -25,7 +25,7 @@ interface SINGLE_POST_IMGS {
     src: string
 }
 
-interface SinglePost {
+export interface SinglePost {
     _id: string,
     text: string,
     likes: string[],

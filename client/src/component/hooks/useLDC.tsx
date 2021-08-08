@@ -4,7 +4,7 @@ import { useData } from '../../store'
 import { POST_ACTION_TYPE } from '../../store/postReducer'
 
 const useLDC = () => {
-    let [error, setError] = useState()
+    let [newComment, setNewComment] = useState<any>()
     let { dispatch, auth } = useData()
     let userId = auth!.user.id
 
@@ -79,12 +79,33 @@ const useLDC = () => {
         console.log(text);
 
         // dispatch!({ type: POST_ACTION_TYPE.HANDLE_DISLIKE, payload: { userId, postId } })
+        let newCommentx = {
+            postId,
+            user: {
+                _id: userId,
+                name: auth!.user.email,
+                profilePic: auth!.user.profilePic,
+            },
+            commentText: text,
+            likes: [],
+            dislikes: [],
+            reply: [],
+            createdAt: ''
+
+        }
+
+
 
         let respones = await createComment({ variables: { userId, postId, text } })
 
-
-
+        localStorage.setItem('newComment', JSON.stringify({ ...newCommentx }))
         console.log('respones back IN LDC -when comment', respones);
+
+
+
+
+
+
 
 
 

@@ -9,6 +9,7 @@ import comment from '../../assets/comment.svg'
 import bookmark from '../../assets/bookmark.svg'
 import useLDC from '../hooks/useLDC'
 import CommentSection from './comment-section'
+import moment from 'moment'
 
 let IMG_CONTAINER_DIVSTYLE = [
     { width: "100%", height: '270px', margin: "1%" },
@@ -22,24 +23,31 @@ interface SINGLE_POST_IMGS {
     id: string,
     src: string
 }
-
-interface SINGLE_POST_PROPS {
-    id: string,
-    currentUserId: string,
+interface SinglePost {
+    _id: string,
+    text: string,
+    likes: string[],
+    dislikes: string[],
     user: {
         _id: string,
         name: string,
         profilePic: string,
     },
-    text: string,
-    likes: string[],
-    dislikes: string[],
-    isLiked: boolean,
-    isDisliked: boolean,
-    imgs: SINGLE_POST_IMGS[]
+    imgs: SINGLE_POST_IMGS[],
+    userName: string,
+    profilePic: string,
+    createdAt: string,
+    updatedAt: string,
 }
 
-const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, currentUserId, likes, dislikes, isLiked, isDisliked }) => {
+
+
+interface SINGLE_POST_PROPS {
+    post: SinglePost,
+    currentUserId: string
+}
+
+const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
 
     let [truncated, setTruncated] = useState(false)
 
@@ -47,25 +55,24 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, currentUs
     let { handleLike, handleDislike } = useLDC()
     useEffect(() => {
 
-        if (text.length > 277) {
+        if (post.text.length > 277) {
             setTruncated(true)
 
         }
 
-    }, [text])
+    }, [])
 
     function handleReadmore(id: string) {
         let readmoreBtn: any = document.getElementById(`readMore-btn-${id}`)
         let postText: any = document.getElementById(`post-text-shower-${id}`)
-        console.dir(readmoreBtn);
-        console.dir(postText);
+
 
         if (readmoreBtn.textContent == 'Read More') {
             readmoreBtn.innerText = 'Show less'
-            postText.innerText = text
+            postText.innerText = post.text
         } else {
             readmoreBtn.innerText = "Read More"
-            postText.innerText = textTruncate(text)
+            postText.innerText = textTruncate(post.text)
         }
 
     }
@@ -88,7 +95,7 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, currentUs
     return (
         <div className='show-post'>
             <div className="show-post__left">
-                <img src={user.profilePic} alt="" />
+                <img src={post.user.profilePic} alt="" />
             </div>
             <div className="show-post__right">
                 <div className="show-post__right--header">
@@ -96,17 +103,17 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, currentUs
                 </div>
                 <div className="show-post__right--body">
                     <div className='show-post__right--body__user-info'>
-                        <p className='user-info__name'>{user.name}</p>
-                        <p style={{ fontSize: '.7rem', fontWeight: 500 }}>A day ago</p>
+                        <p className='user-info__name'>{post.user.name}</p>
+                        <p style={{ fontSize: '.7rem', fontWeight: 500 }}>{moment(post.createdAt).fromNow()}</p>
                     </div>
-                    <p id={`post-text-shower-${id}`}>{textTruncate(text)}</p>
+                    <p id={`post-text-shower-${post._id}`}>{textTruncate(post.text)}</p>
                     {/* 277 string */}
                     {
-                        truncated && <p onClick={() => handleReadmore(id)} key={text} id={`readMore-btn-${id}`} style={{ fontWeight: 700, cursor: "pointer" }} className='mt-1'>Read More</p>
+                        truncated && <p onClick={() => handleReadmore(post._id)} key={post.text} id={`readMore-btn-${post._id}`} style={{ fontWeight: 700, cursor: "pointer" }} className='mt-1'>Read More</p>
                     }
 
                     <div className="show-post__right--body__img-shower">
-                        {imgs.map((sig, index) => <div style={IMG_CONTAINER_DIVSTYLE[imgs.length - 1]}>
+                        {post.imgs.map((sig, index) => <div style={IMG_CONTAINER_DIVSTYLE[post.imgs.length - 1]}>
                             <img src={sig.src} alt="" />
                         </div>)}
 
@@ -117,10 +124,10 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, currentUs
 
                     <div className='social-box-summery'>
                         <div>
-                            {`${likes.length} likes`}
+                            {`${post.likes.length} likes`}
                         </div>
                         <div>
-                            {`${dislikes.length} dislikes`}
+                            {`${post.dislikes.length} dislikes`}
                         </div>
                         <div>
                             2 comments
@@ -131,8 +138,8 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, currentUs
 
                     <div className='social-box-icon'>
 
-                        <div onClick={() => handleLike(id)} className=''>
-                            {likes.includes(currentUserId) ?
+                        <div onClick={() => handleLike(post._id)} className=''>
+                            {post.likes.includes(currentUserId) ?
                                 <img style={{ width: '23px' }} src={likeFill} alt='' /> :
                                 <img src={like} alt="" />
                             }
@@ -140,8 +147,8 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, currentUs
 
                         </div>
 
-                        <div onClick={() => handleDislike(id)}>
-                            {dislikes.includes(currentUserId) ?
+                        <div onClick={() => handleDislike(post._id)}>
+                            {post.dislikes.includes(currentUserId) ?
                                 <img style={{ width: '23px' }} src={dislikeFill} alt='' /> :
                                 <img src={dislike} alt="" />
                             }
@@ -162,8 +169,9 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ id, user, text, imgs, currentUs
 
                     {/* comments container */}
 
-                    <div className='social-box-comments'>
-                        <CommentSection postId={id} />
+                    <div className='social-box-comments mt-3'>
+                        <CommentSection key={post._id} postId={post._id} />
+
                     </div>
 
                 </div>
