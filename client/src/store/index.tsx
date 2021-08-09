@@ -42,6 +42,7 @@ interface authState {
     user: {
         id: string,
         email: string,
+        name: string,
         profilePic: string
     }
 }
@@ -74,6 +75,7 @@ const DataProvider: React.FC = ({ children }) => {
             user: {
                 id: userx.id,
                 email: userx.email,
+                name: userx.name,
                 profilePic: userx.profilePic
             }
         })

@@ -3,7 +3,7 @@ import Picker from 'emoji-picker-react';
 import addEmoji from '../../assets/addEmoji.png'
 import { log } from 'console';
 import useLDC from '../hooks/useLDC';
-const CommentInput: React.FC<{ postId: string }> = ({ postId }) => {
+const CommentInput: React.FC<{ postId: string, autoRefresher: () => any }> = ({ postId, autoRefresher }) => {
     let { handleCreateComment } = useLDC()
     let [commentText, setCommentText] = useState<string>()
     let [showPalet, setShowPalet] = useState<boolean>(false)
@@ -29,6 +29,11 @@ const CommentInput: React.FC<{ postId: string }> = ({ postId }) => {
         element.style.height = (element.scrollHeight) + "px";
     }
 
+    function handleCommentBtn() {
+        handleCreateComment(postId, commentText!)
+        return autoRefresher()
+    }
+
     return (
         <div className='comment-input'>
             <div className='comment-input-wrapper'>
@@ -40,8 +45,9 @@ const CommentInput: React.FC<{ postId: string }> = ({ postId }) => {
                 <div className='comment-input__main'>
                     <textarea value={commentText} onChange={(event) => handleCommentTextarea(event)} placeholder='write your comment' />
                     <div>
+
                         <img onClick={handlePalet} style={{ width: '21px' }} src={addEmoji} alt="" />
-                        <button onClick={() => handleCreateComment(postId, commentText!)} style={{ height: '37px' }} className='btn btn-outline-success'>Comment</button>
+                        <button onClick={() => handleCommentBtn()} style={{ height: '37px' }} className='btn btn-outline-success'>Comment</button>
                     </div>
                     {showPalet && <div className='emoji-palet' style={{ display: "flex", justifyContent: 'center', alignItems: 'center' }} >
                         <Picker groupVisibility={{
