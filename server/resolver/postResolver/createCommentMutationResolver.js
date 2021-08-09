@@ -18,7 +18,7 @@ let createCommentMutationResolver = async (parent, args, ctx) => {
     })
 
     return {
-        msg: `added comment to ${postx.text} `
+        msg: `added comment to ${postx._id} `
     }
 }
 
