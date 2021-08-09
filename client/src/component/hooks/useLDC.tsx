@@ -55,24 +55,29 @@ const useLDC = () => {
     }
     
     `
-
+    let CREATE_COMMENT_REPLY = gql`
+    
+     mutation ($userId:String,$text:String,$commentId:String){
+         createCommentReply(userId:$userId,text:$text,commentId:$commentId){
+             msg
+         }
+     }
+     `
 
     let [likeHandler] = useMutation(LIKE_HANDLER)
     let [dislikeHandler] = useMutation(DISLIKE_HANDLER)
     let [createComment] = useMutation(CREATE_COMMENT)
     let [commentLikeHandler] = useMutation(HANDLE_COMMENT_LIKE)
     let [commentDislikeHandler] = useMutation(HANDLE_COMMENT_DISLIKE)
+    let [createCommentReply] = useMutation(CREATE_COMMENT_REPLY)
+
 
     async function handleLike(postId: string) {
-
-
 
 
         dispatch!({ type: POST_ACTION_TYPE.HANDLE_LIKE, payload: { postId, userId } })
 
         let respones = await likeHandler({ variables: { userId, postId } })
-
-
 
         console.log('respones back in LDC -when like', respones);
 
@@ -86,12 +91,7 @@ const useLDC = () => {
 
         let respones = await dislikeHandler({ variables: { userId, postId } })
 
-
-
         console.log('respones back IN LDC -when dislike', respones);
-
-
-
 
     }
 
@@ -101,7 +101,7 @@ const useLDC = () => {
 
         // dispatch!({ type: POST_ACTION_TYPE.HANDLE_DISLIKE, payload: { userId, postId } })
         let newCommentx = {
-            _id: `${postId}-${text.length}`,
+            _id: `${postId}-${text.length} `,
             postId,
             user: {
                 _id: userId,
@@ -115,6 +115,7 @@ const useLDC = () => {
             createdAt: ''
 
         }
+
         localStorage.setItem('newComment', JSON.stringify({ ...newCommentx }))
 
         let respones = await createComment({ variables: { userId, postId, text } })
@@ -139,8 +140,30 @@ const useLDC = () => {
         console.log(respones);
 
     }
+    async function handleCreateCommentReply(commentId: string, text: string) {
+        let newReplyx = {
+            _id: `${commentId} `,
+            commentId,
+            user: {
+                _id: userId,
+                name: auth!.user.name,
+                profilePic: auth!.user.profilePic,
+            },
+            commentText: text,
+            likes: [],
+            dislikes: [],
+            reply: [],
+            createdAt: ''
 
-    return { handleLike, handleDislike, handleCreateComment, handleCommentLike, handleCommentDislike }
+        }
+
+        localStorage.setItem('__newReply', JSON.stringify(newReplyx))
+        let respones = await createCommentReply({ variables: { userId, commentId, text } })
+
+        console.log(respones);
+
+    }
+    return { handleLike, handleDislike, handleCreateComment, handleCommentLike, handleCommentDislike, handleCreateCommentReply }
 }
 
 export default useLDC;

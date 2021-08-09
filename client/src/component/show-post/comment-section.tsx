@@ -22,7 +22,19 @@ query($postId:String!){
         createdAt
         likes
         dislikes
+        reply{
+            _id
+        user{
+            _id
+            name
+            profilePic
+        }
+        commentText
+        createdAt
+        likes
+        dislikes
         
+        }
     }
 }
 
@@ -106,7 +118,7 @@ const CommentSection: React.FC<Comment_Section> = ({ postId }) => {
     }
     return (
         <div id={`comment-section-${postId}`} ref={ref}>
-            <CommentInput autoRefresher={needToUpdateComment} postId={postId} />
+            <CommentInput autoRefresher={needToUpdateComment} postId={postId} type='comment' />
             <hr />
             {comments && comments.map((sig: any, index: any) =>
                 <SingleComment key={index} needToUpdateLike={needToUpdateLike} needToUpdateDislike={needToUpdateDislike} comment={sig} />
