@@ -17,7 +17,8 @@ let commentSchema = new Schema({
     reply: [{
         type: Schema.Types.ObjectId,
         ref: 'comment'
-    }]
+    }],
+    parentCommentId: String,
 
 }, {
     timestamps: true

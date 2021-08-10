@@ -9,6 +9,7 @@ const someCommentQueryResolver = require('./postResolver/someCommentQueryResolve
 const { GraphQLScalarType, Kind } = require('graphql');
 const handleCommentLikeMutationResolver = require('./postResolver/handleCommentLike.js')
 const handleCommentDislikeMutationResolver = require('./postResolver/handleCommentDislike.js')
+const createCommentReplyMutationResolver = require('./postResolver/createCommentReply.js')
 
 let rootResolvers = {
     Query: {
@@ -39,7 +40,8 @@ let rootResolvers = {
         handleDislike: handleDislikeMutationResolve,
         createComment: createCommentMutationResolver,
         handleCommentLike: handleCommentLikeMutationResolver,
-        handleCommentDislike: handleCommentDislikeMutationResolver
+        handleCommentDislike: handleCommentDislikeMutationResolver,
+        createCommentReply: createCommentReplyMutationResolver
 
     }
 }

@@ -1,16 +1,16 @@
-
-let Post = require('../../model/post.js')
 let Comment = require('../../model/comment.js')
-let createCommentMutationResolver = async (parent, args, ctx) => {
-    let { postId, userId, text } = args
-    console.log(text);
+
+let createCommentReplyMutationResolver = async (parent, args, ctx) => {
+
+    let { userId, commentId, text } = args
+
     let newComment = new Comment({
         user: userId,
         commentText: text,
         likes: [],
         dislikes: [],
         reply: [],
-        parentCommentId: ''
+        parentCommentId: commentId
     })
 
     let commentx = await newComment.save().then(doc => doc.populate({
@@ -18,8 +18,9 @@ let createCommentMutationResolver = async (parent, args, ctx) => {
         select: 'name profilePic'
     }).execPopulate())
 
-    let postx = await Post.findOneAndUpdate({ _id: postId }, {
-        $push: { 'comments': commentx._id }
+
+    await Comment.findOneAndUpdate({ _id: commentId }, {
+        $push: { reply: commentx._id }
     })
 
     return commentx
@@ -27,4 +28,4 @@ let createCommentMutationResolver = async (parent, args, ctx) => {
 
 }
 
-module.exports = createCommentMutationResolver
+module.exports = createCommentReplyMutationResolver

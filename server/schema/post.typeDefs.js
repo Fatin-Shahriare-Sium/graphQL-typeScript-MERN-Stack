@@ -15,7 +15,8 @@ let postTypeDefs = gql`
         commentText: String,
         likes: [String],
         dislikes: [String],
-        reply: [SingleComment]
+        reply: [SingleComment],
+        parentCommentId:String
     }
    
    type ExtendedSingleComment{
@@ -24,7 +25,8 @@ let postTypeDefs = gql`
         commentText: String,
         likes: [String],
         dislikes: [String],
-        reply: [SingleComment],
+        reply: [ExtendedSingleComment],
+        parentCommentId:String,
         createdAt:Date
    }
 
@@ -74,20 +76,24 @@ let postTypeDefs = gql`
         msg:String
       }
 
+      type MuatationRespones{
+        msg:String
+      }
+
       extend type Query{
         allPosts:[SinglePost]
         someComment(postId:String!):[ExtendedSingleComment]
       }
 
 
-
     extend type Mutation{
     createPost(text:String!,imgs:[SingleImg],userId:String!):CreatedPostMutationResponse
     handleLike(userId:String,postId:String):HandleLikeMutationResponse
     handleDislike(userId:String,postId:String):HandleDislikeMutationResponse
-    createComment(userId:String,text:String,postId:String):HandleDislikeMutationResponse
+    createComment(userId:String,text:String,postId:String):ExtendedSingleComment
     handleCommentLike(userId:String,commentId:String):HandleLikeMutationResponse
     handleCommentDislike(userId:String,commentId:String):HandleDislikeMutationResponse
+    createCommentReply(userId:String,commentId:String,text:String):ExtendedSingleComment
 }
 
 `
