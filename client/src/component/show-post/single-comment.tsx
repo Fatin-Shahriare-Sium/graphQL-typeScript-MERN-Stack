@@ -21,7 +21,8 @@ interface SingleCommentStructure {
     likes: string[],
     dislikes: string[],
     reply: SingleCommentStructure[],
-    createdAt: string
+    createdAt: string,
+    parentCommentId: string
 
 }
 
@@ -59,15 +60,23 @@ const SingleComment: React.FC<SingleCommentProps> = ({ comment, needToUpdateDisl
         setUserId(userx.id)
     }, [])
 
-    function needToUpdateReply() {
+    // useEffect(() => {
+    //     let allReplies = comment.reply.map((sig: any) => {
+    //         return { ...sig }
+    //     })
+    // }, [comment.reply])
 
-        let newReplyJSON = localStorage.getItem('__newReply')
-        let newReplyObj = JSON.parse(newReplyJSON!)
-        console.log(newReplyObj);
+    function needToUpdateReply(newReplyObj: any) {
 
-        if (comment._id == newReplyObj.commentId) {
+        console.log('newReplyObj', newReplyObj);
+
+
+        if (replies) {
             setReplies([newReplyObj, ...replies])
+        } else {
+            setReplies([newReplyObj])
         }
+        toggleReplyBox()
     }
     function needToUpdateLikeForReply(userId: string, commentId: string) {
 
@@ -90,7 +99,7 @@ const SingleComment: React.FC<SingleCommentProps> = ({ comment, needToUpdateDisl
 
     function needToUpdateDislikeForReply(userId: string, commentId: string) {
 
-        console.log('nneedToUpdateComment', commentId);
+
 
         let allReplies = replies.map((sig: any) => {
             return { ...sig }
@@ -116,13 +125,19 @@ const SingleComment: React.FC<SingleCommentProps> = ({ comment, needToUpdateDisl
                 <p style={{ fontSize: '.7rem', fontWeight: 500 }}>{comment.user.name} . {moment(comment.createdAt).fromNow()}</p>
                 <p style={{ fontSize: '.9rem' }}>{comment.commentText}</p>
                 <div className='single-comment-socialBox'>
-                    <img onClick={() => HANDLE_COMMENT_LIKE()} src={comment.likes.includes(userId) ? likeFill : like} alt="" />
-                    <img onClick={() => HANDLE_COMMENT_DISLIKE()} src={comment.dislikes.includes(userId) ? dislikeFill : dislike} alt="" />
+                    <div>
+                        <img onClick={() => HANDLE_COMMENT_LIKE()} src={comment.likes.includes(userId) ? likeFill : like} alt="" />
+                        <p >{comment.likes.length === 0 ? '' : comment.likes.length}</p>
+                    </div>
+                    <div>
+                        <img onClick={() => HANDLE_COMMENT_DISLIKE()} src={comment.dislikes.includes(userId) ? dislikeFill : dislike} alt="" />
+                        <p>{comment.dislikes.length === 0 ? '' : comment.dislikes.length}</p>
+                    </div>
                     <p onClick={toggleReplyBox} style={{ fontSize: '.8rem', fontWeight: 500, cursor: "pointer" }}>Reply</p>
 
                 </div>
                 <div className='mt-3'>
-                    {showBox && <CommentInput commentId={comment._id} autoRefresher={needToUpdateReply} type='reply' />}
+                    {showBox && <CommentInput type='reply' metionedUser={`@${comment.user.name}-`} commentId={comment.parentCommentId ? comment.parentCommentId : comment._id} autoRefresher={needToUpdateReply} />}
                 </div>
                 <div className='show-reply'>
                     {replies && replies.map((sig: any) => <SingleComment comment={sig} needToUpdateLike={needToUpdateLikeForReply} needToUpdateDislike={needToUpdateDislikeForReply} />)}

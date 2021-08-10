@@ -3,10 +3,21 @@ import Picker from 'emoji-picker-react';
 import addEmoji from '../../assets/addEmoji.png'
 import { log } from 'console';
 import useLDC from '../hooks/useLDC';
-const CommentInput: React.FC<{ postId?: string, autoRefresher: () => any, type: string, commentId?: string }> = ({ postId, autoRefresher, type, commentId }) => {
+
+interface COMMENT_INPUT {
+    postId?: string,//when to comment to a post
+    autoRefresher: (newCommentObj?: any, newReplyObj?: any) => any,
+    type: string,//commment | reply
+    commentId?: string,//when to reply a comment
+    metionedUser?: string//when to reply a comment ,we need user name like @ysebajsh
+
+}
+
+const CommentInput: React.FC<COMMENT_INPUT> = ({ postId, autoRefresher, type, commentId, metionedUser }) => {
     let { handleCreateComment, handleCreateCommentReply } = useLDC()
-    let [commentText, setCommentText] = useState<string>()
+    let [commentText, setCommentText] = useState<string | undefined>(metionedUser)
     let [showPalet, setShowPalet] = useState<boolean>(false)
+    let [spinner, setSpinner] = useState(false)
 
     const onEmojiClick = (event: any, emojiDetails: any) => {
         console.log(emojiDetails.emoji);
@@ -19,6 +30,10 @@ const CommentInput: React.FC<{ postId?: string, autoRefresher: () => any, type: 
         setShowPalet(pre => !pre)
     }
 
+    function handleSpinner() {
+        setSpinner(pre => !pre)
+    }
+
     function handleCommentTextarea(e: any) {
         e.preventDefault()
         setCommentText(e.target.value)
@@ -29,14 +44,32 @@ const CommentInput: React.FC<{ postId?: string, autoRefresher: () => any, type: 
         element.style.height = (element.scrollHeight) + "px";
     }
 
-    function handleCommentBtn() {
+    async function handleCommentBtn() {
+        handleSpinner()
         if (type == 'comment') {
-            handleCreateComment(postId!, commentText!)
+            let { newComment } = await handleCreateComment(postId!, commentText!)
+            console.log(' handleCreateComment', newComment);
+            autoRefresher(newComment)
+            handleSpinner()
+            return setCommentText('')
         } else {
             let repliedText = commentText!
-            handleCreateCommentReply(commentId!, repliedText)
+            let { newReply } = await handleCreateCommentReply(commentId!, repliedText)
+            console.log(' handleCreateCommentReply', newReply);
+            autoRefresher(newReply)
+            return setCommentText('')
+
         }
-        return autoRefresher()
+
+    }
+    if (spinner) {
+        return (
+            <div style={{ display: 'flex', justifyContent: "center", alignItems: 'center', height: '10vh' }}>
+                <div style={{ width: '23px', height: '23px' }} className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        )
     }
 
     return (

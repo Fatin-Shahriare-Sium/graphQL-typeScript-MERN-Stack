@@ -2,7 +2,33 @@ import { gql, useMutation } from '@apollo/client'
 import React, { useState } from 'react'
 import { useData } from '../../store'
 import { POST_ACTION_TYPE } from '../../store/postReducer'
+let queryCommentFields = `
+_id
+user{
+    _id
+    name
+    profilePic
+}
+commentText
+createdAt
+likes
+dislikes
+parentCommentId
+reply{
+    _id
+user{
+    _id
+    name
+    profilePic
+}
+commentText
+createdAt
+likes
+dislikes
+parentCommentId
+}
 
+`
 const useLDC = () => {
     let [newComment, setNewComment] = useState<any>()
     let { dispatch, auth } = useData()
@@ -32,10 +58,23 @@ const useLDC = () => {
     
     mutation ($userId:String,$text:String,$postId:String){
         createComment(userId:$userId,text:$text,postId:$postId){
-            msg
+            _id
+        user{
+            _id
+            name
+            profilePic
         }
+        commentText
+        createdAt
+        likes
+        dislikes
+        parentCommentId
+        reply{
+            _id
+        }
+       
     }
-    
+    }
     `
 
     let HANDLE_COMMENT_LIKE = gql`
@@ -59,7 +98,20 @@ const useLDC = () => {
     
      mutation ($userId:String,$text:String,$commentId:String){
          createCommentReply(userId:$userId,text:$text,commentId:$commentId){
-             msg
+            _id
+        user{
+            _id
+            name
+            profilePic
+        }
+        commentText
+        createdAt
+        likes
+        dislikes
+        parentCommentId
+        reply{
+            _id
+        }
          }
      }
      `
@@ -100,27 +152,30 @@ const useLDC = () => {
         console.log(text.length);
 
         // dispatch!({ type: POST_ACTION_TYPE.HANDLE_DISLIKE, payload: { userId, postId } })
-        let newCommentx = {
-            _id: `${postId}-${text.length} `,
-            postId,
-            user: {
-                _id: userId,
-                name: auth!.user.name,
-                profilePic: auth!.user.profilePic,
-            },
-            commentText: text,
-            likes: [],
-            dislikes: [],
-            reply: [],
-            createdAt: ''
+        // let newCommentx = {
+        //     _id: `${postId}-${text.length} `,
+        //     postId,
+        //     user: {
+        //         _id: userId,
+        //         name: auth!.user.name,
+        //         profilePic: auth!.user.profilePic,
+        //     },
+        //     commentText: text,
+        //     likes: [],
+        //     dislikes: [],
+        //     reply: [],
+        //     createdAt: ''
 
+        // }
+
+        // localStorage.setItem('newComment', JSON.stringify({ ...newCommentx }))
+
+        let responesx = await createComment({ variables: { userId, postId, text } })
+
+
+        return {
+            newComment: responesx.data.createComment
         }
-
-        localStorage.setItem('newComment', JSON.stringify({ ...newCommentx }))
-
-        let respones = await createComment({ variables: { userId, postId, text } })
-
-        console.log('respones back IN LDC -when comment', respones);
 
 
     }
@@ -141,26 +196,12 @@ const useLDC = () => {
 
     }
     async function handleCreateCommentReply(commentId: string, text: string) {
-        let newReplyx = {
-            _id: `${commentId} `,
-            commentId,
-            user: {
-                _id: userId,
-                name: auth!.user.name,
-                profilePic: auth!.user.profilePic,
-            },
-            commentText: text,
-            likes: [],
-            dislikes: [],
-            reply: [],
-            createdAt: ''
 
+        let responesx = await createCommentReply({ variables: { userId, commentId, text } })
+
+        return {
+            newReply: responesx.data.createCommentReply
         }
-
-        localStorage.setItem('__newReply', JSON.stringify(newReplyx))
-        let respones = await createCommentReply({ variables: { userId, commentId, text } })
-
-        console.log(respones);
 
     }
     return { handleLike, handleDislike, handleCreateComment, handleCommentLike, handleCommentDislike, handleCreateCommentReply }

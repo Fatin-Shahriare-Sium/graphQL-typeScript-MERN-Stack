@@ -22,6 +22,7 @@ query($postId:String!){
         createdAt
         likes
         dislikes
+        parentCommentId
         reply{
             _id
         user{
@@ -33,7 +34,7 @@ query($postId:String!){
         createdAt
         likes
         dislikes
-        
+        parentCommentId
         }
     }
 }
@@ -44,7 +45,6 @@ query($postId:String!){
 const CommentSection: React.FC<Comment_Section> = ({ postId }) => {
     const { ref, inView, entry } = useInView();
     let [fetchSomeCommentsx, { data }] = useLazyQuery(FETCH_SOME_COMMENTS)
-    let [newComment, setNewComment] = useState<any>(localStorage.getItem('_addCTO'))
     let [comments, setComments] = useState<any>([])
     async function fetchSomeComments() {
         await fetchSomeCommentsx({ variables: { postId } })
@@ -68,14 +68,11 @@ const CommentSection: React.FC<Comment_Section> = ({ postId }) => {
 
     }, [data])
 
-    function needToUpdateComment() {
+    function needToUpdateComment(newCommentObj: any) {
 
-        let newCommentJSON = localStorage.getItem('newComment')
-        let newCommentObj = JSON.parse(newCommentJSON!)
+        console.log(newCommentObj);
+        setComments([newCommentObj, ...comments])
 
-        if (postId == newCommentObj.postId) {
-            setComments([newCommentObj, ...comments])
-        }
     }
 
     function needToUpdateLike(userId: string, commentId: string) {

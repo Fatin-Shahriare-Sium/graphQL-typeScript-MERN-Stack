@@ -140,9 +140,12 @@
     align-items: center;
     justify-content: space-between;
     width: 23%;
-    img{
-        width: 13px;
-        cursor: pointer;
+    div{
+        display:flex;
+        img{
+            width: 13px;
+            cursor: pointer;
+        }
     }
 
 }
