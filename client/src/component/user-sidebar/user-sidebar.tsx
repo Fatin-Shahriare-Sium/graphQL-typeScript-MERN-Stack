@@ -9,12 +9,12 @@ import bookmark from '../../assets/bookmark-fill.svg'
 const UserSidebar = () => {
     return (
         <div className='user-sidebar'>
-            <UserSingleSidebar img={home} nameOfTab='Home' />
-            <UserSingleSidebar img={user} nameOfTab='Profile' />
-            <UserSingleSidebar img={bell} nameOfTab='Notifications' />
-            <UserSingleSidebar img={bookmark} nameOfTab='Bookmarks' />
-            <UserSingleSidebar img={key} nameOfTab='C.Password' />
-            <UserSingleSidebar img={''} nameOfTab='Create Post' />
+            <UserSingleSidebar href='/' img={home} nameOfTab='Home' />
+            <UserSingleSidebar href='/profile' img={user} nameOfTab='Profile' />
+            <UserSingleSidebar href='' img={bell} nameOfTab='Notifications' />
+            <UserSingleSidebar href='/bookmarks' img={bookmark} nameOfTab='Bookmarks' />
+            <UserSingleSidebar href='/changepass' img={key} nameOfTab='C.Password' />
+            <UserSingleSidebar href='/createPost' img={''} nameOfTab='Create Post' />
         </div>
     )
 }

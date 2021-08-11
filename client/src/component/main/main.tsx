@@ -6,6 +6,8 @@ import ShowPost from '../show-post/show-post'
 import './main.scss'
 import { useData } from '../../store';
 import SingleComment from '../show-post/single-comment';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import UserProfile from '../user-profile/user-profile';
 
 const Main = () => {
     let { posts, auth } = useData()
@@ -13,28 +15,41 @@ const Main = () => {
     console.log(posts);
 
     return (
-        <div className='main'>
-            <div className="main-head">
-                <MainNavbar />
+
+
+        <BrowserRouter >
+            <div className='main'>
+                <div className="main-head">
+                    <MainNavbar />
+                </div>
+                <div className="main-body">
+                    <div className="main-body__column1">
+
+                        <UserSidebar />
+
+                    </div>
+
+                    <div className="main-body__column2">
+                        <Switch>
+                            <Route exact path='/'>
+                                <CreatePost />
+                                {posts && posts.map((sig, index) =>
+                                    <ShowPost key={sig._id} post={sig} currentUserId={auth!.user.id} />
+                                )}
+                            </Route>
+                            <Route path='/profile'>
+                                <UserProfile />
+                            </Route>
+                        </Switch>
+                    </div>
+
+                    <div className="main-body__column3">
+
+                    </div>
+                </div>
             </div>
-            <div className="main-body">
-                <div className="main-body__column1">
+        </BrowserRouter >
 
-                    <UserSidebar />
-
-                </div>
-                <div className="main-body__column2">
-                    <CreatePost />
-                    {posts && posts.map((sig, index) =>
-                        <ShowPost key={sig._id} post={sig} currentUserId={auth!.user.id} />
-                    )}
-
-                </div>
-                <div className="main-body__column3">
-
-                </div>
-            </div>
-        </div>
     )
 }
 
