@@ -2,6 +2,7 @@ import React from 'react'
 import './user-profile.scss'
 import location from '../../assets/location.svg'
 import calender from '../../assets/calender.svg'
+import EditProfile from './edit-profile'
 const UserProfile = () => {
     return (
         <div className='user-profile'>
@@ -28,6 +29,7 @@ const UserProfile = () => {
                 </div>
                 <p className='user-profile__details__friend'>13 Friends</p>
             </div>
+            <EditProfile />
         </div>
     )
 }

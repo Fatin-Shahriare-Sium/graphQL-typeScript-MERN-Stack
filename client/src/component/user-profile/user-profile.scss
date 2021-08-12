@@ -1,5 +1,6 @@
 .user-profile{
     min-height: 57vh;
+
 }
 
 .user-profile__imgs{
@@ -61,3 +62,74 @@
         text-decoration: underline;
     }
 }
+
+// edit-profile scss start
+.edir-profile__inputSection {
+    border: 2px solid rgba(0,0,0,.3);
+    padding: 7px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all .3s ease;
+    margin: 1.7% auto;
+    &:hover{
+        border: 2px solid var(--btn-color);  
+    }
+    input{
+        border: none;
+        outline: none;
+        background-color: inherit;
+        width: 100%;
+        
+    }   
+}
+.edit-profile-imgs {
+    position: relative;
+ 
+}
+.edit-profile__cover-img {
+    position: relative;
+    img{
+        width: 100%;
+        object-fit: contain;
+    }
+}
+
+.edit-profile__small-img{
+    width: 130px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    position: absolute;
+    top: 100%;
+    left: 17%;
+    transform: translate(-50%,-50%);
+    img{
+        width: 100%;
+        clip-path: circle();
+    }
+}
+
+.edit-profile__plus-icon{
+    width: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    input{
+        position: absolute;
+        top: 0;
+        z-index: 1;
+        left: 0;
+        opacity: 0;
+        z-index: 100;
+        width: 23px;
+    }
+  
+}
+
+
+.edit-profile-details{
+    margin-top: 17%;
+}
+
+// edit-profile scss end
