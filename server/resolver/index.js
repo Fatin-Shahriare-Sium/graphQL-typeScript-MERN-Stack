@@ -10,6 +10,8 @@ const { GraphQLScalarType, Kind } = require('graphql');
 const handleCommentLikeMutationResolver = require('./postResolver/handleCommentLike.js')
 const handleCommentDislikeMutationResolver = require('./postResolver/handleCommentDislike.js')
 const createCommentReplyMutationResolver = require('./postResolver/createCommentReply.js')
+let updateUserProfileMutationResolver = require('./userProfileResolver/updateUserProfile.js')
+const getUserProfileDetailsResolver = require('./userProfileResolver/getUserProfileDetails.js')
 
 let rootResolvers = {
     Query: {
@@ -20,7 +22,8 @@ let rootResolvers = {
             }
         },
         allPosts: allPostGetResolver,
-        someComment: someCommentQueryResolver
+        someComment: someCommentQueryResolver,
+        userProfileDetails: getUserProfileDetailsResolver
 
     },
     Date: new GraphQLScalarType({
@@ -41,8 +44,8 @@ let rootResolvers = {
         createComment: createCommentMutationResolver,
         handleCommentLike: handleCommentLikeMutationResolver,
         handleCommentDislike: handleCommentDislikeMutationResolver,
-        createCommentReply: createCommentReplyMutationResolver
-
+        createCommentReply: createCommentReplyMutationResolver,
+        updateUserProfile: updateUserProfileMutationResolver
     }
 }
 

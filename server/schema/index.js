@@ -1,5 +1,6 @@
 let { gql } = require('apollo-server')
 const postTypeDefs = require('./post.typeDefs')
+const userProfileTypeDefs = require('./userProfile.typeDefs')
 let UserTypeDefs = gql`
 
     type Details{
@@ -46,6 +47,6 @@ let UserTypeDefs = gql`
 
 `
 
-let RootTypeDefs = [UserTypeDefs, postTypeDefs]
+let RootTypeDefs = [UserTypeDefs, postTypeDefs, userProfileTypeDefs]
 
 module.exports = RootTypeDefs
