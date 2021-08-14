@@ -25,7 +25,7 @@ const Main = () => {
                 <div className="main-body">
                     <div className="main-body__column1">
 
-                        <UserSidebar />
+                        <UserSidebar userId={auth!.user.id} />
 
                     </div>
 
@@ -37,7 +37,7 @@ const Main = () => {
                                     <ShowPost key={sig._id} post={sig} currentUserId={auth!.user.id} />
                                 )}
                             </Route>
-                            <Route path='/profile'>
+                            <Route path='/profile/:id' >
                                 <UserProfile />
                             </Route>
                         </Switch>

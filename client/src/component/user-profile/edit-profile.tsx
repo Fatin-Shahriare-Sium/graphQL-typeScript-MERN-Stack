@@ -1,17 +1,30 @@
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import add from '../../assets/add.svg'
 import Alert from '../alert/alert'
 import UseHandleProfile from '../hooks/useHandleProfile'
+import defaultcover from '../../assets/defaultcover.jpg'
+
+export interface PROFILE_DATA {
+    id: string,
+    name: string,
+    profileImg: string,
+    coverImg: string,
+    address: string,
+    bio: string,
+    brithDate: string
+}
 
 interface EDIT_PROFILE {
+    userId: string,
     handleModal: () => any,
+    profileData: PROFILE_DATA
 
 }
 
 
 
-const EditProfile: React.FC<EDIT_PROFILE> = ({ handleModal }) => {
+const EditProfile: React.FC<EDIT_PROFILE> = ({ handleModal, userId, profileData }) => {
     let { updateUserProfile } = UseHandleProfile()
     let [userImgs, setUserImgs] = useState<{ coverImg: string, profilePic: string }>({ coverImg: '', profilePic: '' })
     let [error, setError] = useState<{ msg: string, color: string }>({ msg: "", color: '' })
@@ -23,11 +36,34 @@ const EditProfile: React.FC<EDIT_PROFILE> = ({ handleModal }) => {
     //     let coverImg = document.getElementById('cover-img')
     //     let smallImg = document.getElementById('small-img')
     // }
+    useEffect(() => {
+        let name = document.getElementById('name') as HTMLInputElement
+        let bio = document.getElementById('bio') as HTMLInputElement
+        let address = document.getElementById('address') as HTMLInputElement
+        let birthdate = document.getElementById('birthdate') as HTMLInputElement
+        let coverImg = document.getElementById('cover-img') as HTMLImageElement
+        let smallImg = document.getElementById('small-img') as HTMLImageElement
+
+        name.value = profileData.name
+        bio.value = profileData.bio
+        address.value = profileData.address
+        birthdate.value = profileData.brithDate
+
+        return setUserImgs({
+            coverImg: profileData.coverImg,
+            profilePic: profileData.profileImg
+        })
+
+
+
+    }, [])
 
     async function handlePreviewImg(e: any, type: string) {
         //type=cover/small
         let imgData = e.target.files[0]
-        let tempUrl = URL.createObjectURL(imgData)
+        if (!imgData) {
+            return
+        }
         let overflow = document.getElementById('edit-img-overflow') as HTMLDivElement
         if (type == 'cover' && imgData.size >= 45000) {
             return setError({
@@ -77,14 +113,16 @@ const EditProfile: React.FC<EDIT_PROFILE> = ({ handleModal }) => {
         }
     }
 
-    let handleCreateBtn = () => {
+    let handleCreateBtn = async () => {
         let namex = document.getElementById('name') as HTMLInputElement
         let bio = document.getElementById('bio') as HTMLInputElement
         let address = document.getElementById('address') as HTMLInputElement
         let birthdate = document.getElementById('birthdate') as HTMLInputElement
-        let userId = '60fc669f13a8144494bad1ca'
         if (namex.value && address.value) {
-            updateUserProfile(userId, namex.value, bio.value, userImgs.coverImg, userImgs.profilePic, address.value, birthdate.value)
+            let { success } = await updateUserProfile(userId, profileData.id, namex.value, bio.value, userImgs.coverImg, userImgs.profilePic, address.value, birthdate.value)
+            if (success) {
+                handleModal()
+            }
         } else {
             return setError({
                 msg: 'please,fill the name and address box',
@@ -109,7 +147,7 @@ const EditProfile: React.FC<EDIT_PROFILE> = ({ handleModal }) => {
                         <div className='edit-profile'>
                             <div className='edit-profile-imgs'>
                                 <div className="edit-profile__cover-img">
-                                    <img id='cover-img' src="https://pbs.twimg.com/profile_banners/1325508332061274113/1604864770/1080x360" alt="" />
+                                    <img id='cover-img' src={profileData.coverImg ? profileData.coverImg : defaultcover} alt="" />
                                     <div className='edit-profile__plus-icon'>
                                         <input onChange={(event) => handlePreviewImg(event, 'cover')} type="file" title="Click me to change image" />
                                         <img src={add} alt="" />
@@ -122,7 +160,7 @@ const EditProfile: React.FC<EDIT_PROFILE> = ({ handleModal }) => {
                                 </div>
                                 <div className="edit-profile__small-img">
 
-                                    <img id='small-img' src="https://pbs.twimg.com/profile_images/1325525438714712064/hIMAnqtB_400x400.jpg" alt="" />
+                                    <img id='small-img' src={profileData.profileImg} alt="" />
                                     <div className='edit-profile__plus-icon'>
                                         <input onChange={(event) => handlePreviewImg(event, 'small')} id='small-img' title="Click me to change image" type="file" />
                                         <img src={add} alt="" />
@@ -153,8 +191,8 @@ const EditProfile: React.FC<EDIT_PROFILE> = ({ handleModal }) => {
                         </div>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button onClick={() => handleCreateBtn()} type="button" className="btn btn-primary">Create Profile</button>
+                        <button type="button" onClick={() => handleModal()} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button onClick={() => handleCreateBtn()} type="button" className="btn btn-primary">Update Profile</button>
                     </div>
                 </div>
             </div>

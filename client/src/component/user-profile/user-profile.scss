@@ -7,11 +7,15 @@
     position: relative;
 }
 
-.user-profile__imgs .user-profile__cover-img img{
+.user-profile__cover-img{
     width: 100%;
-    object-fit: contain;
+    height: 30vh;
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 }
-
 .user-profile__small-img {
     width: 93%;
     display: flex;

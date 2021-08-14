@@ -97,6 +97,7 @@ const DataProvider: React.FC = ({ children }) => {
 
         if (data) {
             dispatch({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: data.allPosts })
+            localStorage.setItem('__socialPosts', JSON.stringify(data.allPosts))
         }
 
     }, [data])

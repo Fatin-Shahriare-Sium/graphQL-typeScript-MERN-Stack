@@ -10,7 +10,7 @@ import bookmark from '../../assets/bookmark.svg'
 import useLDC from '../hooks/useLDC'
 import CommentSection from './comment-section'
 import moment from 'moment'
-
+import { SinglePost } from '../../store/postReducer'
 let IMG_CONTAINER_DIVSTYLE = [
     { width: "100%", height: '270px', margin: "1%" },
     { width: "47%", height: '230px', margin: "1%" },
@@ -19,26 +19,28 @@ let IMG_CONTAINER_DIVSTYLE = [
 
 ]
 
-interface SINGLE_POST_IMGS {
-    id: string,
-    src: string
-}
-interface SinglePost {
-    _id: string,
-    text: string,
-    likes: string[],
-    dislikes: string[],
-    user: {
-        _id: string,
-        name: string,
-        profilePic: string,
-    },
-    imgs: SINGLE_POST_IMGS[],
-    userName: string,
-    profilePic: string,
-    createdAt: string,
-    updatedAt: string,
-}
+// interface SINGLE_POST_IMGS {
+//     id: string,
+//     src: string
+// }
+// interface SinglePost {
+//     _id: string,
+//     text: string,
+//     likes: string[],
+//     dislikes: string[],
+//     comments: SingleComment[],
+//     user: {
+//         _id: string,
+//         name: string,
+//         profilePic: string,
+//     },
+//     imgs: SINGLE_POST_IMGS[],
+//     userName: string,
+//     profilePic: string,
+//     createdAt: string,
+//     updatedAt: string,
+// }
+
 
 
 
@@ -130,7 +132,7 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
                             {`${post.dislikes.length} dislikes`}
                         </div>
                         <div>
-                            2 comments
+                            {`${post.comments.length} comments`}
                         </div>
                     </div>
 
