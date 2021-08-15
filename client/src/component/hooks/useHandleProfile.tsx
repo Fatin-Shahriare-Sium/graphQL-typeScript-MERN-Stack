@@ -35,10 +35,15 @@ const UseHandleProfile = () => {
 
         console.log(' createUserProfile', response);
         if (response) {
-            return { success: true }
+            return {
+                success: true
+            }
         } else {
-            return { success: false }
+            return {
+                success: false
+            }
         }
+
 
     }
 

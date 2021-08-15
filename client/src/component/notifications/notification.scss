@@ -1,0 +1,51 @@
+.single-notification{
+    display: flex;
+    width: 100%;
+   
+}
+
+.notifier-user{
+    position: relative;
+    width: 13%;
+    height: 9vh;
+    align-self: flex-start;
+}
+.notification-details{
+    width: 85%;
+    margin-right: auto;
+    position: relative;
+    &:hover .notification-settings{
+        display: block;
+    }
+    
+}
+.notification-settings{
+    position: absolute;
+    top: 30%;
+    right: 3%;
+    cursor: pointer;
+    clip-path: circle();
+    display: none;
+    padding: 5px;
+    background-color: #ffffff;
+}
+
+.notify-type-img{
+    position: absolute;
+    right: 10%;
+    // background-color: rgba(0, 255, 68 ,.5);
+    background-color: black;
+    padding: 5px;
+    clip-path: circle();
+    bottom: 0;
+}
+
+
+
+
+
+.notifier-user__img{
+    width: 70px;
+    clip-path: circle();
+    object-fit: contain;
+}

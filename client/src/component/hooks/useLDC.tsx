@@ -33,13 +33,17 @@ const useLDC = () => {
     let [newComment, setNewComment] = useState<any>()
     let { dispatch, auth } = useData()
     let userId = auth!.user.id
-
+    let userObj = {
+        id: auth!.user.id,
+        name: auth!.user.name,
+        profilePic: auth!.user.profilePic
+    }
     console.log(userId);
 
     let LIKE_HANDLER = gql`
          
-    mutation ($userId:String,$postId:String){
-        handleLike(userId:$userId,postId:$postId){
+    mutation ($userObj:userObj,$postId:String){
+        handleLike(userObj:$userObj,postId:$postId){
             msg
         }
     }
@@ -129,7 +133,7 @@ const useLDC = () => {
 
         dispatch!({ type: POST_ACTION_TYPE.HANDLE_LIKE, payload: { postId, userId } })
 
-        let respones = await likeHandler({ variables: { userId, postId } })
+        let respones = await likeHandler({ variables: { userObj, postId } })
 
         console.log('respones back in LDC -when like', respones);
 
@@ -150,25 +154,6 @@ const useLDC = () => {
     async function handleCreateComment(postId: string, text: string) {
 
         console.log(text.length);
-
-        // dispatch!({ type: POST_ACTION_TYPE.HANDLE_DISLIKE, payload: { userId, postId } })
-        // let newCommentx = {
-        //     _id: `${postId}-${text.length} `,
-        //     postId,
-        //     user: {
-        //         _id: userId,
-        //         name: auth!.user.name,
-        //         profilePic: auth!.user.profilePic,
-        //     },
-        //     commentText: text,
-        //     likes: [],
-        //     dislikes: [],
-        //     reply: [],
-        //     createdAt: ''
-
-        // }
-
-        // localStorage.setItem('newComment', JSON.stringify({ ...newCommentx }))
 
         let responesx = await createComment({ variables: { userId, postId, text } })
 

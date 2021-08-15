@@ -8,6 +8,7 @@ const UseSignup = () => {
             createUser(name:$name,email:$email,password:$password,gender:$gender){
                 token
                 user{
+                    id
                     name
                     email
                     profilePic

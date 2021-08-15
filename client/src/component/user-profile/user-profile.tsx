@@ -97,9 +97,12 @@ const UserProfile = () => {
     }
     return (
         <div className='user-profile'>
-            <Prompt message={() => {
-                let allPostJson = localStorage.getItem('__socialPosts')
-                dispatch!({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: JSON.parse(allPostJson!) })
+            <Prompt message={(location) => {
+                console.log(location);
+                if (location.pathname !== `/profile/${id}`) {
+                    let allPostJson = localStorage.getItem('__socialPosts')
+                    dispatch!({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: JSON.parse(allPostJson!) })
+                }
                 return true
             }} />
 

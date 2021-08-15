@@ -5,13 +5,13 @@ import MainNavbar from './main-navbar';
 import ShowPost from '../show-post/show-post'
 import './main.scss'
 import { useData } from '../../store';
-import SingleComment from '../show-post/single-comment';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Router, useHistory } from 'react-router-dom';
 import UserProfile from '../user-profile/user-profile';
-
+import Notifications from '../notifications/notification';
+//email-rose1206@gmail.com
+//password-rose1206@gmail.com
 const Main = () => {
     let { posts, auth } = useData()
-
     console.log(posts);
 
     return (
@@ -30,7 +30,8 @@ const Main = () => {
                     </div>
 
                     <div className="main-body__column2">
-                        <Switch>
+
+                        <Switch >
                             <Route exact path='/'>
                                 <CreatePost />
                                 {posts && posts.map((sig, index) =>
@@ -40,7 +41,11 @@ const Main = () => {
                             <Route path='/profile/:id' >
                                 <UserProfile />
                             </Route>
+                            <Route path='/notifications'>
+                                <Notifications />
+                            </Route>
                         </Switch>
+
                     </div>
 
                     <div className="main-body__column3">

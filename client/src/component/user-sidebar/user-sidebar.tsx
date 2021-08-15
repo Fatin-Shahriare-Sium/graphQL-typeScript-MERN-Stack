@@ -11,7 +11,7 @@ const UserSidebar: React.FC<{ userId: string }> = ({ userId }) => {
         <div className='user-sidebar'>
             <UserSingleSidebar href='/' img={home} nameOfTab='Home' />
             <UserSingleSidebar href={`/profile/${userId}`} img={user} nameOfTab='Profile' />
-            <UserSingleSidebar href='' img={bell} nameOfTab='Notifications' />
+            <UserSingleSidebar href='/notifications' img={bell} nameOfTab='Notifications' />
             <UserSingleSidebar href='/bookmarks' img={bookmark} nameOfTab='Bookmarks' />
             <UserSingleSidebar href='/changepass' img={key} nameOfTab='C.Password' />
             <UserSingleSidebar href='/createPost' img={''} nameOfTab='Create Post' />
