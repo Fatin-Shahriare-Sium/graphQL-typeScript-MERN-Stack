@@ -12,6 +12,10 @@ let UserSchema = new Schema({
     posts: [{
         type: Schema.Types.ObjectId,
         ref: 'post'
+    }],
+    notifications: [{
+        type: Schema.Types.ObjectId,
+        ref: 'notification'
     }]
     //need to add notification
 })

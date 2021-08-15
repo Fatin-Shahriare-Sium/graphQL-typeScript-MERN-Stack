@@ -15,7 +15,7 @@ extend type Query{
 }
 
 extend type Mutation{
-    updateUserProfile(userId:String,name:String,bio:String,coverImg:String,profilePic:String,address:String,birthdate:String):MuatationRespones
+    updateUserProfile(userId:String,profileId:String,name:String,bio:String,coverImg:String,profilePic:String,address:String,birthdate:String):MuatationRespones
 }
 
 `

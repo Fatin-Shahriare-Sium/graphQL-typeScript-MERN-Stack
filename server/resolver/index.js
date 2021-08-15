@@ -12,6 +12,7 @@ const handleCommentDislikeMutationResolver = require('./postResolver/handleComme
 const createCommentReplyMutationResolver = require('./postResolver/createCommentReply.js')
 let updateUserProfileMutationResolver = require('./userProfileResolver/updateUserProfile.js')
 const getUserProfileDetailsResolver = require('./userProfileResolver/getUserProfileDetails.js')
+const getUserPostQueryResolver = require('./postResolver/getUserPosts.js')
 
 let rootResolvers = {
     Query: {
@@ -23,7 +24,8 @@ let rootResolvers = {
         },
         allPosts: allPostGetResolver,
         someComment: someCommentQueryResolver,
-        userProfileDetails: getUserProfileDetailsResolver
+        userProfileDetails: getUserProfileDetailsResolver,
+        userPosts: getUserPostQueryResolver
 
     },
     Date: new GraphQLScalarType({

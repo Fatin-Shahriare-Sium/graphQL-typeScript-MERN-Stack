@@ -80,15 +80,22 @@ let postTypeDefs = gql`
         msg:String
       }
 
+      input userObj{
+        id:String,
+        name:String,
+        profilePic:String
+      }
+
       extend type Query{
         allPosts:[SinglePost]
+        userPosts(userId:String!):[SinglePost]
         someComment(postId:String!):[ExtendedSingleComment]
       }
 
 
     extend type Mutation{
     createPost(text:String!,imgs:[SingleImg],userId:String!):CreatedPostMutationResponse
-    handleLike(userId:String,postId:String):HandleLikeMutationResponse
+    handleLike(userObj:userObj,postId:String):HandleLikeMutationResponse
     handleDislike(userId:String,postId:String):HandleDislikeMutationResponse
     createComment(userId:String,text:String,postId:String):ExtendedSingleComment
     handleCommentLike(userId:String,commentId:String):HandleLikeMutationResponse

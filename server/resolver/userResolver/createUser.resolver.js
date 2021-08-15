@@ -26,7 +26,6 @@ createUserMutationResolver = async (parent, args, ctx, info) => {
         profileImg: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkRUKRJvv-AznH1erobEqUZ0zrLdP8bzGFe5BSNJ5E2KQWS6Ga9-ZCIuS0wHNOIG4b758&usqp=CAU',
         coverImg: '',
         address: '',
-        gender: gender,
         brithDate: ''
     })
 
@@ -38,7 +37,8 @@ createUserMutationResolver = async (parent, args, ctx, info) => {
         password: hashedPassWord,
         profilePic: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkRUKRJvv-AznH1erobEqUZ0zrLdP8bzGFe5BSNJ5E2KQWS6Ga9-ZCIuS0wHNOIG4b758&usqp=CAU',
         profile: profilex._id,
-        posts: []
+        posts: [],
+        notifications: []
     })
 
     let userx = await newUser.save()
