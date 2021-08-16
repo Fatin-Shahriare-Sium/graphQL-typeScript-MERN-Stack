@@ -8,6 +8,7 @@ import { useData } from '../../store';
 import { BrowserRouter, Route, Switch, Router, useHistory } from 'react-router-dom';
 import UserProfile from '../user-profile/user-profile';
 import Notifications from '../notifications/notification';
+import ShowSinglePost from '../show-post/show-single-post';
 //email-rose1206@gmail.com
 //password-rose1206@gmail.com
 const Main = () => {
@@ -43,6 +44,9 @@ const Main = () => {
                             </Route>
                             <Route path='/notifications'>
                                 <Notifications />
+                            </Route>
+                            <Route path='/post/:postId'>
+                                <ShowSinglePost posts={posts} currentUserId={auth!.user.id} />
                             </Route>
                         </Switch>
 

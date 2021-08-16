@@ -1,7 +1,25 @@
+.notification-wrapper{
+    display: flex;
+    width: 90%;
+    padding: 7px;
+    position: relative;
+    transition: all .3s ease;
+    margin: 1% 0px;
+   border-radius: 13px;
+   &:hover{
+    background-color: rgba(0, 255, 68 ,.1);
+    .notification-settings{
+        display: block;
+    }
+   }
+}
+.notification-wrapper a{
+    display: contents;
+}
+
 .single-notification{
     display: flex;
-    width: 100%;
-   
+    width: 87%;
 }
 
 .notifier-user{
@@ -14,30 +32,62 @@
     width: 85%;
     margin-right: auto;
     position: relative;
-    &:hover .notification-settings{
-        display: block;
-    }
+
     
 }
 .notification-settings{
     position: absolute;
-    top: 30%;
-    right: 3%;
+    top: 0;
+    right: 0;
     cursor: pointer;
-    clip-path: circle();
+    height: 100%;
     display: none;
     padding: 5px;
+    width: 10%;
+ 
+    img{
+        background-color: #ffffff;
+        border-radius: 50%;
+      
+    }
+}
+
+.notification-settings__elements{
+    position: absolute;
+    top: 54%;
+    width: 149px;
+    right: -67%;
+    border-radius: 13px;
     background-color: #ffffff;
+    div{
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        width: 97%;
+        margin:1.7% auto;
+        p{
+            margin-left: 1.7%!important;
+        }
+        &:hover{
+            background-color: rgba(0, 255, 68 ,.1);
+        }
+    }
 }
 
 .notify-type-img{
     position: absolute;
-    right: 10%;
+    right: 35%;
     // background-color: rgba(0, 255, 68 ,.5);
     background-color: black;
     padding: 5px;
     clip-path: circle();
-    bottom: 0;
+    bottom: 10%;
+}
+
+.notification-seen{
+    p{
+        opacity: .7;
+    }
 }
 
 
@@ -45,7 +95,7 @@
 
 
 .notifier-user__img{
-    width: 70px;
+    width: 43px;
     clip-path: circle();
     object-fit: contain;
 }

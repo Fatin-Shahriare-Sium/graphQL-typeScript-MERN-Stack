@@ -20,7 +20,7 @@ const UseHandleProfile = () => {
 
     async function updateUserProfile(userId: string, profileId: string, userName: string, bio: string, coverImg: string, profilePic: string, address: string, birthdate: string) {
         let response = await createProfile({
-            variables: { userId, profileId, name: userName, bio, coverImg, profilePic, address, birthdate }, refetchQueries: () => [{
+            variables: { userId, profileId, name: userName, bio, coverImg, profilePic, address, birthdate }, refetchQueries: [{
                 query: FETCH_PROFILE_DETAILS,
                 variables: {
                     userId

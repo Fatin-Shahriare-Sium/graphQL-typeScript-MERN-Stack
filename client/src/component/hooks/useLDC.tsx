@@ -42,7 +42,7 @@ const useLDC = () => {
 
     let LIKE_HANDLER = gql`
          
-    mutation ($userObj:userObj,$postId:String){
+    mutation ($userObj:UserObj,$postId:String){
         handleLike(userObj:$userObj,postId:$postId){
             msg
         }
@@ -51,8 +51,8 @@ const useLDC = () => {
    `
     let DISLIKE_HANDLER = gql`
          
-      mutation ($userId:String,$postId:String){
-          handleDislike(userId:$userId,postId:$postId){
+      mutation ($userObj:UserObj,$postId:String){
+          handleDislike(userObj:$userObj,postId:$postId){
               msg
           }
       }
@@ -60,8 +60,8 @@ const useLDC = () => {
 
     let CREATE_COMMENT = gql`
     
-    mutation ($userId:String,$text:String,$postId:String){
-        createComment(userId:$userId,text:$text,postId:$postId){
+    mutation ($userObj:UserObj,$text:String,$postId:String){
+        createComment(userObj:$userObj,text:$text,postId:$postId){
             _id
         user{
             _id
@@ -82,8 +82,8 @@ const useLDC = () => {
     `
 
     let HANDLE_COMMENT_LIKE = gql`
-        mutation ($userId:String,$commentId:String){
-            handleCommentLike(userId:$userId,commentId:$commentId){
+        mutation ($userObj:UserObj,$commentId:String){
+            handleCommentLike(userObj:$userObj,commentId:$commentId){
                 msg
             }
         }
@@ -91,8 +91,8 @@ const useLDC = () => {
 
 
     let HANDLE_COMMENT_DISLIKE = gql`
-    mutation ($userId:String,$commentId:String){
-    handleCommentDislike(userId:$userId,commentId:$commentId){
+    mutation ($userObj:UserObj,$commentId:String){
+    handleCommentDislike(userObj:$userObj,commentId:$commentId){
         msg
     }
     }
@@ -100,8 +100,8 @@ const useLDC = () => {
     `
     let CREATE_COMMENT_REPLY = gql`
     
-     mutation ($userId:String,$text:String,$commentId:String){
-         createCommentReply(userId:$userId,text:$text,commentId:$commentId){
+     mutation ($userObj:UserObj,$text:String,$commentId:String){
+         createCommentReply(userObj:$userObj,text:$text,commentId:$commentId){
             _id
         user{
             _id
@@ -145,7 +145,7 @@ const useLDC = () => {
 
         dispatch!({ type: POST_ACTION_TYPE.HANDLE_DISLIKE, payload: { userId, postId } })
 
-        let respones = await dislikeHandler({ variables: { userId, postId } })
+        let respones = await dislikeHandler({ variables: { userObj, postId } })
 
         console.log('respones back IN LDC -when dislike', respones);
 
@@ -155,7 +155,7 @@ const useLDC = () => {
 
         console.log(text.length);
 
-        let responesx = await createComment({ variables: { userId, postId, text } })
+        let responesx = await createComment({ variables: { userObj, postId, text } })
 
 
         return {
@@ -167,7 +167,7 @@ const useLDC = () => {
 
     async function handleCommentLike(commentId: string) {
 
-        let respones = await commentLikeHandler({ variables: { userId, commentId } })
+        let respones = await commentLikeHandler({ variables: { userObj, commentId } })
 
         console.log(respones);
 
@@ -175,7 +175,7 @@ const useLDC = () => {
 
     async function handleCommentDislike(commentId: string) {
 
-        let respones = await commentDislikeHandler({ variables: { userId, commentId } })
+        let respones = await commentDislikeHandler({ variables: { userObj, commentId } })
 
         console.log(respones);
 
