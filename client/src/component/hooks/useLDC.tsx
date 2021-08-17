@@ -1,37 +1,14 @@
 import { gql, useMutation } from '@apollo/client'
 import React, { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { useData } from '../../store'
 import { POST_ACTION_TYPE } from '../../store/postReducer'
-let queryCommentFields = `
-_id
-user{
-    _id
-    name
-    profilePic
-}
-commentText
-createdAt
-likes
-dislikes
-parentCommentId
-reply{
-    _id
-user{
-    _id
-    name
-    profilePic
-}
-commentText
-createdAt
-likes
-dislikes
-parentCommentId
-}
+import { FETCH_USER_BOOKMARK } from '../bookmark/bookmark'
 
-`
 const useLDC = () => {
     let [newComment, setNewComment] = useState<any>()
     let { dispatch, auth } = useData()
+    let location = useLocation()
     let userId = auth!.user.id
     let userObj = {
         id: auth!.user.id,
@@ -120,12 +97,23 @@ const useLDC = () => {
      }
      `
 
+    let ADD_BOOKMARK = gql`
+     
+     mutation($userId:String!,$postId:String!){
+        createBookmark(userId:$userId,postId:$postId){
+            msg
+        }
+     }
+     
+     `
+
     let [likeHandler] = useMutation(LIKE_HANDLER)
     let [dislikeHandler] = useMutation(DISLIKE_HANDLER)
     let [createComment] = useMutation(CREATE_COMMENT)
     let [commentLikeHandler] = useMutation(HANDLE_COMMENT_LIKE)
     let [commentDislikeHandler] = useMutation(HANDLE_COMMENT_DISLIKE)
     let [createCommentReply] = useMutation(CREATE_COMMENT_REPLY)
+    let [addToBookmark] = useMutation(ADD_BOOKMARK)
 
 
     async function handleLike(postId: string) {
@@ -180,6 +168,7 @@ const useLDC = () => {
         console.log(respones);
 
     }
+
     async function handleCreateCommentReply(commentId: string, text: string) {
 
         let responesx = await createCommentReply({ variables: { userId, commentId, text } })
@@ -189,7 +178,30 @@ const useLDC = () => {
         }
 
     }
-    return { handleLike, handleDislike, handleCreateComment, handleCommentLike, handleCommentDislike, handleCreateCommentReply }
+    async function handleBookmark(postId: string) {
+        dispatch!({ type: POST_ACTION_TYPE.HANDLE_BOOKMARK, payload: { userId, postId } })
+        console.log(location);
+        if (location.pathname == '/bookmarks') {
+
+            let responsex = await addToBookmark({
+                variables: { userId, postId },
+                refetchQueries: [{
+                    query: FETCH_USER_BOOKMARK,
+                    variables: { userId }
+                }]
+            })
+            console.log('responses', responsex);
+        } else {
+            let responsex = await addToBookmark({
+                variables: { userId, postId }
+            })
+            console.log('responses', responsex);
+        }
+
+
+
+    }
+    return { handleLike, handleDislike, handleCreateComment, handleCommentLike, handleCommentDislike, handleCreateCommentReply, handleBookmark }
 }
 
 export default useLDC;

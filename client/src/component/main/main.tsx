@@ -9,6 +9,8 @@ import { BrowserRouter, Route, Switch, Router, useHistory } from 'react-router-d
 import UserProfile from '../user-profile/user-profile';
 import Notifications from '../notifications/notification';
 import ShowSinglePost from '../show-post/show-single-post';
+import Bookmark from '../bookmark/bookmark';
+import Search from '../search/search';
 //email-rose1206@gmail.com
 //password-rose1206@gmail.com
 const Main = () => {
@@ -47,6 +49,12 @@ const Main = () => {
                             </Route>
                             <Route path='/post/:postId'>
                                 <ShowSinglePost posts={posts} currentUserId={auth!.user.id} />
+                            </Route>
+                            <Route path='/bookmarks'>
+                                <Bookmark userId={auth!.user.id} />
+                            </Route>
+                            <Route path='/search'>
+                                <Search />
                             </Route>
                         </Switch>
 

@@ -15,6 +15,7 @@ query($userId:String!){
             profilePic
         }
     notificationText,
+    createdAt
     seen,
     type,
     where{

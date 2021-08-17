@@ -6,6 +6,7 @@ import more from '../../assets/more.svg'
 import book from '../../assets/book.svg'
 import deletex from '../../assets/delete.svg'
 import { Link } from 'react-router-dom'
+import moment from 'moment'
 import UseHandleNotification from '../hooks/useHandleNotification'
 
 interface SINGLE_NOTIFICATION {
@@ -18,6 +19,7 @@ interface SINGLE_NOTIFICATION {
     notificationText: string,
     seen: boolean,
     type: string//Like/Dislike,Comment,
+    createdAt: string,
     where: {
         path: string,
         link: string
@@ -59,7 +61,7 @@ const SingleNotification: React.FC<SINGLE_NOTIFICATION_PROPS> = ({ notification,
                     <div className={notification.seen ? 'notification-details notification-seen' : 'notification-details'}>
                         <p style={{ fontWeight: 700 }}>{notification.notifier.name}</p>
                         <p style={{ wordBreak: 'break-all', fontSize: '.9rem' }}>{notification.notificationText}</p>
-                        <p style={{ fontSize: '.7rem' }}>2 days ago</p>
+                        <p style={{ fontSize: '.7rem' }}>{moment(notification.createdAt).fromNow()}</p>
                     </div>
                 </div>
             </Link>

@@ -9,6 +9,7 @@ let FETCH_POST = gql`
           text,
           likes,
          dislikes,
+         bookmarked,
          comments{
              user
              commentText

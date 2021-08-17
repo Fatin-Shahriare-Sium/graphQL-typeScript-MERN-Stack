@@ -30,6 +30,7 @@ export interface SinglePost {
     text: string,
     likes: string[],
     comments: SingleComment[],
+    bookmarked: string[],
     dislikes: string[],
     user: User,
     imgs: SINGLE_POST_IMGS[],
@@ -47,7 +48,8 @@ export interface POST_DATA {
 export let POST_ACTION_TYPE = {
     LOAD_ALLPOST: 'load-post',
     HANDLE_LIKE: 'handle-like',
-    HANDLE_DISLIKE: 'handle-dislike'
+    HANDLE_DISLIKE: 'handle-dislike',
+    HANDLE_BOOKMARK: 'handle-bookmark'
 }
 
 
@@ -136,6 +138,25 @@ let PostReducer = (state: POST_DATA, action: any): POST_DATA => {
             }
         }
 
+    } else if (action.type == POST_ACTION_TYPE.HANDLE_BOOKMARK) {
+        let newPosts = state.posts.map((sig) => {
+            return { ...sig }
+        })
+
+        let { postId, userId } = action.payload
+
+        let filteredPostIndex = newPosts.findIndex(sig => sig._id == postId)
+
+        if (newPosts[filteredPostIndex].bookmarked.includes(userId)) {
+            newPosts[filteredPostIndex].bookmarked = newPosts[filteredPostIndex].bookmarked.filter(sig => sig !== userId)
+        } else {
+            newPosts[filteredPostIndex].bookmarked = [userId, ...newPosts[filteredPostIndex].bookmarked]
+        }
+
+        return {
+            ...state,
+            posts: newPosts
+        }
     }
 
     return state

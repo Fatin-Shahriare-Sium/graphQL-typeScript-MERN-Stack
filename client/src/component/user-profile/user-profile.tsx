@@ -36,7 +36,8 @@ export let FETCH_POSTS_BY_USERID = gql`
          dislikes,
          comments{
              user
-         }
+         },
+         bookmarked,
          user{
              _id,
              name,
@@ -78,6 +79,7 @@ const UserProfile = () => {
         if (!userPosts.loading) {
             dispatch!({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: userPosts.data.userPosts })
         }
+        console.log('collesdfghjv');
 
 
     }, [userPosts])

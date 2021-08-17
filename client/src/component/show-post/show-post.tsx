@@ -7,6 +7,7 @@ import dislike from '../../assets/dislike.svg'
 import dislikeFill from '../../assets/dislike-fill.svg'
 import comment from '../../assets/comment.svg'
 import bookmark from '../../assets/bookmark.svg'
+import bookmarkFillx from '../../assets/bookmark-fill-blue.svg'
 import useLDC from '../hooks/useLDC'
 import CommentSection from './comment-section'
 import moment from 'moment'
@@ -54,7 +55,7 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
     let [truncated, setTruncated] = useState(false)
 
 
-    let { handleLike, handleDislike } = useLDC()
+    let { handleLike, handleDislike, handleBookmark } = useLDC()
     useEffect(() => {
 
         if (post.text.length > 277) {
@@ -162,8 +163,11 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
                             <p>Comment</p>
                         </div>
 
-                        <div>
-                            <img src={bookmark} alt="" />
+                        <div onClick={() => handleBookmark(post._id)}>
+                            {post.bookmarked.includes(currentUserId) ?
+                                <img style={{ width: '23px' }} src={bookmarkFillx} alt='' /> :
+                                <img src={bookmark} alt="" />
+                            }
                             <p>Save</p>
                         </div>
 

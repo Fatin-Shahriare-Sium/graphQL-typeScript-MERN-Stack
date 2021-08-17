@@ -1,0 +1,40 @@
+
+
+.search-box .search-box__input{
+    width: 90%;
+    margin: 1% auto;
+    height: 5vh;
+    outline: none;
+    border:none;
+    background-color: inherit;
+   border-bottom: 2px solid black!important;
+}
+
+.search-box__option{
+    margin-top: 1%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.search-box__single-option{
+    display: flex;
+    align-items: center;
+    padding: 0px 7px ;
+    border-radius: 9px;
+    transition: all .3s ease;
+    cursor: pointer;
+    margin: 1%;
+    input{
+        margin-right: 3%;
+    }
+    p{
+        font-size: 1.3rem;
+        font-weight: 500;
+    }
+    &:hover{
+        background-color: #95f9ab;
+    }
+}
