@@ -25,7 +25,12 @@ let handleLikeMutationResolver = async (parent, args, ctx) => {
         let newNotication = new Notification({
             notifier: userObj.id,
             notificationText: `${userObj.id == postx.user ? 'you' : userObj.name} has liked your post`,
+            seen: false,
             type: 'Like',
+            where: {
+                path: 'post',
+                link: postx._id
+            }
         })
 
         let notificationx = await newNotication.save()

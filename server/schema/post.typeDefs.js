@@ -56,6 +56,7 @@ let postTypeDefs = gql`
           likes: [String],
          comments: [SingleComment],
          dislikes: [String],
+         bookmarked:[String]
          user: User,
          createdAt: Date,
          imgs:[SinglePost_Img],
@@ -80,7 +81,7 @@ let postTypeDefs = gql`
         msg:String
       }
 
-      input userObj{
+      input UserObj{
         id:String,
         name:String,
         profilePic:String
@@ -95,12 +96,12 @@ let postTypeDefs = gql`
 
     extend type Mutation{
     createPost(text:String!,imgs:[SingleImg],userId:String!):CreatedPostMutationResponse
-    handleLike(userObj:userObj,postId:String):HandleLikeMutationResponse
-    handleDislike(userId:String,postId:String):HandleDislikeMutationResponse
-    createComment(userId:String,text:String,postId:String):ExtendedSingleComment
-    handleCommentLike(userId:String,commentId:String):HandleLikeMutationResponse
-    handleCommentDislike(userId:String,commentId:String):HandleDislikeMutationResponse
-    createCommentReply(userId:String,commentId:String,text:String):ExtendedSingleComment
+    handleLike(userObj:UserObj,postId:String):HandleLikeMutationResponse
+    handleDislike(userObj:UserObj,postId:String):HandleDislikeMutationResponse
+    createComment(userObj:UserObj,text:String,postId:String):ExtendedSingleComment
+    handleCommentLike(userObj:UserObj,commentId:String):HandleLikeMutationResponse
+    handleCommentDislike(userObj:UserObj,commentId:String):HandleDislikeMutationResponse
+    createCommentReply(userObj:UserObj,commentId:String,text:String):ExtendedSingleComment
 }
 
 `

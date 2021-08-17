@@ -6,7 +6,12 @@ let notificationSchema = new Schema({
         ref: 'user'
     },
     notificationText: String,
+    seen: Boolean,
     type: String,
+    where: {
+        path: String,
+        link: String
+    }
 
 }, {
     timestamps: true

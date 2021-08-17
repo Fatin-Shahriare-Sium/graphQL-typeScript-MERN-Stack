@@ -38,7 +38,8 @@ createUserMutationResolver = async (parent, args, ctx, info) => {
         profilePic: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkRUKRJvv-AznH1erobEqUZ0zrLdP8bzGFe5BSNJ5E2KQWS6Ga9-ZCIuS0wHNOIG4b758&usqp=CAU',
         profile: profilex._id,
         posts: [],
-        notifications: []
+        notifications: [],
+        bookmarks: []
     })
 
     let userx = await newUser.save()

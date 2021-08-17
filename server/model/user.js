@@ -16,6 +16,10 @@ let UserSchema = new Schema({
     notifications: [{
         type: Schema.Types.ObjectId,
         ref: 'notification'
+    }],
+    bookmarks: [{
+        type: Schema.Types.ObjectId,
+        ref: 'post'
     }]
     //need to add notification
 })

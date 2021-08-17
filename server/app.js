@@ -1,6 +1,7 @@
 let { ApolloServer, gql } = require('apollo-server')
 require('dotenv').config()
-let mongoose = require('mongoose')
+let mongoose = require('mongoose');
+const Post = require('./model/post');
 
 const rootResolvers = require('./resolver');
 const RootTypeDefs = require('./schema');

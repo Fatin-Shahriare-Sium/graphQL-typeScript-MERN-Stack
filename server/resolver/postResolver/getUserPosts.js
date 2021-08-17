@@ -14,7 +14,7 @@ let getUserPostQueryResolver = async (parent, args, ctx) => {
             sort: { createdAt: -1 }
         }
     })
-    console.log(userx.posts);
+
     return userx.posts
 }
 

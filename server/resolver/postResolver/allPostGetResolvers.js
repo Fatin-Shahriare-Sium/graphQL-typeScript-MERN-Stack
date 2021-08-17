@@ -1,4 +1,7 @@
-const Post = require("../../model/post")
+
+
+const Post = require("../../model/post");
+
 
 let allPostGetResolver = async (parent, args, ctx) => {
 

@@ -15,6 +15,10 @@ let postSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "comment"
     }],
+    bookmarked: [{
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+    }],
     dislikes: [{
         type: Schema.Types.ObjectId,
         ref: 'user'

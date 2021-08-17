@@ -13,6 +13,11 @@ const createCommentReplyMutationResolver = require('./postResolver/createComment
 let updateUserProfileMutationResolver = require('./userProfileResolver/updateUserProfile.js')
 const getUserProfileDetailsResolver = require('./userProfileResolver/getUserProfileDetails.js')
 const getUserPostQueryResolver = require('./postResolver/getUserPosts.js')
+const fetchNotificationsQueryResolver = require('./notificationResolver.js/fetchNotifications.js')
+const romoveNotificationMutationResolver = require('./notificationResolver.js/removeNotification.js')
+const notificationWatchMutationResolver = require('./notificationResolver.js/notificationWatch.js')
+const fetchUserBookmarksQueryResolver = require('./bookmarkResolver/fetchUserBookmarkResolver.js')
+const createBookmarkMutationResolver = require('./bookmarkResolver/createBookmark.resolver.js')
 
 let rootResolvers = {
     Query: {
@@ -25,7 +30,9 @@ let rootResolvers = {
         allPosts: allPostGetResolver,
         someComment: someCommentQueryResolver,
         userProfileDetails: getUserProfileDetailsResolver,
-        userPosts: getUserPostQueryResolver
+        userPosts: getUserPostQueryResolver,
+        fetchUserNotifications: fetchNotificationsQueryResolver,
+        fetchUserBookmarks: fetchUserBookmarksQueryResolver
 
     },
     Date: new GraphQLScalarType({
@@ -47,7 +54,10 @@ let rootResolvers = {
         handleCommentLike: handleCommentLikeMutationResolver,
         handleCommentDislike: handleCommentDislikeMutationResolver,
         createCommentReply: createCommentReplyMutationResolver,
-        updateUserProfile: updateUserProfileMutationResolver
+        updateUserProfile: updateUserProfileMutationResolver,
+        removeNotification: romoveNotificationMutationResolver,
+        notificationWatch: notificationWatchMutationResolver,
+        createBookmark: createBookmarkMutationResolver
     }
 }
 
