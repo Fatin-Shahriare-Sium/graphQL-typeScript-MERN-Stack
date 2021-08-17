@@ -30,7 +30,7 @@ interface SINGLE_NOTIFICATION_PROPS {
 }
 
 const SingleNotification: React.FC<SINGLE_NOTIFICATION_PROPS> = ({ notification, userId }) => {
-    let { handleClickNotofication } = UseHandleNotification()
+    let { handleClickNotofication, deleteNotification } = UseHandleNotification()
     let [optionx, setOptionx] = useState<boolean>(false)
 
     let toggleOptionPalet = () => {
@@ -68,9 +68,9 @@ const SingleNotification: React.FC<SINGLE_NOTIFICATION_PROPS> = ({ notification,
                 {optionx && <div className='notification-settings__elements'>
                     <div onClick={() => handleClickNotofication(notification.id, userId)}>
                         <img style={{ width: '17px' }} src={book} alt="" />
-                        <p>Mark as unread</p>
+                        {notification.seen ? <p>Mark as unread</p> : <p>Mark as read</p>}
                     </div>
-                    <div>
+                    <div onClick={() => deleteNotification(notification.id, userId)}>
                         <img style={{ width: '17px' }} src={deletex} alt="" />
                         <p>Remove this</p>
                     </div>

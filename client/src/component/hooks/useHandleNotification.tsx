@@ -15,7 +15,7 @@ mutation ($notificationId:String!){
 
 let REMOVE_NOTIFICATION = gql`
 
-mutation($notificationId:String!,$userId:String){
+mutation($notificationId:String!,$userId:String!){
     removeNotification(notificationId:$notificationId,userId:$userId){
         msg
     }
