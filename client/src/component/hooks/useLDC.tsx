@@ -5,6 +5,97 @@ import { useData } from '../../store'
 import { POST_ACTION_TYPE } from '../../store/postReducer'
 import { FETCH_USER_BOOKMARK } from '../bookmark/bookmark'
 
+
+let LIKE_HANDLER = gql`
+         
+mutation ($userObj:UserObj,$postId:String){
+    handleLike(userObj:$userObj,postId:$postId){
+        msg
+    }
+}
+
+`
+let DISLIKE_HANDLER = gql`
+     
+  mutation ($userObj:UserObj,$postId:String){
+      handleDislike(userObj:$userObj,postId:$postId){
+          msg
+      }
+  }
+`
+
+let CREATE_COMMENT = gql`
+
+mutation ($userObj:UserObj,$text:String,$postId:String){
+    createComment(userObj:$userObj,text:$text,postId:$postId){
+        _id
+    user{
+        _id
+        name
+        profilePic
+    }
+    commentText
+    createdAt
+    likes
+    dislikes
+    parentCommentId
+    reply{
+        _id
+    }
+   
+}
+}
+`
+
+let HANDLE_COMMENT_LIKE = gql`
+    mutation ($userObj:UserObj,$commentId:String){
+        handleCommentLike(userObj:$userObj,commentId:$commentId){
+            msg
+        }
+    }
+`
+
+
+let HANDLE_COMMENT_DISLIKE = gql`
+mutation ($userObj:UserObj,$commentId:String){
+handleCommentDislike(userObj:$userObj,commentId:$commentId){
+    msg
+}
+}
+
+`
+let CREATE_COMMENT_REPLY = gql`
+
+ mutation ($userObj:UserObj,$text:String,$commentId:String){
+     createCommentReply(userObj:$userObj,text:$text,commentId:$commentId){
+        _id
+    user{
+        _id
+        name
+        profilePic
+    }
+    commentText
+    createdAt
+    likes
+    dislikes
+    parentCommentId
+    reply{
+        _id
+    }
+     }
+ }
+ `
+
+let ADD_BOOKMARK = gql`
+ 
+ mutation($userId:String!,$postId:String!){
+    createBookmark(userId:$userId,postId:$postId){
+        msg
+    }
+ }
+ 
+ `
+
 const useLDC = () => {
     let [newComment, setNewComment] = useState<any>()
     let { dispatch, auth } = useData()
@@ -15,97 +106,8 @@ const useLDC = () => {
         name: auth!.user.name,
         profilePic: auth!.user.profilePic
     }
-    console.log(userId);
-
-    let LIKE_HANDLER = gql`
-         
-    mutation ($userObj:UserObj,$postId:String){
-        handleLike(userObj:$userObj,postId:$postId){
-            msg
-        }
-    }
-   
-   `
-    let DISLIKE_HANDLER = gql`
-         
-      mutation ($userObj:UserObj,$postId:String){
-          handleDislike(userObj:$userObj,postId:$postId){
-              msg
-          }
-      }
-   `
-
-    let CREATE_COMMENT = gql`
-    
-    mutation ($userObj:UserObj,$text:String,$postId:String){
-        createComment(userObj:$userObj,text:$text,postId:$postId){
-            _id
-        user{
-            _id
-            name
-            profilePic
-        }
-        commentText
-        createdAt
-        likes
-        dislikes
-        parentCommentId
-        reply{
-            _id
-        }
-       
-    }
-    }
-    `
-
-    let HANDLE_COMMENT_LIKE = gql`
-        mutation ($userObj:UserObj,$commentId:String){
-            handleCommentLike(userObj:$userObj,commentId:$commentId){
-                msg
-            }
-        }
-    `
 
 
-    let HANDLE_COMMENT_DISLIKE = gql`
-    mutation ($userObj:UserObj,$commentId:String){
-    handleCommentDislike(userObj:$userObj,commentId:$commentId){
-        msg
-    }
-    }
-    
-    `
-    let CREATE_COMMENT_REPLY = gql`
-    
-     mutation ($userObj:UserObj,$text:String,$commentId:String){
-         createCommentReply(userObj:$userObj,text:$text,commentId:$commentId){
-            _id
-        user{
-            _id
-            name
-            profilePic
-        }
-        commentText
-        createdAt
-        likes
-        dislikes
-        parentCommentId
-        reply{
-            _id
-        }
-         }
-     }
-     `
-
-    let ADD_BOOKMARK = gql`
-     
-     mutation($userId:String!,$postId:String!){
-        createBookmark(userId:$userId,postId:$postId){
-            msg
-        }
-     }
-     
-     `
 
     let [likeHandler] = useMutation(LIKE_HANDLER)
     let [dislikeHandler] = useMutation(DISLIKE_HANDLER)

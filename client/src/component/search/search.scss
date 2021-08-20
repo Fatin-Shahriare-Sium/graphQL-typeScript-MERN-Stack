@@ -38,3 +38,27 @@
         background-color: #95f9ab;
     }
 }
+
+// show-people css start
+.show-people{
+    display: flex;
+
+}
+
+.show-people__left img{
+    width: 33px;
+    clip-path: circle();
+}
+.show-people__right{
+    width: 87%;
+    margin-left: 1%;
+}
+.show-people__right p{
+font-size: 1.1rem;
+
+font-weight: 500;
+}
+
+.show-people__bottom{
+   margin-top: 7%;
+}

@@ -50,7 +50,7 @@ const SingleNotification: React.FC<SINGLE_NOTIFICATION_PROPS> = ({ notification,
     return (
 
         <div className="notification-wrapper">
-            <Link to={`/post/${notification.where.link}`}>
+            <Link to={`/${notification.where.path}/${notification.where.link}`}>
                 <div onClick={notification.seen ? () => { } : () => handleClickNotofication(notification.id, userId)} className='single-notification'>
                     <div className="notifier-user">
                         <img className='notifier-user__img' src={notification.notifier.profilePic} alt="" />

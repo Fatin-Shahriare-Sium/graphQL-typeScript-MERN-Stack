@@ -12,6 +12,7 @@ import useLDC from '../hooks/useLDC'
 import CommentSection from './comment-section'
 import moment from 'moment'
 import { SinglePost } from '../../store/postReducer'
+import { Link } from 'react-router-dom'
 let IMG_CONTAINER_DIVSTYLE = [
     { width: "100%", height: '270px', margin: "1%" },
     { width: "47%", height: '230px', margin: "1%" },
@@ -106,7 +107,9 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
                 </div>
                 <div className="show-post__right--body">
                     <div className='show-post__right--body__user-info'>
-                        <p className='user-info__name'>{post.user.name}</p>
+                        <Link to={`/profile/${post.user._id}`}>
+                            <p className='user-info__name'>{post.user.name}</p>
+                        </Link>
                         <p style={{ fontSize: '.7rem', fontWeight: 500 }}>{moment(post.createdAt).fromNow()}</p>
                     </div>
                     <p id={`post-text-shower-${post._id}`}>{textTruncate(post.text)}</p>

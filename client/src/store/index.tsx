@@ -1,7 +1,8 @@
-import { gql, useLazyQuery } from '@apollo/client'
+import { gql, useLazyQuery, useQuery } from '@apollo/client'
 import React, { Dispatch, useContext, useEffect, useReducer, useState } from 'react'
 import PostReducer, { INITIAL_STATE, POST_ACTION_TYPE } from './postReducer'
 import { POST_DATA } from './postReducer'
+
 let FETCH_POST = gql`
     query{
   allPosts {
@@ -30,10 +31,28 @@ let FETCH_POST = gql`
   
     `
 
+let FETCH_USER_PROFILE_DETAILS = gql`
+    
+query($userId:String!){
+    userProfileDetails(userId:$userId){
+        friends
+        sendFriendRequest
+        getFriendRequest
+    }
+}
+
+`
+
+interface AUTH_USER_PROFILE_DATA {
+    friends: [string],
+    sendFriendRequest: string[],
+    getFriendRequest: string[]
+}
 
 interface DataContextValue extends POST_DATA {
     auth: authState | undefined,
-    dispatch: Dispatch<any> | null
+    dispatch: Dispatch<any> | null,
+    authUserProfileData: AUTH_USER_PROFILE_DATA | undefined
 }
 
 
@@ -48,7 +67,7 @@ interface authState {
     }
 }
 
-let DataContext = React.createContext<DataContextValue>({ auth: undefined, posts: [], dispatch: null })
+let DataContext = React.createContext<DataContextValue>({ auth: undefined, posts: [], dispatch: null, authUserProfileData: undefined })
 
 export let useData = () => {
 
@@ -60,8 +79,10 @@ export let useData = () => {
 
 const DataProvider: React.FC = ({ children }) => {
     let [state, dispatch] = useReducer(PostReducer, INITIAL_STATE)
-    let [fetchPostTigger, { data }] = useLazyQuery(FETCH_POST)
+    let postData = useQuery(FETCH_POST)
+    let [fetchUserProfileData, { data }] = useLazyQuery(FETCH_USER_PROFILE_DETAILS)
     let [auth, setAuth] = useState<authState>()
+    let [authProfileData, setAuthProfileData] = useState<AUTH_USER_PROFILE_DATA>()
     let [loading, setLoading] = useState(true)
 
 
@@ -86,29 +107,47 @@ const DataProvider: React.FC = ({ children }) => {
 
     }, [localStorage.getItem('__userx')])
 
+
+
+
+
+    useEffect(() => {
+        //fetching userprofile data to update AuthProfileData
+        if (auth) {
+            fetchUserProfileData({ variables: { userId: auth!.user.id } })
+        }
+    }, [auth])
+
     useEffect(() => {
-
-        fetchPostTigger()
-
-    }, [])
-
-    useEffect(() => {
-
-
-
+        //updating userProfileData
+        console.log(data);
         if (data) {
-            dispatch({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: data.allPosts })
-            localStorage.setItem('__socialPosts', JSON.stringify(data.allPosts))
+            setAuthProfileData({
+                friends: data.userProfileDetails.friends,
+                sendFriendRequest: data.userProfileDetails.sendFriendRequest,
+                getFriendRequest: data.userProfileDetails.getFriendRequest
+            })
         }
 
     }, [data])
+
+    useEffect(() => {
+
+        if (postData.data) {
+            dispatch({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: postData.data.allPosts })
+            localStorage.setItem('__socialPosts', JSON.stringify(postData.data.allPosts))
+        }
+
+    }, [postData.data])
 
 
 
     let value = {
         auth,
         posts: state.posts,
-        dispatch
+        dispatch,
+        authUserProfileData: authProfileData
+
 
     }
     return (

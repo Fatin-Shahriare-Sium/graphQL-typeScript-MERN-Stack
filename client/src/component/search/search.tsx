@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import { useData } from '../../store'
 import './search.scss'
+import ShowPeople from './show-people'
 const Search = () => {
+    let { auth } = useData()
     let [bold, setBold] = useState([true, false, false])
     function handleRadioBox(index: number) {
         let newBold = new Array(3).fill(false)
@@ -26,6 +29,9 @@ const Search = () => {
                         <input type="radio" checked={bold[2]} />
                         <p>Posts</p>
                     </div>
+                </div>
+                <div className="search-box__results">
+                    <ShowPeople />
                 </div>
             </div>
         </div>

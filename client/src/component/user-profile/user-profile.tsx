@@ -11,6 +11,8 @@ import defaultcover from '../../assets/defaultcover.jpg'
 import ShowPost from '../show-post/show-post'
 import { POST_ACTION_TYPE } from '../../store/postReducer'
 import { Prompt } from 'react-router'
+import UseHandleFriend from '../hooks/useHandleFriend'
+import FriendRequstBtn from '../friend/friend-request-btn'
 export let FETCH_PROFILE_DETAILS = gql`
     
 query($userId:String!){
@@ -21,7 +23,11 @@ query($userId:String!){
     coverImg
     address
     bio
-    brithDate
+    brithDate 
+    user
+    friends
+    sendFriendRequest
+    getFriendRequest
     }
 }
 
@@ -30,25 +36,26 @@ query($userId:String!){
 export let FETCH_POSTS_BY_USERID = gql`
   query($userId:String!){
       userPosts(userId:$userId){
-        _id,
-          text,
-          likes,
-         dislikes,
+        _id
+          text
+          likes
+         dislikes
          comments{
              user
-         },
-         bookmarked,
+         }
+         bookmarked
          user{
-             _id,
-             name,
+             _id
+             name
              profilePic
          }
+        
          imgs{
-             id,
+             id
              src
          }
-         createdAt,
-         updatedAt,
+         createdAt
+         updatedAt
       }
   }
 `
@@ -60,13 +67,40 @@ export let FETCH_POSTS_BY_USERID = gql`
 const UserProfile = () => {
     let [showModal, setShowModal] = useState(false)
     let { id } = useParams<{ id: string }>()
-    let { auth, dispatch, posts } = useData()
+    let { auth, dispatch, posts, authUserProfileData } = useData()
     let { data } = useQuery(FETCH_PROFILE_DETAILS, { variables: { userId: id } })
     let userPosts = useQuery(FETCH_POSTS_BY_USERID, { variables: { userId: id } })
+    let { sendFriendRequest, cancelRequest } = UseHandleFriend()
+    let [addBtn, setAddbtn] = useState(true)
     let [userProfileData, setUserProfileData] = useState<PROFILE_DATA>()
+
     function toggleModal() {
         return setShowModal(pre => !pre)
     }
+
+    function handleAddBtn() {
+        if (addBtn) {
+            sendFriendRequest(auth!.user.id, id)
+            setAddbtn(false)
+        } else {
+            //implement cancel friend request
+            cancelRequest(auth!.user.id, id)
+            setAddbtn(true)
+        }
+    }
+
+    function renderUserProfileBtn() {
+        console.log('renderUserProfileBtn()');
+
+        if (auth!.user.id == id) {
+            return <button onClick={toggleModal} className='btn btn-outline-dark'>Edit Profile</button>
+        } else if (authUserProfileData!.getFriendRequest.includes(id)) {
+            return <FriendRequstBtn userId={auth!.user.id} requestedUserId={id} />
+        } else if (authUserProfileData!.sendFriendRequest.includes(id)) {
+            return <button onClick={handleAddBtn} className='btn btn-outline-primary'>{addBtn ? 'Add Friend' : 'Cancel request'}</button>
+        }
+    }
+
     useEffect(() => {
         console.log(data);
 
@@ -79,7 +113,7 @@ const UserProfile = () => {
         if (!userPosts.loading) {
             dispatch!({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: userPosts.data.userPosts })
         }
-        console.log('collesdfghjv');
+
 
 
     }, [userPosts])
@@ -115,7 +149,7 @@ const UserProfile = () => {
                 </div>
                 <div className="user-profile__small-img">
                     <img src={userProfileData?.profileImg} alt="" />
-                    {auth!.user.id == id && <button onClick={toggleModal} className='btn btn-outline-dark'>Edit Profile</button>}
+                    {userProfileData && renderUserProfileBtn()}
                 </div>
             </div>
             {showModal && <EditProfile handleModal={toggleModal} userId={auth!.user.id} profileData={userProfileData!} />}

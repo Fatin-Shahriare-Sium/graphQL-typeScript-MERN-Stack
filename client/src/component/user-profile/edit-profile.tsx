@@ -12,7 +12,11 @@ export interface PROFILE_DATA {
     coverImg: string,
     address: string,
     bio: string,
-    brithDate: string
+    brithDate: string,
+    user: string,
+    friends: string[],
+    sendFriendRequest: string[],
+    getFriendRequest: string[]
 }
 
 interface EDIT_PROFILE {

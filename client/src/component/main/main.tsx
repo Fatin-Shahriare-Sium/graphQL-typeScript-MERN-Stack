@@ -41,19 +41,19 @@ const Main = () => {
                                     <ShowPost key={sig._id} post={sig} currentUserId={auth!.user.id} />
                                 )}
                             </Route>
-                            <Route path='/profile/:id' >
+                            <Route exact path='/profile/:id' >
                                 <UserProfile />
                             </Route>
-                            <Route path='/notifications'>
+                            <Route exact path='/notifications'>
                                 <Notifications />
                             </Route>
-                            <Route path='/post/:postId'>
+                            <Route exact path='/post/:postId'>
                                 <ShowSinglePost posts={posts} currentUserId={auth!.user.id} />
                             </Route>
-                            <Route path='/bookmarks'>
+                            <Route exact path='/bookmarks'>
                                 <Bookmark userId={auth!.user.id} />
                             </Route>
-                            <Route path='/search'>
+                            <Route exact path='/search'>
                                 <Search />
                             </Route>
                         </Switch>
