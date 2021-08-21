@@ -18,6 +18,12 @@ const romoveNotificationMutationResolver = require('./notificationResolver.js/re
 const notificationWatchMutationResolver = require('./notificationResolver.js/notificationWatch.js')
 const fetchUserBookmarksQueryResolver = require('./bookmarkResolver/fetchUserBookmarkResolver.js')
 const createBookmarkMutationResolver = require('./bookmarkResolver/createBookmark.resolver.js')
+const sendFriendRequestMutationResolver = require('./friendResolver/sendFriendRequest.js')
+const saveFriendMutationResolver = require('./friendResolver/saveFriend.js')
+const deleteFriendRequestMutationResolver = require('./friendResolver/deleteFriendRequest.js')
+const cancelOwnRequestMutationResolver = require('./friendResolver/cancelOwnRequest.js')
+const searchUserQueryResolver = require('./searchResolver/searchUser.js')
+const searchPostQueryResolver = require('./searchResolver/searchPost.js')
 
 let rootResolvers = {
     Query: {
@@ -32,7 +38,10 @@ let rootResolvers = {
         userProfileDetails: getUserProfileDetailsResolver,
         userPosts: getUserPostQueryResolver,
         fetchUserNotifications: fetchNotificationsQueryResolver,
-        fetchUserBookmarks: fetchUserBookmarksQueryResolver
+        fetchUserBookmarks: fetchUserBookmarksQueryResolver,
+        searchUser: searchUserQueryResolver,
+        searchPost: searchPostQueryResolver
+
 
     },
     Date: new GraphQLScalarType({
@@ -57,7 +66,12 @@ let rootResolvers = {
         updateUserProfile: updateUserProfileMutationResolver,
         removeNotification: romoveNotificationMutationResolver,
         notificationWatch: notificationWatchMutationResolver,
-        createBookmark: createBookmarkMutationResolver
+        createBookmark: createBookmarkMutationResolver,
+        sendFriendRequest: sendFriendRequestMutationResolver,
+        saveFriend: saveFriendMutationResolver,
+        deleteFriendRequest: deleteFriendRequestMutationResolver,
+        cancelOwnRequest: cancelOwnRequestMutationResolver
+
     }
 }
 

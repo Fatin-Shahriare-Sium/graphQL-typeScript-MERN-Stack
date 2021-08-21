@@ -6,7 +6,23 @@ let profileSchema = new Schema({
     coverImg: String,
     address: String,
     bio: String,
-    brithDate: String
+    brithDate: String,
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+    },
+    friends: [{
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+    }],
+    sendFriendRequest: [{
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+    }],
+    getFriendRequest: [{
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+    }]
 })
 
 let Profile = model('profile', profileSchema)

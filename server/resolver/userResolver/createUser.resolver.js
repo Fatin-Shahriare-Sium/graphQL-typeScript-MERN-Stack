@@ -26,7 +26,11 @@ createUserMutationResolver = async (parent, args, ctx, info) => {
         profileImg: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkRUKRJvv-AznH1erobEqUZ0zrLdP8bzGFe5BSNJ5E2KQWS6Ga9-ZCIuS0wHNOIG4b758&usqp=CAU',
         coverImg: '',
         address: '',
-        brithDate: ''
+        brithDate: '',
+        user: '',
+        friends: [],
+        sendFriendRequest: [],
+        getFriendRequest: []
     })
 
     let profilex = await newProfile.save()
@@ -43,6 +47,11 @@ createUserMutationResolver = async (parent, args, ctx, info) => {
     })
 
     let userx = await newUser.save()
+
+    await Profile.findOneAndUpdate({ _id: profilex._id }, {
+        $set: { user: userx._id }
+    })
+
     let userId = userx._id
     let token = await jwt.sign({ userId }, 'secret__key')
 

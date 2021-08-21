@@ -24,6 +24,8 @@ let UserSchema = new Schema({
     //need to add notification
 })
 
+UserSchema.index({ name: 'text' })
+
 let User = model('user', UserSchema)
 
 module.exports = User

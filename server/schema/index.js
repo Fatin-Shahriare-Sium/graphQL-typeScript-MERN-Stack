@@ -3,6 +3,8 @@ const bookmarkTypeDefs = require('./bookmark.typeDefs')
 const notificationTypeDefs = require('./notification.typeDefs')
 const postTypeDefs = require('./post.typeDefs')
 const userProfileTypeDefs = require('./userProfile.typeDefs')
+let friendTypeDefs = require('./friend.typeDefs')
+const searchTypeDefs = require('./search.TypeDefs')
 let UserTypeDefs = gql`
 
     type Details{
@@ -49,6 +51,6 @@ let UserTypeDefs = gql`
 
 `
 
-let RootTypeDefs = [UserTypeDefs, postTypeDefs, userProfileTypeDefs, notificationTypeDefs, bookmarkTypeDefs]
+let RootTypeDefs = [UserTypeDefs, postTypeDefs, userProfileTypeDefs, notificationTypeDefs, bookmarkTypeDefs, friendTypeDefs, searchTypeDefs]
 
 module.exports = RootTypeDefs

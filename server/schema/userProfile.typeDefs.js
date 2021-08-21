@@ -8,7 +8,11 @@ type UserProfileDetails{
     coverImg: String,
     address: String,
     bio: String,
-    brithDate: String
+    brithDate: String,
+    user:String,
+    friends: [String],
+    sendFriendRequest: [String],
+    getFriendRequest: [String]
 }
 extend type Query{
     userProfileDetails(userId:String!):UserProfileDetails

@@ -29,6 +29,7 @@ let postSchema = new Schema({
     timestamps: true
 })
 
+postSchema.index({ text: 'text' })
 let Post = model('post', postSchema)
 
 module.exports = Post
