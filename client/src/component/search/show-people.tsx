@@ -1,24 +1,33 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import FriendRequstBtn from '../friend/friend-request-btn'
 
 interface PEOPLE {
-    _id: string,
+    id: string,
     name: string,
-    profileImg: string,
-    friends: string,
+    profilePic: string,
+    posts: string,
+    profile?: {
+        friends: string[]
+    }
 }
 
-const ShowPeople = () => {
+const ShowPeople: React.FC<{ people: PEOPLE }> = ({ people }) => {
     return (
         <div onClick={() => console.log('Allah is Almighty')
         } className='show-people'>
             <div className="show-people__left">
-                <img src="http://res.cloudinary.com/sium/image/upload/v1628946719/s8bxdnezwaflm6bw36qr.svg" alt="" />
+                <img src={people.profilePic} alt="" />
             </div>
             <div className="show-people__right">
-                <p>Fatin Shahriare Sium</p>
+                <div>
+                    <Link to={`/profile/${people.id}`}>
+                        <p style={{ textDecoration: 'underline', textDecorationColor: 'blue' }}>{people.name}</p>
+                    </Link>
+                </div>
                 <div className="show-people__bottom">
-                    <button className='btn btn-outline-primary'>Add frined</button>
+                    <p>Total Posts-{people.posts.length}</p>
+                    <p>Friends-{people.profile?.friends.length}</p>
                 </div>
             </div>
 

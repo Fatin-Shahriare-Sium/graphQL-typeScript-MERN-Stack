@@ -1,5 +1,6 @@
 import { gql, useMutation } from '@apollo/client'
 import React from 'react'
+import { FETCH_USER_PROFILE_DETAILS } from '../../store'
 
 let SEND_FREIND_REQUEST = gql`
 
@@ -54,7 +55,12 @@ const UseHandleFriend = () => {
     let [deleteFriendRequest] = useMutation(DELETE_FRIEND_REQUEST)
 
     let sendFriendRequest = async (userId: string, peopleId: string) => {
-        let responses = await sendRequest({ variables: { userId, peopleId } })
+        let responses = await sendRequest({
+            variables: { userId, peopleId }, refetchQueries: [{
+                query: FETCH_USER_PROFILE_DETAILS,
+                variables: { userId }
+            }]
+        })
 
         console.log(responses);
 
@@ -62,14 +68,24 @@ const UseHandleFriend = () => {
 
     let acceptFriendRequest = async (userId: string, requestedUserId: string) => {
 
-        let responses = await saveFriend({ variables: { userId, requestedUserId } })
+        let responses = await saveFriend({
+            variables: { userId, requestedUserId }, refetchQueries: [{
+                query: FETCH_USER_PROFILE_DETAILS,
+                variables: { userId }
+            }]
+        })
 
         console.log(responses);
     }
 
     async function cancelRequest(userId: string, requestedUserId: string) {
 
-        let responses = await cancleOwnRequest({ variables: { userId, requestedUserId } })
+        let responses = await cancleOwnRequest({
+            variables: { userId, requestedUserId }, refetchQueries: [{
+                query: FETCH_USER_PROFILE_DETAILS,
+                variables: { userId }
+            }]
+        })
 
         console.log(responses);
 
@@ -77,7 +93,12 @@ const UseHandleFriend = () => {
 
     async function removeFriendRequest(userId: string, requestedUserId: string) {
 
-        let responses = await deleteFriendRequest({ variables: { userId, requestedUserId } })
+        let responses = await deleteFriendRequest({
+            variables: { userId, requestedUserId }, refetchQueries: [{
+                query: FETCH_USER_PROFILE_DETAILS,
+                variables: { userId }
+            }]
+        })
 
         console.log(responses);
 

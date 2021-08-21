@@ -23,10 +23,10 @@ function App() {
             <Route exact path='/'>
               <Main />
             </Route>
-            <Route path='/signup'>
+            <Route exact path='/signup'>
               <Signup />
             </Route>
-            <Route path='/login'>
+            <Route exact path='/login'>
               <Login />
             </Route>
           </Switch>

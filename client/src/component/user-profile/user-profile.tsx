@@ -71,23 +71,12 @@ const UserProfile = () => {
     let { data } = useQuery(FETCH_PROFILE_DETAILS, { variables: { userId: id } })
     let userPosts = useQuery(FETCH_POSTS_BY_USERID, { variables: { userId: id } })
     let { sendFriendRequest, cancelRequest } = UseHandleFriend()
-    let [addBtn, setAddbtn] = useState(true)
     let [userProfileData, setUserProfileData] = useState<PROFILE_DATA>()
 
     function toggleModal() {
         return setShowModal(pre => !pre)
     }
 
-    function handleAddBtn() {
-        if (addBtn) {
-            sendFriendRequest(auth!.user.id, id)
-            setAddbtn(false)
-        } else {
-            //implement cancel friend request
-            cancelRequest(auth!.user.id, id)
-            setAddbtn(true)
-        }
-    }
 
     function renderUserProfileBtn() {
         console.log('renderUserProfileBtn()');
@@ -97,7 +86,9 @@ const UserProfile = () => {
         } else if (authUserProfileData!.getFriendRequest.includes(id)) {
             return <FriendRequstBtn userId={auth!.user.id} requestedUserId={id} />
         } else if (authUserProfileData!.sendFriendRequest.includes(id)) {
-            return <button onClick={handleAddBtn} className='btn btn-outline-primary'>{addBtn ? 'Add Friend' : 'Cancel request'}</button>
+            return <button onClick={() => cancelRequest(auth!.user.id, id)} className='btn btn-outline-danger'>Cancel Request</button>
+        } else {
+            return <button onClick={() => sendFriendRequest(auth!.user.id, id)} className='btn btn-outline-primary' > Add Friend</button >
         }
     }
 

@@ -31,7 +31,7 @@ let FETCH_POST = gql`
   
     `
 
-let FETCH_USER_PROFILE_DETAILS = gql`
+export let FETCH_USER_PROFILE_DETAILS = gql`
     
 query($userId:String!){
     userProfileDetails(userId:$userId){
