@@ -90,24 +90,23 @@ const Search = () => {
             return searchUserResults.data.searchUser.map((sig: any, index: any) => <ShowPeople key={index} people={sig} />)
         } else {
             return (
-                <p>No results found</p>
+                <p>No users found</p>
             )
         }
     }
 
-    useEffect(() => {
-        console.log(searchUserResults.data);
-        let textx = document.getElementById('text') as HTMLParagraphElement
-        let replacex = textx.innerText.replace('Allah', ' <span class="search-text">Allah</span>')
-        console.log(replacex);
+    function renderResultContainerContent() {
+        if (searchPostResults.data.searchPost.length > 0) {
+            return searchPostResults.data.searchPost.map((sig: any, index: any) => <ShowSearchPost key={index} searchText={searchPostResults.variables!.searchText} searchedPost={sig} />)
+        } else {
+            return (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <p>No posts found</p>
+                </div>
+            )
+        }
+    }
 
-        textx.innerHTML = replacex
-    }, [searchUserResults.data])
-
-    useEffect(() => {
-        console.log('searchPostResults.da', searchPostResults);
-
-    }, [searchPostResults.data])
 
     return (
         <div className='search-wrapper'>
@@ -129,13 +128,13 @@ const Search = () => {
                 </div>
                 <div className="search-box__results">
 
-                    <div className='search-box__results__people-container' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }} >
+                    {!bold[2] && <div className='search-box__results__people-container' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', minHeight: '43vh' }} >
                         {searchUserResults.data ? renderPeopleConatinerContent() : <Loading />}
-                    </div>
-                    <div className='search-box__results__post-container' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-                        <p id='text'>Allah is Almighty</p>
-                        {searchPostResults.data ? searchPostResults.data.searchPost.map((sig: any, index: any) => <ShowSearchPost key={index} searchText={searchPostResults.variables!.searchText} searchedPost={sig} />) : <Loading />}
-                    </div>
+                    </div>}
+                    {!bold[1] && <div className='search-box__results__post-container' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', minHeight: '43vh' }}>
+
+                        {searchPostResults.data ? renderResultContainerContent() : <Loading />}
+                    </div>}
                 </div>
             </div>
         </div>

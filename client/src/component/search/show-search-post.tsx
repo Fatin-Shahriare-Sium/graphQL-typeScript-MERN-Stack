@@ -19,7 +19,14 @@ const ShowSearchPost: React.FC<{ searchedPost: SINGLE_SEARCH_POST, searchText: s
 
     useEffect(() => {
         let postText = document.getElementById(`post-content-${searchedPost._id}`) as HTMLParagraphElement
-        let replaceHTML = postText.innerText.toLowerCase().replaceAll(searchText.toLowerCase(), `<span class='search-text'>${searchText}</span>`)
+
+        let matcher = new RegExp(searchText, 'gi')
+
+        let replaceHTML = postText.innerText.replace(matcher, (matchStr) => {
+            return `<span class='search-text'>${matchStr}</span>`
+        })
+
+
         postText.innerHTML = replaceHTML
     }, [])
     return (
