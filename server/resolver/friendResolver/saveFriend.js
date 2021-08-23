@@ -1,22 +1,25 @@
+const Notification = require("../../model/notification")
 let Profile = require("../../model/Profile")
 let User = require("../../model/user")
 
 let saveFriendMutationResolver = async (parent, args, ctx) => {
     let { userId, requestedUserId } = args
 
-    await Profile.findOneAndUpdate({ _id: requestedUserId }, {
+    await Profile.findOneAndUpdate({ user: requestedUserId }, {
         $push: { friends: userId },
         $pull: { sendFriendRequest: userId }
     })
 
-    let userProfilex = await Profile.findOneAndUpdate({ _id: userId }, {
+    let userProfilex = await Profile.findOneAndUpdate({ user: userId }, {
         $push: { friends: requestedUserId },
         $pull: { getFriendRequest: requestedUserId }
     })
 
+    console.log('userProfilex', userProfilex);
+
     let newNotificationx = new Notification({
         notifier: userId,
-        notificationText: `${userx.name} has accepted your friend request`,
+        notificationText: `${userProfilex.name} has accepted your friend request`,
         seen: false,
         type: 'Accept',
         where: {

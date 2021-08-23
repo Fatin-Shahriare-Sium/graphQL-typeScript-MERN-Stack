@@ -44,7 +44,9 @@ let UserTypeDefs = gql`
 
     type Mutation{
         createUser(email:String!,name:String!,password:String!,gender:String!):createUserMutationResponse
-        login(email:String!,password:String!):LoginMutationResponse
+        login(email:String!,password:String!):LoginMutationResponse,
+        changePass(email:String!,oldPassword:String!,newPassword:String!):Msg,
+        forgetPass(email:String!):Msg
     }
 
     

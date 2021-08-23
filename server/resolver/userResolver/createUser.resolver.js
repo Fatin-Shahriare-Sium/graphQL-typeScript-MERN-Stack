@@ -7,7 +7,6 @@ const Profile = require('../../model/Profile.js');
 createUserMutationResolver = async (parent, args, ctx, info) => {
     console.log(args);
     let { name, email, password, gender } = args
-    let hashedPassWord = await bcrypt.hash(password, 11)
     let alreadyUsed = await User.find({ email: email })
 
     if (alreadyUsed.length > 0) {
@@ -34,6 +33,8 @@ createUserMutationResolver = async (parent, args, ctx, info) => {
     })
 
     let profilex = await newProfile.save()
+
+    let hashedPassWord = await bcrypt.hash(password, 11)
 
     let newUser = new User({
         name,

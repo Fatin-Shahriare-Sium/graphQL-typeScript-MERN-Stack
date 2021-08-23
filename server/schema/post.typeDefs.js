@@ -91,6 +91,8 @@ let postTypeDefs = gql`
         allPosts:[SinglePost]
         userPosts(userId:String!):[SinglePost]
         someComment(postId:String!):[ExtendedSingleComment]
+        fetchLikeOfPost(postId:String!):[FriendList]
+        fetchDislikeOfPost(postId:String!):[FriendList]
       }
 
 
