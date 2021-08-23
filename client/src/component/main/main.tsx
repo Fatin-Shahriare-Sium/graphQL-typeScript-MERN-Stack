@@ -5,12 +5,14 @@ import MainNavbar from './main-navbar';
 import ShowPost from '../show-post/show-post'
 import './main.scss'
 import { useData } from '../../store';
-import { BrowserRouter, Route, Switch, Router, useHistory } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import UserProfile from '../user-profile/user-profile';
 import Notifications from '../notifications/notification';
 import ShowSinglePost from '../show-post/show-single-post';
 import Bookmark from '../bookmark/bookmark';
 import Search from '../search/search';
+import ChangePass from '../changePass/changePass';
+import Modal from '../modal/modal';
 //email-rose1206@gmail.com
 //password-rose1206@gmail.com
 const Main = () => {
@@ -55,6 +57,10 @@ const Main = () => {
                             </Route>
                             <Route exact path='/search'>
                                 <Search />
+                            </Route>
+                            <Route exact path='/changepass'>
+                                <ChangePass />
+
                             </Route>
                         </Switch>
 

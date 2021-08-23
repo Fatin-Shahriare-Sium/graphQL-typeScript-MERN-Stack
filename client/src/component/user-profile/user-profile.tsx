@@ -3,7 +3,7 @@ import './user-profile.scss'
 import location from '../../assets/location.svg'
 import calender from '../../assets/calender.svg'
 import EditProfile from './edit-profile'
-import { gql, useQuery } from '@apollo/client'
+import { gql, useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { useData } from '../../store'
 import { PROFILE_DATA } from './edit-profile'
 import { useParams } from 'react-router-dom'
@@ -13,6 +13,11 @@ import { POST_ACTION_TYPE } from '../../store/postReducer'
 import { Prompt } from 'react-router'
 import UseHandleFriend from '../hooks/useHandleFriend'
 import FriendRequstBtn from '../friend/friend-request-btn'
+import Modal from '../modal/modal'
+import SingleFriendPreview from '../friend/single-friend-preview'
+import Loading from '../loading/loading'
+
+
 export let FETCH_PROFILE_DETAILS = gql`
     
 query($userId:String!){
@@ -61,20 +66,42 @@ export let FETCH_POSTS_BY_USERID = gql`
 `
 
 
+let FETCH_FRIEND_LIST = gql`
 
+query($userId:String!){
+    fetchFriendList(userId:$userId){
+        id
+        name
+        profilePic
+    }
+}
+
+
+`
 
 //https://stackoverflow.com/questions/58431224/how-does-apollo-client-graphql-refetchqueries-works
 const UserProfile = () => {
     let [showModal, setShowModal] = useState(false)
+    let [showList, setShowList] = useState(false)
     let { id } = useParams<{ id: string }>()
     let { auth, dispatch, posts, authUserProfileData } = useData()
     let { data } = useQuery(FETCH_PROFILE_DETAILS, { variables: { userId: id } })
     let userPosts = useQuery(FETCH_POSTS_BY_USERID, { variables: { userId: id } })
+    let [fetchFriends, fetchFriendsResults] = useLazyQuery(FETCH_FRIEND_LIST)
     let { sendFriendRequest, cancelRequest } = UseHandleFriend()
     let [userProfileData, setUserProfileData] = useState<PROFILE_DATA>()
 
     function toggleModal() {
         return setShowModal(pre => !pre)
+    }
+
+    function toggleList() {
+        return setShowList(pre => !pre)
+    }
+
+    function handleShowFriendList() {
+        toggleList()
+        return fetchFriends({ variables: { userId: id } })
     }
 
 
@@ -93,13 +120,17 @@ const UserProfile = () => {
     }
 
     useEffect(() => {
-        console.log(data);
+
 
         if (data) {
             setUserProfileData(data.userProfileDetails)
         }
 
     }, [data])
+    useEffect(() => {
+        console.log(fetchFriendsResults);
+
+    }, [fetchFriendsResults])
     useEffect(() => {
         if (!userPosts.loading) {
             dispatch!({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: userPosts.data.userPosts })
@@ -156,7 +187,13 @@ const UserProfile = () => {
                     <img src={calender} alt="" />
                     <p>{userProfileData?.brithDate ? userProfileData.brithDate : 'set not yet'}</p>
                 </div>
-                <p className='user-profile__details__friend'>13 Friends</p>
+                <p onClick={() => handleShowFriendList()} className='user-profile__details__friend'>friends - {userProfileData?.friends.length}</p>
+                {/* show friends in modal */}
+                {showList && <Modal title={`${userProfileData?.name}'s friend list`} handleModal={toggleList}>
+                    {fetchFriendsResults.data ? fetchFriendsResults.data.fetchFriendList.map((sig: any, index: any) => <SingleFriendPreview key={index} friend={sig} />) :
+                        <Loading />
+                    }
+                </Modal>}
             </div>
             <div className='user-profile__posts'>
                 {userPosts.data && posts.map((sig: any) => <ShowPost post={sig} currentUserId={auth!.user.id} />)}
