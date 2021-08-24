@@ -8,6 +8,7 @@ import more from '../../assets/more.svg'
 import useLDC from '../hooks/useLDC';
 import { sign } from 'crypto';
 import CommentInput from './comment-input';
+import { Link } from 'react-router-dom';
 
 
 interface SingleCommentStructure {
@@ -121,8 +122,11 @@ const SingleComment: React.FC<SingleCommentProps> = ({ comment, needToUpdateDisl
             <div className='single-comment__userImg'>
                 <img className={comment.user.profilePic} style={{ width: "43px", clipPath: 'circle()' }} src={comment.user.profilePic} alt="" />
             </div>
+
             <div className='single-comment___main'>
-                <p style={{ fontSize: '.7rem', fontWeight: 500 }}>{comment.user.name} . {moment(comment.createdAt).fromNow()}</p>
+                <Link to={`/profile/${comment.user._id}`} >
+                    <p style={{ fontSize: '.7rem', fontWeight: 500 }}>{comment.user.name} . {moment(comment.createdAt).fromNow()}</p>
+                </Link>
                 <p style={{ fontSize: '.9rem' }}>{comment.commentText}</p>
                 <div className='single-comment-socialBox'>
                     <div>

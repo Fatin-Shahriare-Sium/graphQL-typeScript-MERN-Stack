@@ -1,5 +1,6 @@
 import { gql, useLazyQuery, useQuery } from '@apollo/client'
 import React, { Dispatch, useContext, useEffect, useReducer, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import PostReducer, { INITIAL_STATE, POST_ACTION_TYPE } from './postReducer'
 import { POST_DATA } from './postReducer'
 
@@ -79,6 +80,7 @@ export let useData = () => {
 
 const DataProvider: React.FC = ({ children }) => {
     let [state, dispatch] = useReducer(PostReducer, INITIAL_STATE)
+    let history = useHistory()
     let postData = useQuery(FETCH_POST)
     let [fetchUserProfileData, { data }] = useLazyQuery(FETCH_USER_PROFILE_DETAILS)
     let [auth, setAuth] = useState<authState>()
@@ -91,16 +93,28 @@ const DataProvider: React.FC = ({ children }) => {
         let jsonUserx: any = localStorage.getItem("__userx")
         let userx = JSON.parse(jsonUserx)
         let token = localStorage.getItem('__tokenx')
+        if (!token) {
+            setAuth({
+                token: '',
+                user: {
+                    id: '',
+                    email: '',
+                    name: "",
+                    profilePic: ''
+                }
+            })
+        } else {
+            setAuth({
+                token,
+                user: {
+                    id: userx.id,
+                    email: userx.email,
+                    name: userx.name,
+                    profilePic: userx.profilePic
+                }
+            })
+        }
 
-        setAuth({
-            token,
-            user: {
-                id: userx.id,
-                email: userx.email,
-                name: userx.name,
-                profilePic: userx.profilePic
-            }
-        })
 
         setLoading(false)
 

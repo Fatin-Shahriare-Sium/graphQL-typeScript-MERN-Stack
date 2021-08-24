@@ -73,6 +73,7 @@ query($userId:String!){
         id
         name
         profilePic
+        updatedAt
     }
 }
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import './show-post.scss'
-import img2 from '../../assets/img2.png'
 import like from '../../assets/like.svg'
 import likeFill from '../../assets/like-fill.svg'
 import dislike from '../../assets/dislike.svg'
@@ -13,6 +12,10 @@ import CommentSection from './comment-section'
 import moment from 'moment'
 import { SinglePost } from '../../store/postReducer'
 import { Link } from 'react-router-dom'
+import { gql, useLazyQuery } from '@apollo/client'
+import Modal from '../modal/modal'
+import SingleFriendPreview from '../friend/single-friend-preview'
+import Loading from '../loading/loading'
 let IMG_CONTAINER_DIVSTYLE = [
     { width: "100%", height: '270px', margin: "1%" },
     { width: "47%", height: '230px', margin: "1%" },
@@ -21,29 +24,30 @@ let IMG_CONTAINER_DIVSTYLE = [
 
 ]
 
-// interface SINGLE_POST_IMGS {
-//     id: string,
-//     src: string
-// }
-// interface SinglePost {
-//     _id: string,
-//     text: string,
-//     likes: string[],
-//     dislikes: string[],
-//     comments: SingleComment[],
-//     user: {
-//         _id: string,
-//         name: string,
-//         profilePic: string,
-//     },
-//     imgs: SINGLE_POST_IMGS[],
-//     userName: string,
-//     profilePic: string,
-//     createdAt: string,
-//     updatedAt: string,
-// }
+let FETCH_LIKE_OF_POST = gql`
 
+query($postId:String!){
+    fetchLikeOfPost(postId:$postId){
+        id
+        name
+        profilePic
+        updatedAt
+    }
+}
 
+`
+let FETCH_DISLIKE_OF_POST = gql`
+
+query($postId:String!){
+    fetchDislikeOfPost(postId:$postId){
+        id
+        name
+        profilePic
+        updatedAt
+    }
+}
+
+`
 
 
 interface SINGLE_POST_PROPS {
@@ -54,9 +58,11 @@ interface SINGLE_POST_PROPS {
 const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
 
     let [truncated, setTruncated] = useState(false)
-
-
+    let [listType, setListType] = useState('')
+    let [fetchLike, fetchLikeResults] = useLazyQuery(FETCH_LIKE_OF_POST)
+    let [fetchDislike, fetchDislikeResults] = useLazyQuery(FETCH_DISLIKE_OF_POST)
     let { handleLike, handleDislike, handleBookmark } = useLDC()
+
     useEffect(() => {
 
         if (post.text.length > 277) {
@@ -65,6 +71,33 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
         }
 
     }, [])
+
+
+    useEffect(() => {
+        console.log(fetchLikeResults.data);
+
+    }, [fetchLikeResults])
+
+    function handleListShowingModal(type: string) {
+        if (type === 'Like') {
+            fetchLike({ variables: { postId: post._id } })
+            if (listType) {
+                return setListType('')
+            } else {
+                return setListType(type)
+            }
+        } else {
+
+            fetchDislike({ variables: { postId: post._id } })
+
+            if (listType) {
+                return setListType('')
+            } else {
+                return setListType(type)
+            }
+        }
+    }
+
 
     function handleReadmore(id: string) {
         let readmoreBtn: any = document.getElementById(`readMore-btn-${id}`)
@@ -83,11 +116,9 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
 
     function textTruncate(textx: string) {
 
-
         if (textx.length > 277) {
 
             return textx.substr(0, 277) + '...'
-
 
         } else {
 
@@ -129,11 +160,25 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
                 <div className="show-post__right--footer">
 
                     <div className='social-box-summery'>
-                        <div>
+                        <div onClick={() => handleListShowingModal('Like')}>
                             {`${post.likes.length} likes`}
+                            {listType == 'Like' && <Modal title="All Likes" handleModal={() => handleListShowingModal('Like')}>
+
+                                {fetchLikeResults.data ? fetchLikeResults.data.fetchLikeOfPost.map((sig: any, index: any) => <SingleFriendPreview friend={sig} />) :
+                                    <Loading />
+                                }
+
+                            </Modal>}
                         </div>
-                        <div>
+                        <div onClick={() => handleListShowingModal('Dislike')}>
                             {`${post.dislikes.length} dislikes`}
+                            {listType == 'Dislike' && <Modal title="All Dislikes" handleModal={() => handleListShowingModal('Dislike')}>
+
+                                {fetchDislikeResults.data ? fetchDislikeResults.data.fetchDislikeOfPost.map((sig: any, index: any) => <SingleFriendPreview friend={sig} />) :
+                                    <Loading />
+                                }
+
+                            </Modal>}
                         </div>
                         <div>
                             {`${post.comments.length} comments`}

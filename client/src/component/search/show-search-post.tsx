@@ -32,9 +32,11 @@ const ShowSearchPost: React.FC<{ searchedPost: SINGLE_SEARCH_POST, searchText: s
     return (
         <div className='show-search-post'>
             <div className='show-search-post__text'>
-                <p id={`post-content-${searchedPost._id}`}>
-                    {searchedPost.text}
-                </p>
+                <Link to={`/post/${searchedPost._id}`}>
+                    <p id={`post-content-${searchedPost._id}`}>
+                        {searchedPost.text}
+                    </p>
+                </Link>
             </div>
             <div className='show-search-post__summerize'>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>Written by <Link to={`/profile/${searchedPost.user._id}`}>
