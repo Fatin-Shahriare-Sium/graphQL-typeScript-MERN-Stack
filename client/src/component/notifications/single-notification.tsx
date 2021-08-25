@@ -5,6 +5,7 @@ import commentType from '../../assets/comment-type.svg'
 import more from '../../assets/more.svg'
 import book from '../../assets/book.svg'
 import deletex from '../../assets/delete.svg'
+import addFriend from '../../assets/add-user.svg'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import UseHandleNotification from '../hooks/useHandleNotification'
@@ -45,6 +46,8 @@ const SingleNotification: React.FC<SINGLE_NOTIFICATION_PROPS> = ({ notification,
             return dislikefill
         } else if (type == 'Comment') {
             return commentType
+        } else if (type == 'Request') {
+            return addFriend
         }
     }
     return (

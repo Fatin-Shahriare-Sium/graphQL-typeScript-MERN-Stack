@@ -37,7 +37,7 @@ const Signup = () => {
                     <div className='mt-3 w-100'>
                         <button type='submit' className='btn btn-outline-success'>SignUp</button>
                         <p style={{ fontSize: '1.3rem', fontWeight: 500, color: 'var(--head-color)', marginTop: '1%' }}>Already,created an account?
-                            <Link to="/login">Login.</Link>
+                            <Link to="/login"><span style={{ textDecoration: 'underline', textDecorationColor: '#0d6efd', color: '#0d6efd' }} >Login.</span></Link>
                         </p>
                     </div>
                 </form>

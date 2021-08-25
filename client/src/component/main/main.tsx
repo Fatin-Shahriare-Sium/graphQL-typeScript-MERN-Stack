@@ -4,7 +4,8 @@ import UserSidebar from '../user-sidebar/user-sidebar';
 import ShowPost from '../show-post/show-post'
 import './main.scss'
 import { useData } from '../../store';
-import { BrowserRouter, Route, Switch, useHistory, useLocation } from 'react-router-dom';
+
+import { BrowserRouter, Route, Switch, useHistory, Router, Redirect } from 'react-router-dom';
 import UserProfile from '../user-profile/user-profile';
 import Notifications from '../notifications/notification';
 import ShowSinglePost from '../show-post/show-single-post';
@@ -18,6 +19,7 @@ import SingleFriendPreview from '../friend/single-friend-preview';
 import Loading from '../loading/loading';
 import MainTop from './main-top';
 import LogoutModal from '../modal/logout-modal';
+import createHistory from 'history/createBrowserHistory';
 //email-rose1206@gmail.com
 //password-rose1206@gmail.com
 let FETCH_RECENT_USER = gql`
@@ -31,18 +33,16 @@ query{
 }
 `
 const Main = () => {
-    let { posts, auth } = useData()
+    let { posts, auth, authUserProfileData } = useData()
     let history = useHistory()
+
     let { data } = useQuery(FETCH_RECENT_USER)
-    useEffect(() => {
-        if (!auth!.token) {
-            history.push('/login')
-        }
-    }, [auth!.token])
+
+
     return (
 
 
-        <BrowserRouter >
+        <BrowserRouter  >
             <div className='main'>
 
                 <div className="main-body">
@@ -57,7 +57,7 @@ const Main = () => {
                         <Switch >
                             <Route exact path='/'>
                                 <MainTop name='Home' />
-                                <CreatePost />
+                                <CreatePost userPofilePic={authUserProfileData?.profileImg} />
                                 {posts && posts.map((sig, index) =>
                                     <ShowPost key={sig._id} post={sig} currentUserId={auth!.user.id} />
                                 )}

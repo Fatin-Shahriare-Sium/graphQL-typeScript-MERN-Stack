@@ -22,7 +22,7 @@ const Login = () => {
                     <div style={{ width: '100%', marginTop: "1%" }}>
                         <button type='submit' className='btn btn-outline-success'>Login</button>
                         <p style={{ fontSize: "1.3rem", fontWeight: 500 }}>Have't an account?
-                            <Link to="/signup"> Signup.</Link>
+                            <Link to="/signup"> <span style={{ textDecoration: 'underline', textDecorationColor: '#0d6efd', color: '#0d6efd' }}>Signup.</span></Link>
                         </p>
                     </div>
                 </form>

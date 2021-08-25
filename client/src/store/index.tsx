@@ -1,6 +1,5 @@
 import { gql, useLazyQuery, useQuery } from '@apollo/client'
 import React, { Dispatch, useContext, useEffect, useReducer, useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import PostReducer, { INITIAL_STATE, POST_ACTION_TYPE } from './postReducer'
 import { POST_DATA } from './postReducer'
 
@@ -36,6 +35,7 @@ export let FETCH_USER_PROFILE_DETAILS = gql`
     
 query($userId:String!){
     userProfileDetails(userId:$userId){
+        profileImg
         friends
         sendFriendRequest
         getFriendRequest
@@ -45,6 +45,7 @@ query($userId:String!){
 `
 
 interface AUTH_USER_PROFILE_DATA {
+    profileImg: string,
     friends: [string],
     sendFriendRequest: string[],
     getFriendRequest: string[]
@@ -80,7 +81,6 @@ export let useData = () => {
 
 const DataProvider: React.FC = ({ children }) => {
     let [state, dispatch] = useReducer(PostReducer, INITIAL_STATE)
-    let history = useHistory()
     let postData = useQuery(FETCH_POST)
     let [fetchUserProfileData, { data }] = useLazyQuery(FETCH_USER_PROFILE_DETAILS)
     let [auth, setAuth] = useState<authState>()
@@ -93,16 +93,12 @@ const DataProvider: React.FC = ({ children }) => {
         let jsonUserx: any = localStorage.getItem("__userx")
         let userx = JSON.parse(jsonUserx)
         let token = localStorage.getItem('__tokenx')
+
+        console.log("localStorage.getItem('__tokenx')");
+
         if (!token) {
-            setAuth({
-                token: '',
-                user: {
-                    id: '',
-                    email: '',
-                    name: "",
-                    profilePic: ''
-                }
-            })
+            setAuth(undefined)
+            console.log('token', token);
         } else {
             setAuth({
                 token,
@@ -119,7 +115,7 @@ const DataProvider: React.FC = ({ children }) => {
         setLoading(false)
 
 
-    }, [localStorage.getItem('__userx')])
+    }, [localStorage.getItem('__tokenx')])
 
 
 
@@ -137,6 +133,7 @@ const DataProvider: React.FC = ({ children }) => {
         console.log(data);
         if (data) {
             setAuthProfileData({
+                profileImg: data.userProfileDetails.profileImg,
                 friends: data.userProfileDetails.friends,
                 sendFriendRequest: data.userProfileDetails.sendFriendRequest,
                 getFriendRequest: data.userProfileDetails.getFriendRequest
@@ -153,7 +150,6 @@ const DataProvider: React.FC = ({ children }) => {
         }
 
     }, [postData.data])
-
 
 
     let value = {

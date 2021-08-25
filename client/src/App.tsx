@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Signup from './component/signup/signup';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
-import { BrowserRouter, Switch, Route, useHistory } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, useHistory, Router, Redirect } from 'react-router-dom'
 import Login from './component/login/login';
 import Main from './component/main/main';
-import DataProvider from './store';
-function App() {
+import DataProvider, { useData } from './store';
+import createHistory from 'history/createBrowserHistory';
 
-  let history = useHistory()
+function App() {
+  const history = createHistory();
+  let { auth } = useData()
   let client = new ApolloClient({
     uri: "http://localhost:5000",
     cache: new InMemoryCache()
 
   })
+
+  if (!localStorage.getItem("__tokenx")) {
+    history.push('/login')
+  }
+
   return (
 
     <ApolloProvider client={client}>
@@ -23,12 +30,13 @@ function App() {
             <Route exact path='/'>
               <Main />
             </Route>
-            <Route exact path='/signup'>
-              <Signup />
-            </Route>
             <Route exact path='/login'>
               <Login />
             </Route>
+            <Route exact path='/signup'>
+              <Signup />
+            </Route>
+
           </Switch>
 
         </BrowserRouter>

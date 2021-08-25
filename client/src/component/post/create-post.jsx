@@ -7,7 +7,7 @@ import Alert from '../alert/alert';
 import UseCreatePost from '../hooks/useCreatePost';
 
 
-const CreatePost = () => {
+const CreatePost = ({ userPofilePic }) => {
 
     let { handleCreatePost, error } = UseCreatePost()
     let [postText, setPostText] = useState('')
@@ -127,7 +127,7 @@ const CreatePost = () => {
     return (
         <div className='create-post'>
             <div className='create-post__user'>
-                <img src="https://sportstar.thehindu.com/football/article32903363.ece/ALTERNATES/LANDSCAPE_1200/antony-ajax" alt="" />
+                <img style={{ width: '53px', clipPath: 'circle()' }} src={userPofilePic} alt="" />
 
             </div>
             <div className='create-post__editor'>

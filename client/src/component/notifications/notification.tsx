@@ -35,12 +35,23 @@ const Notifications = () => {
         console.log(data);
 
     }, [data])
+    function renderNotifications() {
+        if (data.fetchUserNotifications.length > 0) {
+            return data.fetchUserNotifications.map((sig: any, index: any) => <SingleNotification key={index} userId={auth!.user.id} notification={sig} />)
+        } else {
+            return (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90vh' }}>
+                    <p style={{ fontSize: '2rem', fontWeight: 700 }}>Empty</p>
+                </div>
+            )
+        }
+    }
     return (
         <div>
             {/* <SingleNotification />
             <SingleNotification />
             <SingleNotification /> */}
-            {data && data.fetchUserNotifications.map((sig: any, index: any) => <SingleNotification key={index} userId={auth!.user.id} notification={sig} />)}
+            {data && renderNotifications()}
         </div>
     )
 }

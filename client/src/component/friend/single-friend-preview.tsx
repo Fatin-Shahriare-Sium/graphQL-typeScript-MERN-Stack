@@ -6,7 +6,7 @@ interface SINGLE_FRIEND {
     id: string,
     name: string,
     profilePic: string,
-    updatedAt: string
+    createdAt: string
 }
 
 const SingleFriendPreview: React.FC<{ friend: SINGLE_FRIEND }> = ({ friend }) => {
@@ -20,7 +20,7 @@ const SingleFriendPreview: React.FC<{ friend: SINGLE_FRIEND }> = ({ friend }) =>
                 </div>
                 <div className='single-previewer__right mt-1'>
                     <p style={{ fontWeight: 700 }}>{friend.name}</p>
-                    <p style={{ fontSize: ".7rem" }}>{moment(friend.updatedAt).fromNow()}</p>
+                    {friend.createdAt && <p style={{ fontSize: ".7rem" }}>{moment(friend.createdAt).fromNow()}</p>}
                 </div>
             </div>
         </Link>

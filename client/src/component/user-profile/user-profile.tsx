@@ -115,6 +115,8 @@ const UserProfile = () => {
             return <FriendRequstBtn userId={auth!.user.id} requestedUserId={id} />
         } else if (authUserProfileData!.sendFriendRequest.includes(id)) {
             return <button onClick={() => cancelRequest(auth!.user.id, id)} className='btn btn-outline-danger'>Cancel Request</button>
+        } else if (authUserProfileData!.friends.includes(id)) {
+            return <button className='btn btn-outline-danger'>Unfriend</button>
         } else {
             return <button onClick={() => sendFriendRequest(auth!.user.id, id)} className='btn btn-outline-primary' > Add Friend</button >
         }
