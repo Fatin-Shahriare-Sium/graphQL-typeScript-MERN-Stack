@@ -3,7 +3,7 @@ import React, { Dispatch, useContext, useEffect, useReducer, useState } from 're
 import PostReducer, { INITIAL_STATE, POST_ACTION_TYPE } from './postReducer'
 import { POST_DATA } from './postReducer'
 
-let FETCH_POST = gql`
+export let FETCH_POST = gql`
     query{
   allPosts {
         _id,
@@ -39,6 +39,9 @@ query($userId:String!){
         friends
         sendFriendRequest
         getFriendRequest
+        notifications{
+            seen
+        }
     }
 }
 
@@ -48,7 +51,8 @@ interface AUTH_USER_PROFILE_DATA {
     profileImg: string,
     friends: [string],
     sendFriendRequest: string[],
-    getFriendRequest: string[]
+    getFriendRequest: string[],
+    notifications: string[]
 }
 
 interface DataContextValue extends POST_DATA {
@@ -115,7 +119,7 @@ const DataProvider: React.FC = ({ children }) => {
         setLoading(false)
 
 
-    }, [localStorage.getItem('__tokenx')])
+    }, [])
 
 
 
@@ -136,8 +140,11 @@ const DataProvider: React.FC = ({ children }) => {
                 profileImg: data.userProfileDetails.profileImg,
                 friends: data.userProfileDetails.friends,
                 sendFriendRequest: data.userProfileDetails.sendFriendRequest,
-                getFriendRequest: data.userProfileDetails.getFriendRequest
+                getFriendRequest: data.userProfileDetails.getFriendRequest,
+                notifications: data.userProfileDetails.notifications
             })
+            let unseenNotifications = data.userProfileDetails.notifications.filter((sig: any) => sig.seen == false)
+            localStorage.setItem('__social-notification-length', unseenNotifications.length)
         }
 
     }, [data])

@@ -123,11 +123,11 @@ const SingleComment: React.FC<SingleCommentProps> = ({ comment, needToUpdateDisl
                 <img className={comment.user.profilePic} style={{ width: "43px", clipPath: 'circle()' }} src={comment.user.profilePic} alt="" />
             </div>
 
-            <div className='single-comment___main'>
+            <div className='single-comment___main ms-1'>
                 <Link to={`/profile/${comment.user._id}`} >
-                    <p style={{ fontSize: '.7rem', fontWeight: 500 }}>{comment.user.name} . {moment(comment.createdAt).fromNow()}</p>
+                    <p className='single-comment__username' style={{ fontSize: '.7rem', fontWeight: 500 }}>{comment.user.name} . {moment(comment.createdAt).fromNow()}</p>
                 </Link>
-                <p style={{ fontSize: '.9rem' }}>{comment.commentText}</p>
+                <p className='single-comment__text' style={{ fontSize: '.9rem' }}>{comment.commentText}</p>
                 <div className='single-comment-socialBox'>
                     <div>
                         <img onClick={() => HANDLE_COMMENT_LIKE()} src={comment.likes.includes(userId) ? likeFill : like} alt="" />

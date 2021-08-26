@@ -8,11 +8,8 @@
     .show-post__left{
         width: 10%;
         position: relative;
+        align-self: inherit;
         img{
-            position: absolute;
-            left: 27%;
-            top: 7%;
-            transform: translate(-13%, -27%);
             width: 43px;
             clip-path: circle();
             object-fit: contain;
@@ -23,7 +20,6 @@
 
     .show-post__right{
         width: 87%;
-        margin-left: 1%;
 
     }
 }
@@ -151,3 +147,40 @@
 }
 
 // single-comment end
+
+
+@media screen and (max-width:600px) {
+    .show-post__text{
+        font-size: 1.7rem;
+    }
+    .user-info__name{
+        font-size: 1.9rem!important;
+    }
+    p{
+        font-size: 1.5rem;
+    }
+    .show-post__time{
+        font-size: 1.1rem!important;
+    }
+    .single-comment__text{
+        font-size: 1.3rem!important;
+    }
+    .single-comment__username{
+        font-size: 1.5rem!important;
+    }
+    .show-post__left{
+      
+        img{
+            width: 29px!important;
+            clip-path: circle();
+            object-fit: contain;
+
+           
+        }
+    }
+    .show-post__right--body__img-shower{
+        div{
+            height: auto!important;
+        }
+    }
+}

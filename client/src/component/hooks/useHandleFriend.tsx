@@ -43,6 +43,16 @@ mutation($userId:String!,$requestedUserId:String!){
 
 `
 
+let UNFRIEND_THE_FRIEND = gql`
+
+mutation($userId:String!,$friendId:String!){
+    unfriend(userId:$userId,friendId:$friendId){
+        msg
+    }
+}
+
+`
+
 
 const UseHandleFriend = () => {
 
@@ -53,6 +63,8 @@ const UseHandleFriend = () => {
     let [cancleOwnRequest] = useMutation(CANCEL_OWN_REQUEST)
 
     let [deleteFriendRequest] = useMutation(DELETE_FRIEND_REQUEST)
+
+    let [unfriend] = useMutation(UNFRIEND_THE_FRIEND)
 
     let sendFriendRequest = async (userId: string, peopleId: string) => {
         let responses = await sendRequest({
@@ -104,8 +116,19 @@ const UseHandleFriend = () => {
 
     }
 
+    async function handleUnfriend(userId: string, friendId: string) {
 
-    return { sendFriendRequest, acceptFriendRequest, cancelRequest, removeFriendRequest }
+        let responses = await unfriend({
+            variables: { userId, friendId }, refetchQueries: [{
+                query: FETCH_USER_PROFILE_DETAILS,
+                variables: { userId }
+            }]
+        })
+
+        console.log(responses);
+    }
+
+    return { sendFriendRequest, acceptFriendRequest, cancelRequest, removeFriendRequest, handleUnfriend }
 }
 
 export default UseHandleFriend;

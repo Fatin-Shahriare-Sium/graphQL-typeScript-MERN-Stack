@@ -32,8 +32,17 @@ const Notifications = () => {
     let { data } = useQuery(USER_NOTIFICATIONS, { variables: { userId: auth!.user.id } })
     console.log('notificatin sbfbwhfe');
     useEffect(() => {
-        console.log(data);
 
+        let notiUi = document.getElementById('notifications') as HTMLDivElement
+
+
+        if (data) {
+            let unseenNotifications = data.fetchUserNotifications.filter((sig: any) => sig.seen == false)
+            notiUi.setAttribute('data-length', unseenNotifications.length)
+            console.log('need to noti reds', unseenNotifications.length);
+
+
+        }
     }, [data])
     function renderNotifications() {
         if (data.fetchUserNotifications.length > 0) {

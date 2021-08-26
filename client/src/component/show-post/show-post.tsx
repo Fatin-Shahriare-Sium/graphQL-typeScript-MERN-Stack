@@ -141,9 +141,9 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
                         <Link to={`/profile/${post.user._id}`}>
                             <p className='user-info__name'>{post.user.name}</p>
                         </Link>
-                        <p style={{ fontSize: '.7rem', fontWeight: 500 }}>{moment(post.createdAt).fromNow()}</p>
+                        <p className='show-post__time' style={{ fontSize: '.7rem', fontWeight: 500 }}>{moment(post.createdAt).fromNow()}</p>
                     </div>
-                    <p id={`post-text-shower-${post._id}`}>{textTruncate(post.text)}</p>
+                    <p className='show-post__text' id={`post-text-shower-${post._id}`}>{textTruncate(post.text)}</p>
                     {/* 277 string */}
                     {
                         truncated && <p onClick={() => handleReadmore(post._id)} key={post.text} id={`readMore-btn-${post._id}`} style={{ fontWeight: 700, cursor: "pointer" }} className='mt-1'>Read More</p>
@@ -161,7 +161,7 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
 
                     <div className='social-box-summery'>
                         <div onClick={() => handleListShowingModal('Like')}>
-                            {`${post.likes.length} likes`}
+                            <p>{`${post.likes.length} likes`}</p>
                             {listType == 'Like' && <Modal title="All Likes" handleModal={() => handleListShowingModal('Like')}>
 
                                 {fetchLikeResults.data ? fetchLikeResults.data.fetchLikeOfPost.map((sig: any, index: any) => <SingleFriendPreview friend={sig} />) :
@@ -171,7 +171,7 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
                             </Modal>}
                         </div>
                         <div onClick={() => handleListShowingModal('Dislike')}>
-                            {`${post.dislikes.length} dislikes`}
+                            <p>{`${post.dislikes.length} dislikes`}</p>
                             {listType == 'Dislike' && <Modal title="All Dislikes" handleModal={() => handleListShowingModal('Dislike')}>
 
                                 {fetchDislikeResults.data ? fetchDislikeResults.data.fetchDislikeOfPost.map((sig: any, index: any) => <SingleFriendPreview friend={sig} />) :
@@ -181,7 +181,7 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
                             </Modal>}
                         </div>
                         <div>
-                            {`${post.comments.length} comments`}
+                            <p>{`${post.comments.length} comments`}</p>
                         </div>
                     </div>
 

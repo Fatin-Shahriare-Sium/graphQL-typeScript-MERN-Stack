@@ -5,7 +5,7 @@ import ShowPost from '../show-post/show-post'
 import './main.scss'
 import { useData } from '../../store';
 
-import { BrowserRouter, Route, Switch, useHistory, Router, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, useHistory, Router, Redirect, useLocation } from 'react-router-dom';
 import UserProfile from '../user-profile/user-profile';
 import Notifications from '../notifications/notification';
 import ShowSinglePost from '../show-post/show-single-post';
@@ -36,6 +36,12 @@ const Main = () => {
     let { posts, auth, authUserProfileData } = useData()
     let history = useHistory()
 
+    let location = useLocation()
+    useEffect(() => {
+        console.log(location);
+
+    }, [location])
+
     let { data } = useQuery(FETCH_RECENT_USER)
 
 
@@ -56,41 +62,46 @@ const Main = () => {
 
                         <Switch >
                             <Route exact path='/'>
-                                <MainTop name='Home' />
+                                <MainTop userId={auth!.user.id} name='Home' />
                                 <CreatePost userPofilePic={authUserProfileData?.profileImg} />
                                 {posts && posts.map((sig, index) =>
                                     <ShowPost key={sig._id} post={sig} currentUserId={auth!.user.id} />
                                 )}
                             </Route>
                             <Route exact path='/profile/:id' >
-                                <MainTop name='Profile' />
+                                <MainTop userId={auth!.user.id} name='Profile' />
                                 <UserProfile />
                             </Route>
                             <Route exact path='/notifications'>
-                                <MainTop name='Notifications' />
+                                <MainTop userId={auth!.user.id} name='Notifications' />
                                 <Notifications />
                             </Route>
                             <Route exact path='/post/:postId'>
-                                <MainTop name='Post' />
+                                <MainTop userId={auth!.user.id} name='Post' />
                                 <ShowSinglePost posts={posts} currentUserId={auth!.user.id} />
                             </Route>
                             <Route exact path='/bookmarks'>
-                                <MainTop name='Bookmarks' />
+                                <MainTop userId={auth!.user.id} name='Bookmarks' />
                                 <Bookmark userId={auth!.user.id} />
                             </Route>
                             <Route exact path='/search'>
-                                <MainTop name='Search' />
+                                <MainTop userId={auth!.user.id} name='Search' />
                                 <Search />
                             </Route>
                             <Route exact path='/changepass'>
-                                <MainTop name='Change Password' />
+                                <MainTop userId={auth!.user.id} name='Change Password' />
                                 <ChangePass />
 
                             </Route>
                             <Route exact path='/logout'>
-                                <MainTop name='Logout' />
+                                <MainTop userId={auth!.user.id} name='Logout' />
                                 <LogoutModal />
 
+                            </Route>
+                            <Route exact path='/createPost'>
+                                <Modal title='Create Post' handleModal={() => history.goBack()}>
+                                    <CreatePost userPofilePic={auth?.user.profilePic} />
+                                </Modal>
                             </Route>
                         </Switch>
 

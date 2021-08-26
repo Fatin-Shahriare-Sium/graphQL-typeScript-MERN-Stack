@@ -86,11 +86,11 @@ const UserProfile = () => {
     let [showList, setShowList] = useState(false)
     let { id } = useParams<{ id: string }>()
     let { auth, dispatch, posts, authUserProfileData } = useData()
-    let { data } = useQuery(FETCH_PROFILE_DETAILS, { variables: { userId: id } })
+    let { data } = useQuery(FETCH_PROFILE_DETAILS, { variables: { userId: id }, fetchPolicy: 'no-cache' })
     let userPosts = useQuery(FETCH_POSTS_BY_USERID, { variables: { userId: id } })
     let [fetchFriends, fetchFriendsResults] = useLazyQuery(FETCH_FRIEND_LIST)
-    let { sendFriendRequest, cancelRequest } = UseHandleFriend()
-    let [userProfileData, setUserProfileData] = useState<PROFILE_DATA>()
+    let { sendFriendRequest, cancelRequest, handleUnfriend } = UseHandleFriend()
+
 
     function toggleModal() {
         return setShowModal(pre => !pre)
@@ -116,30 +116,20 @@ const UserProfile = () => {
         } else if (authUserProfileData!.sendFriendRequest.includes(id)) {
             return <button onClick={() => cancelRequest(auth!.user.id, id)} className='btn btn-outline-danger'>Cancel Request</button>
         } else if (authUserProfileData!.friends.includes(id)) {
-            return <button className='btn btn-outline-danger'>Unfriend</button>
+            return <button onClick={() => handleUnfriend(auth!.user.id, id)} className='btn btn-outline-danger'>Unfriend</button>
         } else {
             return <button onClick={() => sendFriendRequest(auth!.user.id, id)} className='btn btn-outline-primary' > Add Friend</button >
         }
     }
 
-    useEffect(() => {
 
 
-        if (data) {
-            setUserProfileData(data.userProfileDetails)
-        }
-
-    }, [data])
-    useEffect(() => {
-        console.log(fetchFriendsResults);
-
-    }, [fetchFriendsResults])
     useEffect(() => {
         if (!userPosts.loading) {
             dispatch!({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: userPosts.data.userPosts })
         }
 
-
+        //How to handle dynamic variables in useQuery
 
     }, [userPosts])
 
@@ -169,30 +159,30 @@ const UserProfile = () => {
 
             <div className="user-profile__imgs">
                 <div className="user-profile__cover-img">
-                    <img src={!userProfileData?.coverImg ? defaultcover : userProfileData?.coverImg} alt="" />
+                    <img src={!data.userProfileDetails.coverImg ? defaultcover : data.userProfileDetails.coverImg} alt="" />
 
                 </div>
                 <div className="user-profile__small-img">
-                    <img src={userProfileData?.profileImg} alt="" />
-                    {userProfileData && renderUserProfileBtn()}
+                    <img src={data.userProfileDetails.profileImg} alt="" />
+                    {data.userProfileDetails && renderUserProfileBtn()}
                 </div>
             </div>
-            {showModal && <EditProfile handleModal={toggleModal} userId={auth!.user.id} profileData={userProfileData!} />}
+            {showModal && <EditProfile handleModal={toggleModal} userId={auth!.user.id} profileData={data.userProfileDetails!} />}
             <div className="user-profile__details">
-                <p className='user-profile__details__username'>{userProfileData?.name}</p>
-                <p className='user-profile__details__bio'>{userProfileData?.bio}</p>
+                <p className='user-profile__details__username'>{data.userProfileDetails?.name}</p>
+                <p className='user-profile__details__bio'>{data.userProfileDetails?.bio}</p>
                 <div className='user-profile__details__location'>
                     <img src={location} alt="" />
-                    <p>{userProfileData?.address ? userProfileData.address : 'set not yet'}</p>
+                    <p>{data.userProfileDetails.address ? data.userProfileDetails.address : 'set not yet'}</p>
                     <p></p>
                 </div>
                 <div className='user-profile__details__birthDate'>
                     <img src={calender} alt="" />
-                    <p>{userProfileData?.brithDate ? userProfileData.brithDate : 'set not yet'}</p>
+                    <p>{data.userProfileDetails.brithDate ? data.userProfileDetails.brithDate : 'set not yet'}</p>
                 </div>
-                <p onClick={() => handleShowFriendList()} className='user-profile__details__friend'>friends - {userProfileData?.friends.length}</p>
+                <p onClick={() => handleShowFriendList()} className='user-profile__details__friend'>friends - {data.userProfileDetails?.friends.length}</p>
                 {/* show friends in modal */}
-                {showList && <Modal title={`${userProfileData?.name}'s friend list`} handleModal={toggleList}>
+                {showList && <Modal title={`${data.userProfileDetails?.name}'s friend list`} handleModal={toggleList}>
                     {fetchFriendsResults.data ? fetchFriendsResults.data.fetchFriendList.map((sig: any, index: any) => <SingleFriendPreview key={index} friend={sig} />) :
                         <Loading />
                     }

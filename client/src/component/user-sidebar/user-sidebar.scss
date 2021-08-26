@@ -6,6 +6,7 @@
 
 .user-single-sidebar{
     width: 217px;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,3 +58,14 @@
     }
 }
 
+.notifications-icon__container::before{
+    content: attr(data-length);
+    position: absolute;
+    font-size: 1rem;
+    top: -13%;
+    left: 27%;
+    color: #f6f3f5;
+    background: #09bbff;
+    padding: 5px;
+    clip-path: circle();
+}

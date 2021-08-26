@@ -1,6 +1,6 @@
 import { gql, useMutation } from '@apollo/client';
 import React, { useState } from 'react'
-import { useData } from '../../store';
+import { FETCH_POST, useData } from '../../store';
 
 const UseCreatePost = () => {
 
@@ -30,6 +30,7 @@ const UseCreatePost = () => {
 
     let handleCreatePost = async (text: string, imgs: imgsData[]) => {
 
+
         let textArray = text.split('')
         console.log(textArray.length);
         if (textArray.length >= 500) {
@@ -40,7 +41,11 @@ const UseCreatePost = () => {
             })
         }
 
-        let data = await createPost({ variables: { userId: auth?.user.id, text, imgs } })
+        let data = await createPost({
+            variables: { userId: auth!.user.id, text, imgs }, refetchQueries: [{
+                query: FETCH_POST
+            }]
+        })
 
         if (data) {
             setError({

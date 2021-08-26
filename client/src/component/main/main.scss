@@ -33,3 +33,34 @@
         font-weight: 700;
     }
 }
+
+.main-top__menu{
+    display: none;
+}
+
+@media screen and (max-width:1000px){
+    .main-body__column3{
+        display: none;
+    }
+    .main-body__column2{
+        flex: .7;
+        margin-left: 5%;
+    }
+}
+
+@media screen and (max-width:700px){
+    .main-body__column3{
+        display: none;
+    }
+    .main-body__column2{
+        flex: 1;
+   
+    }
+    .main-body__column1{
+        flex: 0;
+        display: none;
+    }
+    .main-top__menu{
+        display: block;
+    }
+}

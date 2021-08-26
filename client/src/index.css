@@ -48,13 +48,13 @@ code {
 }
 
 
-@media screen and ( max-width:700px) {
+@media screen and (max-width:700px) {
   html{
       font-size: 57.25%
   }
 }
-@media screen and ( max-width:500px) {
+@media screen and (max-width:570px) {
   html{
-      font-size: 47.25%
+      font-size: 50.25%
   }
 }

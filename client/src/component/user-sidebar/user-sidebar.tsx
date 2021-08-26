@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './user-sidebar.scss'
 import UserSingleSidebar from './user-single-sidebar'
 import home from '../../assets/home.svg'
@@ -10,9 +10,14 @@ import search from '../../assets/search.svg'
 import logout from '../../assets/logout.svg'
 
 const UserSidebar: React.FC<{ userId: string }> = ({ userId }) => {
+    useEffect(() => {
+        let userSidebar = document.getElementById('user-sidebar')?.getElementsByTagName('div')
+        console.log(userSidebar);
+
+    }, [])
 
     return (
-        <div className='user-sidebar'>
+        <div id='user-sidebar' className='user-sidebar'>
             <div className='mx-auto w-50 my-1'>
                 <p style={{ fontWeight: 700, fontSize: '1.7rem' }}>Social App</p>
             </div>
