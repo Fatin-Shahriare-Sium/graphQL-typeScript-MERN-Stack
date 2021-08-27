@@ -19,7 +19,9 @@ import SingleFriendPreview from '../friend/single-friend-preview';
 import Loading from '../loading/loading';
 import MainTop from './main-top';
 import LogoutModal from '../modal/logout-modal';
-import createHistory from 'history/createBrowserHistory';
+import { useInView } from 'react-intersection-observer';
+import { POST_ACTION_TYPE } from '../../store/postReducer';
+
 //email-rose1206@gmail.com
 //password-rose1206@gmail.com
 let FETCH_RECENT_USER = gql`
@@ -33,17 +35,32 @@ query{
 }
 `
 const Main = () => {
-    let { posts, auth, authUserProfileData } = useData()
+    let { posts, auth, authUserProfileData, fetchMorePosts, dispatch } = useData()
     let history = useHistory()
 
-    let location = useLocation()
-    useEffect(() => {
-        console.log(location);
-
-    }, [location])
+    let { ref, inView, entries } = useInView()
 
     let { data } = useQuery(FETCH_RECENT_USER)
 
+    useEffect(() => {
+        if (inView) {
+
+
+            fetchMorePosts({
+                variables: { skip: posts.length }, updateQuery: (preResult: any, newResult: any) => {
+                    console.log(preResult);
+                    let allPosts = [
+                        ...preResult.allPosts,
+                        ...newResult.fetchMoreResult.allPosts
+                    ]
+                    console.log(allPosts);
+
+                    dispatch!({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: allPosts })
+                    return allPosts
+                }
+            })
+        }
+    }, [inView])
 
     return (
 
@@ -54,7 +71,7 @@ const Main = () => {
                 <div className="main-body">
                     <div className="main-body__column1">
 
-                        <UserSidebar userId={auth!.user.id} />
+                        <UserSidebar key='99999' userId={auth!.user.id} />
 
                     </div>
 
@@ -62,11 +79,15 @@ const Main = () => {
 
                         <Switch >
                             <Route exact path='/'>
-                                <MainTop userId={auth!.user.id} name='Home' />
+                                <MainTop userId={auth!.user.id} name='Home'>
+                                    <UserSidebar userId={auth!.user.id} />
+                                </MainTop>
                                 <CreatePost userPofilePic={authUserProfileData?.profileImg} />
                                 {posts && posts.map((sig, index) =>
                                     <ShowPost key={sig._id} post={sig} currentUserId={auth!.user.id} />
+
                                 )}
+                                <Loading refx={ref} />
                             </Route>
                             <Route exact path='/profile/:id' >
                                 <MainTop userId={auth!.user.id} name='Profile' />

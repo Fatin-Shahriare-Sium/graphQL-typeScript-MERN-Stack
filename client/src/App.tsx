@@ -12,7 +12,9 @@ function App() {
   let { auth } = useData()
   let client = new ApolloClient({
     uri: "http://localhost:5000",
-    cache: new InMemoryCache()
+    connectToDevTools: true,
+    cache: new InMemoryCache(),
+
 
   })
 

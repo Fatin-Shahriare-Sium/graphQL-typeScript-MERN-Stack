@@ -4,8 +4,8 @@ import PostReducer, { INITIAL_STATE, POST_ACTION_TYPE } from './postReducer'
 import { POST_DATA } from './postReducer'
 
 export let FETCH_POST = gql`
-    query{
-  allPosts {
+    query allPosts($skip:Int!){
+  allPosts(skip:$skip) {
         _id,
           text,
           likes,
@@ -58,7 +58,8 @@ interface AUTH_USER_PROFILE_DATA {
 interface DataContextValue extends POST_DATA {
     auth: authState | undefined,
     dispatch: Dispatch<any> | null,
-    authUserProfileData: AUTH_USER_PROFILE_DATA | undefined
+    authUserProfileData: AUTH_USER_PROFILE_DATA | undefined,
+    fetchMorePosts: any
 }
 
 
@@ -73,19 +74,18 @@ interface authState {
     }
 }
 
-let DataContext = React.createContext<DataContextValue>({ auth: undefined, posts: [], dispatch: null, authUserProfileData: undefined })
+let DataContext = React.createContext<DataContextValue>({ auth: undefined, posts: [], dispatch: null, authUserProfileData: undefined, fetchMorePosts: () => { } })
 
 export let useData = () => {
 
     return useContext(DataContext)
-
 
 }
 
 
 const DataProvider: React.FC = ({ children }) => {
     let [state, dispatch] = useReducer(PostReducer, INITIAL_STATE)
-    let postData = useQuery(FETCH_POST)
+    let postData = useQuery(FETCH_POST, { variables: { skip: 5 } })
     let [fetchUserProfileData, { data }] = useLazyQuery(FETCH_USER_PROFILE_DETAILS)
     let [auth, setAuth] = useState<authState>()
     let [authProfileData, setAuthProfileData] = useState<AUTH_USER_PROFILE_DATA>()
@@ -121,6 +121,7 @@ const DataProvider: React.FC = ({ children }) => {
 
     }, [])
 
+    console.log(typeof postData.fetchMore);
 
 
 
@@ -151,19 +152,25 @@ const DataProvider: React.FC = ({ children }) => {
 
     useEffect(() => {
 
+
+
         if (postData.data) {
             dispatch({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: postData.data.allPosts })
             localStorage.setItem('__socialPosts', JSON.stringify(postData.data.allPosts))
         }
 
-    }, [postData.data])
+    }, [postData.data, JSON.stringify(postData.data)])
 
+    useEffect(() => {
+        console.log(postData.data);
 
+    })
     let value = {
         auth,
         posts: state.posts,
         dispatch,
-        authUserProfileData: authProfileData
+        authUserProfileData: authProfileData,
+        fetchMorePosts: postData.fetchMore
 
 
     }

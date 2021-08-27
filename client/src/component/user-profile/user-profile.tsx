@@ -22,7 +22,7 @@ export let FETCH_PROFILE_DETAILS = gql`
     
 query($userId:String!){
     userProfileDetails(userId:$userId){
-        id
+        _id
         name
     profileImg
     coverImg
@@ -86,7 +86,7 @@ const UserProfile = () => {
     let [showList, setShowList] = useState(false)
     let { id } = useParams<{ id: string }>()
     let { auth, dispatch, posts, authUserProfileData } = useData()
-    let { data } = useQuery(FETCH_PROFILE_DETAILS, { variables: { userId: id }, fetchPolicy: 'no-cache' })
+    let { data } = useQuery(FETCH_PROFILE_DETAILS, { variables: { userId: id } })
     let userPosts = useQuery(FETCH_POSTS_BY_USERID, { variables: { userId: id } })
     let [fetchFriends, fetchFriendsResults] = useLazyQuery(FETCH_FRIEND_LIST)
     let { sendFriendRequest, cancelRequest, handleUnfriend } = UseHandleFriend()

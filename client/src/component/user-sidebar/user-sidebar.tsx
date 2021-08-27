@@ -9,15 +9,11 @@ import bookmark from '../../assets/bookmark-fill.svg'
 import search from '../../assets/search.svg'
 import logout from '../../assets/logout.svg'
 
-const UserSidebar: React.FC<{ userId: string }> = ({ userId }) => {
-    useEffect(() => {
-        let userSidebar = document.getElementById('user-sidebar')?.getElementsByTagName('div')
-        console.log(userSidebar);
+const UserSidebar: React.FC<{ userId: string, id?: string }> = ({ userId, id }) => {
 
-    }, [])
 
     return (
-        <div id='user-sidebar' className='user-sidebar'>
+        <div id={id} className='user-sidebar'>
             <div className='mx-auto w-50 my-1'>
                 <p style={{ fontWeight: 700, fontSize: '1.7rem' }}>Social App</p>
             </div>

@@ -152,8 +152,12 @@
 }
 
 
-@media screen and (max-width:500px){
+@media screen and (max-width:600px){
     .create-post__editor textarea{
-        font-size: 2rem;
+        font-size: 2rem!important;
+    }
+    .create-post__user img{
+        width:37px;
+
     }
 }
