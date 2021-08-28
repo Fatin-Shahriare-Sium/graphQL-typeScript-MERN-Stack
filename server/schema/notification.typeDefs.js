@@ -15,6 +15,7 @@ type SingleNotification{
     createdAt:Date
 
 }
+
 extend type Query{
     fetchUserNotifications(userId:String!):[SingleNotification]
 }

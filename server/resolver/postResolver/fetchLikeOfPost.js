@@ -5,7 +5,8 @@ let fetchLikeOfPostQueryResolver = async (parent, args, ctx) => {
 
     let postx = await Post.findOne({ _id: postId }).populate({
         path: 'likes',
-        select: 'name profilePic '
+        select: 'name profilePic updatedAt'
+
 
     })
 

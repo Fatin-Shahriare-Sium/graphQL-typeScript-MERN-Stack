@@ -8,7 +8,6 @@ let searchUserQueryResolver = async (parent, args, ctx) => {
         select: 'friends sendFriendRequest getFriendRequest'
     })
 
-    console.log(searchedUser);
 
 
     return searchedUser

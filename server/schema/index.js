@@ -12,11 +12,23 @@ let UserTypeDefs = gql`
         project:String
     }
     "Created User obj after createUser mutation "
+    type UserInDetails{
+        id:String,
+        email:String,
+        name:String,
+        profilePic: String,
+        profile: String,
+        posts: [String],
+        notifications: [String],
+        bookmarks: [String],
+        createdAt:Date
+    }
     type CreatedUser{
         id:String,
         email:String,
         name:String,
-        profilePic:String
+        profilePic:String,
+        createdAt:String
     }
 
 
@@ -39,7 +51,9 @@ let UserTypeDefs = gql`
         success:Boolean
     }
     type Query{
-        details:Details
+        details:Details,
+        fetchUser:[UserInDetails],
+        fetchUserById(userId:String!):UserInDetails
     }
 
     type Mutation{

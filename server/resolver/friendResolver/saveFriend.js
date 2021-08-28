@@ -15,7 +15,7 @@ let saveFriendMutationResolver = async (parent, args, ctx) => {
         $pull: { getFriendRequest: requestedUserId }
     })
 
-    console.log('userProfilex', userProfilex);
+
 
     let newNotificationx = new Notification({
         notifier: userId,

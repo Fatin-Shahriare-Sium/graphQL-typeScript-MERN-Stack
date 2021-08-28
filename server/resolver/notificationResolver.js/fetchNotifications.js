@@ -15,7 +15,7 @@ let fetchNotificationsQueryResolver = async (parent, args, ctx) => {
             }
         }
     })
-    console.log('userx.notifications', userx.notifications);
+
     return userx.notifications
 }
 

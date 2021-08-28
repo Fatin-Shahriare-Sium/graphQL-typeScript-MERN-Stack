@@ -29,6 +29,11 @@ const forgetPassMutationResolver = require('./userResolver/forgetPass.js')
 const fetchFriendListQueryResolver = require('./friendResolver/fetchFriendList.js')
 const fetchLikeOfPostQueryResolver = require('./postResolver/fetchLikeOfPost.js')
 const fetchDislikeOfPostQueryResolver = require('./postResolver/fetchDislikeOfPost.js')
+const fetchUserQueryResolver = require('./userResolver/fetchUser.js')
+const fetchUserByIdQueryResolver = require('./userResolver/fetchUserById.js')
+const unfriendMutationResolver = require('./friendResolver/unfriend.js')
+const deleteSinglePostMutationResolver = require('./postResolver/deleteSinglePost.js')
+const fetchSinglePostQueryResolver = require('./postResolver/fetchSinglePost.js')
 
 let rootResolvers = {
     Query: {
@@ -39,6 +44,7 @@ let rootResolvers = {
             }
         },
         allPosts: allPostGetResolver,
+        fetchSinglePost: fetchSinglePostQueryResolver,
         someComment: someCommentQueryResolver,
         userProfileDetails: getUserProfileDetailsResolver,
         userPosts: getUserPostQueryResolver,
@@ -48,7 +54,9 @@ let rootResolvers = {
         searchPost: searchPostQueryResolver,
         fetchFriendList: fetchFriendListQueryResolver,
         fetchLikeOfPost: fetchLikeOfPostQueryResolver,
-        fetchDislikeOfPost: fetchDislikeOfPostQueryResolver
+        fetchDislikeOfPost: fetchDislikeOfPostQueryResolver,
+        fetchUser: fetchUserQueryResolver,
+        fetchUserById: fetchUserByIdQueryResolver
 
 
     },
@@ -80,7 +88,9 @@ let rootResolvers = {
         sendFriendRequest: sendFriendRequestMutationResolver,
         saveFriend: saveFriendMutationResolver,
         deleteFriendRequest: deleteFriendRequestMutationResolver,
-        cancelOwnRequest: cancelOwnRequestMutationResolver
+        cancelOwnRequest: cancelOwnRequestMutationResolver,
+        unfriend: unfriendMutationResolver,
+        deleteSinglePost: deleteSinglePostMutationResolver
 
     }
 }

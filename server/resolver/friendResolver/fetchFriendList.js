@@ -9,7 +9,7 @@ let fetchFriendListQueryResolver = async (parent, args, ctx) => {
         select: 'name profilePic'
     })
 
-    console.log(userProfilex);
+
     return userProfilex.friends
 }
 

@@ -5,7 +5,7 @@ const User = require('../../model/user.js');
 const Notification = require("../../model/notification");
 let createCommentMutationResolver = async (parent, args, ctx) => {
     let { postId, userObj, text } = args
-    console.log(text);
+
     let newComment = new Comment({
         user: userObj.id,
         postId,

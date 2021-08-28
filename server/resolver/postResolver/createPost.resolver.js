@@ -1,7 +1,7 @@
 let Post = require('../../model/post.js')
 let User = require('../../model/user.js')
 let createPostMutationResolver = async (parent, args, ctx) => {
-    console.log(args);
+
     let { userId, imgs, text } = args
     let newPost = new Post({
         user: userId,
@@ -9,7 +9,8 @@ let createPostMutationResolver = async (parent, args, ctx) => {
         imgs,
         likes: [],
         comments: [],
-        dislikes: []
+        dislikes: [],
+        bookmarked: []
     })
 
     let post = await newPost.save()
@@ -18,20 +19,24 @@ let createPostMutationResolver = async (parent, args, ctx) => {
         $push: { 'posts': post }
     })
 
-    console.log(post);
-    return {
-        _id: post._id,
-        text: post.text,
-        likes: post.likes,
-        comments: post.comments,
-        dislikes: post.dislikes,
-        user: post.user,
-        userName: user.name,
-        profilePic: user.profilePic,
-        createdAt: post.createdAt,
-        updatedAt: post.updatedAt,
-    }
+    let postx = await Post.findOne({ _id: post._id }).populate({
+        path: 'user',
+        select: 'name profilePic'
+    })
 
+    // return {
+    //     _id: post._id,
+    //     text: post.text,
+    //     likes: post.likes,
+    //     comments: post.comments,
+    //     dislikes: post.dislikes,
+    //     user: post.user,
+    //     userName: user.name,
+    //     profilePic: user.profilePic,
+    //     createdAt: post.createdAt,
+    //     updatedAt: post.updatedAt,
+    // }
+    return postx
 }
 
 module.exports = createPostMutationResolver

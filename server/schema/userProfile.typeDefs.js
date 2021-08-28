@@ -2,7 +2,7 @@ const { gql } = require("apollo-server");
 
 let userProfileTypeDefs = gql`
 type UserProfileDetails{
-    id:String,
+    _id:String,
     name: String,
     profileImg: String,
     coverImg: String,
@@ -11,6 +11,7 @@ type UserProfileDetails{
     brithDate: String,
     user:String,
     friends: [String],
+    notifications:[SingleNotification]
     sendFriendRequest: [String],
     getFriendRequest: [String]
 }

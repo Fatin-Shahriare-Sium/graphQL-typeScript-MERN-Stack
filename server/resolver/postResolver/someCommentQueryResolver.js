@@ -2,7 +2,7 @@ const { populate } = require('../../model/post.js');
 let Post = require('../../model/post.js')
 
 let someCommentQueryResolver = async (parent, args, ctx) => {
-    console.log('allPost');
+
     let { postId } = args
 
 
@@ -33,7 +33,7 @@ let someCommentQueryResolver = async (parent, args, ctx) => {
             }
         }
     )
-    console.log(JSON.stringify(findedPost.comments));
+
     return findedPost.comments
 
 }

@@ -26,7 +26,6 @@ createUserMutationResolver = async (parent, args, ctx, info) => {
         coverImg: '',
         address: '',
         brithDate: '',
-        user: '',
         friends: [],
         sendFriendRequest: [],
         getFriendRequest: []

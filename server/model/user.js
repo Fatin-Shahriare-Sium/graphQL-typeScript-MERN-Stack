@@ -22,6 +22,8 @@ let UserSchema = new Schema({
         ref: 'post'
     }]
     //need to add notification
+}, {
+    timestamps: true
 })
 
 UserSchema.index({ name: 'text' })

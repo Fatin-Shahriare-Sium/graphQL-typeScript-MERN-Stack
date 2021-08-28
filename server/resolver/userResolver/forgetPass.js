@@ -8,7 +8,7 @@ let forgetPassMutationResolver = async (parent, args, ctx) => {
     let { email } = args
     let userx = await User.findOne({ email })
     let x = await bcrypt.hashSync(userx.password, 11)
-    console.log(x);
+
     var transporter = nodemailer.createTransport({
         host: "smtp.mailtrap.io",
         port: 2525,

@@ -13,7 +13,7 @@ let cancelOwnRequestMutationResolver = async (parent, args, ctx) => {
     })
 
     return {
-        msg: `${userProfile.name} has cancelledd his own request of ${requestedUserProfile.name}`
+        msg: `${userProfile.name} has cancelled his own request of ${requestedUserProfile.name}`
     }
 }
 

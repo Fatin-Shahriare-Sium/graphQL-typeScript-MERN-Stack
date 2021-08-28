@@ -88,8 +88,9 @@ let postTypeDefs = gql`
       }
 
       extend type Query{
-        allPosts:[SinglePost]
+        allPosts(skip:Int!):[SinglePost]
         userPosts(userId:String!):[SinglePost]
+        fetchSinglePost(postId:String!):SinglePost
         someComment(postId:String!):[ExtendedSingleComment]
         fetchLikeOfPost(postId:String!):[FriendList]
         fetchDislikeOfPost(postId:String!):[FriendList]
@@ -97,13 +98,14 @@ let postTypeDefs = gql`
 
 
     extend type Mutation{
-    createPost(text:String!,imgs:[SingleImg],userId:String!):CreatedPostMutationResponse
+    createPost(text:String!,imgs:[SingleImg],userId:String!):SinglePost
     handleLike(userObj:UserObj,postId:String):HandleLikeMutationResponse
     handleDislike(userObj:UserObj,postId:String):HandleDislikeMutationResponse
     createComment(userObj:UserObj,text:String,postId:String):ExtendedSingleComment
     handleCommentLike(userObj:UserObj,commentId:String):HandleLikeMutationResponse
     handleCommentDislike(userObj:UserObj,commentId:String):HandleDislikeMutationResponse
     createCommentReply(userObj:UserObj,commentId:String,text:String):ExtendedSingleComment
+    deleteSinglePost(postId:String!,userId:String!): Msg
 }
 
 `

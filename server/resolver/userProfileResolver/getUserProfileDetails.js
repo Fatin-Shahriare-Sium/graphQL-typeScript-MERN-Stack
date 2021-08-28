@@ -5,10 +5,14 @@ let getUserProfileDetailsResolver = async (parent, args, ctx) => {
 
     let userx = await User.findOne({ _id: userId }).populate({
         path: 'profile'
+    }).populate({
+        path: "notifications"
     })
 
-    console.log(userx);
-    return userx.profile
+    return {
+        ...userx.profile._doc,
+        notifications: userx.notifications
+    }
 
 }
 module.exports = getUserProfileDetailsResolver
