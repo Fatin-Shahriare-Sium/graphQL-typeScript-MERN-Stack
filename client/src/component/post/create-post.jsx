@@ -4,12 +4,12 @@ import addImg from '../../assets/addImg.svg'
 import addEmoji from '../../assets/addEmoji.png'
 import Picker from 'emoji-picker-react';
 import Alert from '../alert/alert';
-import UseCreatePost from '../hooks/useCreatePost';
+import UseHandlePost from '../hooks/useHandlePost';
 
 
 const CreatePost = ({ userPofilePic }) => {
 
-    let { handleCreatePost, error } = UseCreatePost()
+    let { handleCreatePost, error } = UseHandlePost()
     let [postText, setPostText] = useState('')
     let [showPalet, setShowPalet] = useState(false)
     let [imgContainer, setImgContainer] = useState([])
@@ -19,9 +19,6 @@ const CreatePost = ({ userPofilePic }) => {
         setShowPalet(pre => !pre)
     }
 
-    useEffect(() => {
-        console.log(process.env.REACT_APP_IMG_UPLOAD_URL);
-    })
 
     useEffect(() => {
         if (imgContainer.length == 2) {
@@ -118,7 +115,8 @@ const CreatePost = ({ userPofilePic }) => {
         console.dir(textArea);
         if (error) {
             if (error.ableToCreate) {
-                textArea.value = ''
+                textArea.value = ""
+                setPostText('')
                 textArea.style.minHeight = '15vh'
                 img_wrapper.innerHTML = ''
             }

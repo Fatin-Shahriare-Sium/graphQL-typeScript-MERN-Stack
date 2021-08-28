@@ -1,5 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
-import React, { useEffect } from 'react'
+import React, { Dispatch, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import ShowPost from '../show-post/show-post'
 

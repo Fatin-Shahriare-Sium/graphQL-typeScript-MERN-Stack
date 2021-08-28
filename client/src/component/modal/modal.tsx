@@ -9,7 +9,7 @@ const Modal: React.FC<{ handleModal: () => any, title: string }> = ({ children, 
                         <h5 className="modal-title" id="exampleModalLabel">{title}</h5>
                         <button type="button" onClick={() => handleModal()} className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div style={{ minHeight: '70vh' }} className="modal-body">
+                    <div style={{ minHeight: '37vh' }} className="modal-body">
                         {children}
                     </div>
 

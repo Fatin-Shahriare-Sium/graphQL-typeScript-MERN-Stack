@@ -48,15 +48,10 @@ const Main = () => {
 
             fetchMorePosts({
                 variables: { skip: posts.length }, updateQuery: (preResult: any, newResult: any) => {
-                    console.log(preResult);
-                    let allPosts = [
-                        ...preResult.allPosts,
-                        ...newResult.fetchMoreResult.allPosts
-                    ]
-                    console.log(allPosts);
 
-                    dispatch!({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: allPosts })
-                    return allPosts
+
+                    dispatch!({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: newResult.fetchMoreResult.allPosts })
+                    return newResult.fetchMoreResult.allPosts
                 }
             })
         }
@@ -84,10 +79,10 @@ const Main = () => {
                                 </MainTop>
                                 <CreatePost userPofilePic={authUserProfileData?.profileImg} />
                                 {posts && posts.map((sig, index) =>
-                                    <ShowPost key={sig._id} post={sig} currentUserId={auth!.user.id} />
+                                    <ShowPost key={sig._id + index} post={sig} currentUserId={auth!.user.id} />
 
                                 )}
-                                <Loading refx={ref} />
+                                {posts && <Loading refx={ref} />}
                             </Route>
                             <Route exact path='/profile/:id' >
                                 <MainTop userId={auth!.user.id} name='Profile' />
@@ -99,7 +94,7 @@ const Main = () => {
                             </Route>
                             <Route exact path='/post/:postId'>
                                 <MainTop userId={auth!.user.id} name='Post' />
-                                <ShowSinglePost posts={posts} currentUserId={auth!.user.id} />
+                                <ShowSinglePost currentUserId={auth!.user.id} />
                             </Route>
                             <Route exact path='/bookmarks'>
                                 <MainTop userId={auth!.user.id} name='Bookmarks' />

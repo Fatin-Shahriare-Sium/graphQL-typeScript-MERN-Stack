@@ -85,7 +85,7 @@ export let useData = () => {
 
 const DataProvider: React.FC = ({ children }) => {
     let [state, dispatch] = useReducer(PostReducer, INITIAL_STATE)
-    let postData = useQuery(FETCH_POST, { variables: { skip: 5 } })
+    let postData = useQuery(FETCH_POST, { variables: { skip: 0 } })
     let [fetchUserProfileData, { data }] = useLazyQuery(FETCH_USER_PROFILE_DETAILS)
     let [auth, setAuth] = useState<authState>()
     let [authProfileData, setAuthProfileData] = useState<AUTH_USER_PROFILE_DATA>()
@@ -134,8 +134,7 @@ const DataProvider: React.FC = ({ children }) => {
     }, [auth])
 
     useEffect(() => {
-        //updating userProfileData
-        console.log(data);
+
         if (data) {
             setAuthProfileData({
                 profileImg: data.userProfileDetails.profileImg,
@@ -155,11 +154,12 @@ const DataProvider: React.FC = ({ children }) => {
 
 
         if (postData.data) {
+            console.log('postData.data', postData.data);
             dispatch({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: postData.data.allPosts })
-            localStorage.setItem('__socialPosts', JSON.stringify(postData.data.allPosts))
+
         }
 
-    }, [postData.data, JSON.stringify(postData.data)])
+    }, [postData.data])
 
     useEffect(() => {
         console.log(postData.data);

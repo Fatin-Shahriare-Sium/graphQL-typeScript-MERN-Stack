@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Dispatch } from 'react'
 import './show-post.scss'
 import like from '../../assets/like.svg'
 import likeFill from '../../assets/like-fill.svg'
@@ -16,6 +16,9 @@ import { gql, useLazyQuery } from '@apollo/client'
 import Modal from '../modal/modal'
 import SingleFriendPreview from '../friend/single-friend-preview'
 import Loading from '../loading/loading'
+import more from '../../assets/more.svg'
+import deletex from '../../assets/delete.svg'
+import UseHandlePost from '../hooks/useHandlePost'
 let IMG_CONTAINER_DIVSTYLE = [
     { width: "100%", height: '270px', margin: "1%" },
     { width: "47%", height: '230px', margin: "1%" },
@@ -62,6 +65,27 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
     let [fetchLike, fetchLikeResults] = useLazyQuery(FETCH_LIKE_OF_POST)
     let [fetchDislike, fetchDislikeResults] = useLazyQuery(FETCH_DISLIKE_OF_POST)
     let { handleLike, handleDislike, handleBookmark } = useLDC()
+    let { handleDeletePost } = UseHandlePost()
+    let [showMore, setShowMore] = useState(false)
+    let [showModal, setShowModal] = useState(false)
+    function toggleSettings() {
+        return setShowMore(pre => !pre)
+    }
+    function toggleModal() {
+        return setShowModal(pre => !pre)
+    }
+    function handleDeletePostBtn() {
+        handleDeletePost(post._id, currentUserId)
+        toggleModal()
+        let showPostContainer = document.getElementById(`show-post-${post._id}`) as HTMLDivElement
+
+        showPostContainer.classList.add('show-post__delete')
+
+        setTimeout(() => {
+            showPostContainer.classList.add('vanish-post')
+        }, 900);
+    }
+
 
     useEffect(() => {
 
@@ -128,7 +152,7 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
     }
 
     return (
-        <div className='show-post'>
+        <div id={`show-post-${post._id}`} className='show-post'>
             <div className="show-post__left">
                 <img src={post.user.profilePic} alt="" />
             </div>
@@ -138,10 +162,31 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
                 </div>
                 <div className="show-post__right--body">
                     <div className='show-post__right--body__user-info'>
-                        <Link to={`/profile/${post.user._id}`}>
-                            <p className='user-info__name'>{post.user.name}</p>
-                        </Link>
-                        <p className='show-post__time' style={{ fontSize: '.7rem', fontWeight: 500 }}>{moment(post.createdAt).fromNow()}</p>
+                        <div>
+                            <Link to={`/profile/${post.user._id}`}>
+                                <p className='user-info__name'>{post.user.name}</p>
+                            </Link>
+                            <p className='show-post__time' style={{ fontSize: '.7rem', fontWeight: 500 }}>{moment(post.createdAt).fromNow()}</p>
+                        </div>
+                        {post.user._id === currentUserId && <div className='show-post__right--body__settings'>
+                            <img onClick={toggleSettings} style={{ width: '23px' }} src={more} alt="" />
+                            {showMore && <div className='body__settings--box'>
+                                <div>
+                                    <img style={{ width: '17px' }} src={deletex} alt="" />
+                                    <p onClick={toggleModal}>Delete Post</p>
+                                </div>
+                            </div>}
+                            {showModal && <Modal title='Delete Post' handleModal={toggleModal}>
+                                <div>
+                                    <p>Do you want to delete this post?</p>
+                                    <div className='mt-3'>
+                                        <button onClick={toggleModal} className='btn btn-outline-dark'>No</button>
+                                        <button onClick={() => handleDeletePostBtn()} className='btn ms-3 btn-outline-danger'>Yes</button>
+                                    </div>
+
+                                </div>
+                            </Modal>}
+                        </div>}
                     </div>
                     <p className='show-post__text' id={`post-text-shower-${post._id}`}>{textTruncate(post.text)}</p>
                     {/* 277 string */}

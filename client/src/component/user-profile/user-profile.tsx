@@ -125,8 +125,11 @@ const UserProfile = () => {
 
 
     useEffect(() => {
+        localStorage.setItem('__socialPosts', JSON.stringify(posts))
         if (!userPosts.loading) {
-            dispatch!({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: userPosts.data.userPosts })
+            console.log('user posts', userPosts.data.userPosts);
+
+            dispatch!({ type: POST_ACTION_TYPE.LOAD_ONLY_USER_POST, payload: userPosts.data.userPosts })
         }
 
         //How to handle dynamic variables in useQuery
@@ -149,7 +152,7 @@ const UserProfile = () => {
     return (
         <div className='user-profile'>
             <Prompt message={(location) => {
-                console.log(location);
+
                 if (location.pathname !== `/profile/${id}`) {
                     let allPostJson = localStorage.getItem('__socialPosts')
                     dispatch!({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: JSON.parse(allPostJson!) })

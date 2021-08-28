@@ -49,7 +49,9 @@ export let POST_ACTION_TYPE = {
     LOAD_ALLPOST: 'load-post',
     HANDLE_LIKE: 'handle-like',
     HANDLE_DISLIKE: 'handle-dislike',
-    HANDLE_BOOKMARK: 'handle-bookmark'
+    HANDLE_BOOKMARK: 'handle-bookmark',
+    UPDATE_ALLPOST: 'update-post',
+    LOAD_ONLY_USER_POST: 'load-user-posts'
 }
 
 
@@ -62,7 +64,7 @@ let PostReducer = (state: POST_DATA, action: any): POST_DATA => {
         return {
             ...state,
 
-            posts: action.payload
+            posts: [...state.posts, ...action.payload]
         }
 
     } else if (action.type == POST_ACTION_TYPE.HANDLE_LIKE) {
@@ -156,6 +158,17 @@ let PostReducer = (state: POST_DATA, action: any): POST_DATA => {
         return {
             ...state,
             posts: newPosts
+        }
+    } else if (action.type == POST_ACTION_TYPE.UPDATE_ALLPOST) {
+
+        return {
+            ...state,
+            posts: [...action.payload]
+        }
+    } else if (action.type == POST_ACTION_TYPE.LOAD_ONLY_USER_POST) {
+        return {
+            ...state,
+            posts: action.payload
         }
     }
 
