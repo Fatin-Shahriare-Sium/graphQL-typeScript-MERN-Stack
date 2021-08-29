@@ -71,7 +71,11 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
     function toggleSettings() {
         return setShowMore(pre => !pre)
     }
+    console.log(`post-${post._id}`);
+
     function toggleModal() {
+        console.log('toggle modal fun clicjk', Modal);
+
         return setShowModal(pre => !pre)
     }
     function handleDeletePostBtn() {
@@ -279,4 +283,15 @@ const ShowPost: React.FC<SINGLE_POST_PROPS> = ({ post, currentUserId }) => {
     )
 }
 
-export default ShowPost;
+// export default ShowPost;
+
+export default React.memo(ShowPost, (prevProps, nextProps) => {
+
+    if (JSON.stringify(prevProps.post) == JSON.stringify(nextProps.post)) {
+        return true
+    }
+
+    return false
+
+
+})

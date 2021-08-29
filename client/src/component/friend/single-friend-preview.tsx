@@ -10,6 +10,7 @@ interface SINGLE_FRIEND {
 }
 
 const SingleFriendPreview: React.FC<{ friend: SINGLE_FRIEND }> = ({ friend }) => {
+    console.log('SingleFriendPreview render');
 
 
     return (
@@ -27,4 +28,13 @@ const SingleFriendPreview: React.FC<{ friend: SINGLE_FRIEND }> = ({ friend }) =>
     )
 }
 
-export default SingleFriendPreview;
+// export default SingleFriendPreview;
+
+export default React.memo(SingleFriendPreview, (prevProps, nextProps) => {
+    if (prevProps.friend.id == nextProps.friend.id) {
+        return true
+    }
+    return false
+})
+
+

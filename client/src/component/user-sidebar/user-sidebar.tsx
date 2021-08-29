@@ -11,6 +11,7 @@ import logout from '../../assets/logout.svg'
 
 const UserSidebar: React.FC<{ userId: string, id?: string }> = ({ userId, id }) => {
 
+    console.log('UserSidebar.jsx render');
 
     return (
         <div id={id} className='user-sidebar'>
@@ -29,4 +30,6 @@ const UserSidebar: React.FC<{ userId: string, id?: string }> = ({ userId, id }) 
     )
 }
 
-export default UserSidebar;
+// export default UserSidebar;
+
+export default React.memo(UserSidebar)

@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Signup from './component/signup/signup';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
-import { BrowserRouter, Switch, Route, useHistory, Router, Redirect } from 'react-router-dom'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Login from './component/login/login';
 import Main from './component/main/main';
 import DataProvider, { useData } from './store';
 import createHistory from 'history/createBrowserHistory';
-
+//greate blog to understand react-profiler,alhamdulillah - https://www.pluralsight.com/guides/profiling-performance-with-react-developer-tools
 function App() {
   const history = createHistory();
-  let { auth } = useData()
   let client = new ApolloClient({
     uri: "http://localhost:5000",
     connectToDevTools: true,

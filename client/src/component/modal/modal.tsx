@@ -1,4 +1,4 @@
-import React, { Children } from 'react'
+import React from 'react'
 
 const Modal: React.FC<{ handleModal: () => any, title: string }> = ({ children, handleModal, title }) => {
     return (

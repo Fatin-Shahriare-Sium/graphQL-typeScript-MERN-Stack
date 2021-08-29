@@ -124,4 +124,11 @@ const CommentSection: React.FC<Comment_Section> = ({ postId }) => {
     )
 }
 
-export default CommentSection;
+// export default CommentSection;
+
+export default React.memo(CommentSection, (prevProps, nextProps) => {
+    if (prevProps.postId == nextProps.postId) {
+        return true
+    }
+    return false
+})

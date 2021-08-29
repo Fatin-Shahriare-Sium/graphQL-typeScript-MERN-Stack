@@ -41,3 +41,10 @@ const MainTop: React.FC<{ name: string, userId: string }> = ({ name, userId }) =
 }
 
 export default MainTop;
+
+// export default React.memo(MainTop, (prevProps, nextProps) => {
+//     if (prevProps.name == nextProps.name) {
+//         return true
+//     }
+//     return false
+// })

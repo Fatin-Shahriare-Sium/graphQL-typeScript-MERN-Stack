@@ -19,6 +19,7 @@ const CreatePost = ({ userPofilePic }) => {
         setShowPalet(pre => !pre)
     }
 
+    console.log('created post.jsx render');
 
     useEffect(() => {
         if (imgContainer.length == 2) {
@@ -81,18 +82,16 @@ const CreatePost = ({ userPofilePic }) => {
 
     }
 
+
+
     useEffect(() => {
         let textArea = document.getElementById('editor')
         let circleBar = document.getElementById('circle-bar')
 
         textArea.addEventListener('input', (e) => {
+            let element = e.target
+            element.style.height = (element.scrollHeight) + "px";
 
-            if (e.target.textLength > 170) {
-
-                e.target.style.height = '30vh'
-
-                //552 textlength at 30vh
-            }
 
             if (e.target.textLength > 500) {
                 circleBar.style.strokeDashoffset = 0
@@ -184,4 +183,12 @@ const CreatePost = ({ userPofilePic }) => {
     )
 }
 
-export default CreatePost;
+// export default CreatePost;
+//breake the react.mome,alhamdulillah - https://felixgerschau.com/react-performance-react-memo/
+export default React.memo(CreatePost, (pre, next) => {
+    if (pre.userPofilePic == next.userPofilePic) {
+        return true
+    } else {
+        return false  //update the component
+    }
+})

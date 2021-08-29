@@ -3,6 +3,7 @@ import Picker from 'emoji-picker-react';
 import addEmoji from '../../assets/addEmoji.png'
 import { log } from 'console';
 import useLDC from '../hooks/useLDC';
+import { useData } from '../../store';
 
 interface COMMENT_INPUT {
     postId?: string,//when to comment to a post
@@ -15,6 +16,7 @@ interface COMMENT_INPUT {
 
 const CommentInput: React.FC<COMMENT_INPUT> = ({ postId, autoRefresher, type, commentId, metionedUser }) => {
     let { handleCreateComment, handleCreateCommentReply } = useLDC()
+    let { authUserProfileData } = useData()
     let [commentText, setCommentText] = useState<string | undefined>(metionedUser)
     let [showPalet, setShowPalet] = useState<boolean>(false)
     let [spinner, setSpinner] = useState(false)
@@ -76,7 +78,7 @@ const CommentInput: React.FC<COMMENT_INPUT> = ({ postId, autoRefresher, type, co
         <div className='comment-input'>
             <div className='comment-input-wrapper'>
                 <div className='comment-input__user'>
-                    <img style={{ width: "43px", clipPath: 'circle()' }} src="https://sportstar.thehindu.com/football/article32903363.ece/ALTERNATES/LANDSCAPE_1200/antony-ajax" alt="" />
+                    <img style={{ width: "27px", clipPath: 'circle()' }} src={authUserProfileData?.profileImg} alt="" />
 
                 </div>
 
