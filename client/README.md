@@ -3,7 +3,11 @@
  # **TypeScript+GraphQL+MERN Stack Social Media Application**
 
  ### It is a social media application and i have been able to build this by the grace of Allah.I try to cover almost all functionalities a social media can have.Expect,chat functionalities, business logic and somethings . It's frontend is created using Reactjs,TypeScript and Apollo-Client and backend is created using Nodejs,Apollo-Server,MongoDB,Mongoose etc.**Actually,it is optimized application**.I have done code spiliting to optimize it and also use React.memo to make it more optimized.<br/>
+<<<<<<< HEAD
 ### **Only,by the grace of Allah,i have been able to    build this and learn a lot while doing this project.#allahisalmighty**
+=======
+### ***Only,by the grace of Allah,i have been able to build this and learn a lot while doing this project.#allahisalmighty***
+>>>>>>> da79eca07820fb45440f43c5ae58497e0161f785
 
  ## FrontEnd Techologies:
  - Reactjs
