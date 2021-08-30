@@ -30,7 +30,7 @@ const Notifications = () => {
     // let 
     let { auth } = useData()
     let { data } = useQuery(USER_NOTIFICATIONS, { variables: { userId: auth!.user.id } })
-    console.log('notificatin sbfbwhfe');
+
     useEffect(() => {
 
         let notiUi = document.getElementById('notifications') as HTMLDivElement

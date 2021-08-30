@@ -97,7 +97,7 @@ let ADD_BOOKMARK = gql`
  `
 
 const useLDC = () => {
-    let [newComment, setNewComment] = useState<any>()
+
     let { dispatch, auth } = useData()
     let location = useLocation()
     let userId = auth!.user.id

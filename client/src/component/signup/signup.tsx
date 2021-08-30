@@ -2,9 +2,13 @@ import React from 'react'
 import Alert from '../alert/alert'
 import UseSignup from '../hooks/useSignup'
 import './signup.scss'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 const Signup = () => {
     let { handleSignup, error } = UseSignup()
+    let history = useHistory()
+    if (localStorage.getItem("__tokenx")) {
+        history.push('/')
+    }
     return (
         <div className='signup-wrapper'>
             <div className='signup'>

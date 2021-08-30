@@ -1,10 +1,14 @@
 import React from 'react'
 import './login.scss'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import UseLogin from '../hooks/useLogin'
 import Alert from '../alert/alert'
 const Login = () => {
     let { handleLogin, error } = UseLogin()
+    let history = useHistory()
+    if (localStorage.getItem("__tokenx")) {
+        history.push('/')
+    }
     return (
         <div style={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }} className='login-wrapper'>
             <div style={{ width: '50%', margin: 'auto' }} className='login'>

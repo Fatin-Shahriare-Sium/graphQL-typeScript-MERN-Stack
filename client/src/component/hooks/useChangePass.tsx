@@ -21,7 +21,6 @@ const UseChangePass = () => {
         let email = e.target[0].value
         let oldPassword = e.target[1].value
         let newPass = e.target[2].value
-        console.log(e);
 
 
 

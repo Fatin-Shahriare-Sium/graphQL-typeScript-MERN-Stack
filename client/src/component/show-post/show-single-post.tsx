@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
 import ShowPost from './show-post'
-import { SinglePost } from '../../store/postReducer'
 import { gql, useQuery } from '@apollo/client'
 
 interface SHOW_SINGLE_POST_PROPS {
@@ -40,10 +39,6 @@ const ShowSinglePost: React.FC<SHOW_SINGLE_POST_PROPS> = ({ currentUserId }) => 
     let { postId } = useParams<{ postId: string }>()
     let { data } = useQuery(FETCH_SINGLE_POST, { variables: { postId } })
 
-    useEffect(() => {
-        console.log(data);
-
-    }, [data])
     function renderSinglePost() {
         if (data.fetchSinglePost) {
             return <ShowPost post={data.fetchSinglePost} currentUserId={currentUserId} />

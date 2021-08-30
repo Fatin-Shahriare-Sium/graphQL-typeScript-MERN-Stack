@@ -75,7 +75,7 @@ const UseHandlePost = () => {
         })
 
         //data.createPost
-        console.log('responses.data', responses.data);
+
 
         if (responses) {
             setError({

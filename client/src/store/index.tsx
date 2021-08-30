@@ -102,7 +102,7 @@ const DataProvider: React.FC = ({ children }) => {
 
         if (!token) {
             setAuth(undefined)
-            console.log('token', token);
+
         } else {
             setAuth({
                 token,
@@ -121,7 +121,7 @@ const DataProvider: React.FC = ({ children }) => {
 
     }, [])
 
-    console.log(typeof postData.fetchMore);
+
 
 
 
@@ -154,17 +154,14 @@ const DataProvider: React.FC = ({ children }) => {
 
 
         if (postData.data) {
-            console.log('postData.data', postData.data);
+
             dispatch({ type: POST_ACTION_TYPE.LOAD_ALLPOST, payload: postData.data.allPosts })
 
         }
 
     }, [postData.data])
 
-    useEffect(() => {
-        console.log(postData.data);
 
-    })
     let value = {
         auth,
         posts: state.posts,

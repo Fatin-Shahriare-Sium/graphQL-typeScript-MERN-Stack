@@ -6,7 +6,6 @@ import dislike from '../../assets/dislike.svg'
 import dislikeFill from '../../assets/dislike-fill.svg'
 import more from '../../assets/more.svg'
 import useLDC from '../hooks/useLDC';
-import { sign } from 'crypto';
 import CommentInput from './comment-input';
 import { Link } from 'react-router-dom';
 
@@ -61,11 +60,7 @@ const SingleComment: React.FC<SingleCommentProps> = ({ comment, needToUpdateDisl
         setUserId(userx.id)
     }, [])
 
-    // useEffect(() => {
-    //     let allReplies = comment.reply.map((sig: any) => {
-    //         return { ...sig }
-    //     })
-    // }, [comment.reply])
+
 
     function needToUpdateReply(newReplyObj: any) {
 

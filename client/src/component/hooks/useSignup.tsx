@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { gql, useMutation, useQuery } from "@apollo/client"
+import React, { useState } from 'react'
+import { gql, useMutation } from "@apollo/client"
 import { useHistory } from 'react-router-dom'
 let sendUserData = gql`
 mutation createUser($name:String! , $email:String! ,$password:String!, $gender:String!){

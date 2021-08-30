@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import OffCanvas from '../modal/off-canvas';
 import menu from '../../assets/menu.svg'
 import UserSidebar from '../user-sidebar/user-sidebar';

@@ -3,7 +3,7 @@ import CommentInput from './comment-input'
 import SingleComment from './single-comment'
 import { useInView } from 'react-intersection-observer';
 import { gql, useLazyQuery } from '@apollo/client';
-import useLDC from '../hooks/useLDC';
+
 interface Comment_Section {
     postId: string
 }
@@ -43,7 +43,7 @@ query($postId:String!){
 `
 
 const CommentSection: React.FC<Comment_Section> = ({ postId }) => {
-    const { ref, inView, entry } = useInView();
+    const { ref, inView } = useInView();
     let [fetchSomeCommentsx, { data }] = useLazyQuery(FETCH_SOME_COMMENTS)
     let [comments, setComments] = useState<any>([])
     async function fetchSomeComments() {

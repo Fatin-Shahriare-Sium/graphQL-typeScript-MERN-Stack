@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Dispatch } from 'react'
+import React, { useEffect, useState } from 'react'
 import './show-post.scss'
 import like from '../../assets/like.svg'
 import likeFill from '../../assets/like-fill.svg'
