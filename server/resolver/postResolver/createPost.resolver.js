@@ -24,18 +24,7 @@ let createPostMutationResolver = async (parent, args, ctx) => {
         select: 'name profilePic'
     })
 
-    // return {
-    //     _id: post._id,
-    //     text: post.text,
-    //     likes: post.likes,
-    //     comments: post.comments,
-    //     dislikes: post.dislikes,
-    //     user: post.user,
-    //     userName: user.name,
-    //     profilePic: user.profilePic,
-    //     createdAt: post.createdAt,
-    //     updatedAt: post.updatedAt,
-    // }
+
     return postx
 }
 
