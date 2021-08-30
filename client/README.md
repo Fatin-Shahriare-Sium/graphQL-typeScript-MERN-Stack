@@ -1,46 +1,31 @@
-# Getting Started with Create React App
+<div align="center" style='text-align:center;font-family:bismillah;font-size:2rem' dir="rtl">عنوان</div>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ # **TypeScript+GraphQL+MERN Stack Social Media Application**
 
-## Available Scripts
+ ### It is a social media application and i have been able to build this by the grace of Allah.I try to cover almost all functionalities a social media can have.Expect,chat functionalities, business logic and somethings . It's frontend is created using Reactjs,TypeScript and Apollo-Client and backend is created using Nodejs,Apollo-Server,MongoDB,Mongoose etc.**Actually,it is optimized application**.I have done code spiliting to optimize it and also use React.memo to make it more optimized.<br/>
+### ***
+Only,by the grace of Allah,i have been able to build this and learn a lot while doing this project.#allahisalmighty
+***
 
-In the project directory, you can run:
+ ## FrontEnd Techologies:
+ - Reactjs
+ - TypeScript
+ - Apollo-Client
+ - Bootstarp 5
+ - React-Router
+ - Momentjs
+ - etc
 
-### `npm start`
+## Backend Technologies:
+- Nodejs
+- Apollo-Server
+- MongoDB
+- Mongoose
+- bcrypt
+- dotenv
+- etc
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+> ### **You may find it slow performance because my server is not so fast . So,you must consider it**
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
