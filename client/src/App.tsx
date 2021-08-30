@@ -10,7 +10,7 @@ import createHistory from 'history/createBrowserHistory';
 function App() {
   const history = createHistory();
   let client = new ApolloClient({
-    uri: "http://localhost:5000",
+    uri: "https://social-graphqlx.herokuapp.com/graphql",
     connectToDevTools: true,
     cache: new InMemoryCache(),
 
@@ -25,7 +25,6 @@ function App() {
     <BrowserRouter>
       <ApolloProvider client={client}>
         <DataProvider>
-
 
           <Switch>
             <Route exact path='/'>
