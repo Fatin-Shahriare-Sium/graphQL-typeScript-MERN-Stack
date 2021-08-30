@@ -153,3 +153,27 @@
 
 
 // edit-profile scss end
+
+@media screen and (max-width:500px){
+    .user-profile__details{
+       font-size: 1.6rem;
+    }
+    .user-profile__details__username{
+        font-size: 2.9rem;
+        font-weight: 700;
+    }
+    .user-profile__details__bio{
+        font-size: 1.7rem;
+      
+        
+    }
+    .user-profile__details__location,.user-profile__details__birthDate,.user-profile__details__friend {
+        p{
+            font-size: 1.5rem;
+        }
+       
+    }
+    .edir-profile__inputSection input{
+        font-size: 1.7rem;
+    }
+}
