@@ -19,7 +19,7 @@ const CreatePost = ({ userPofilePic }) => {
         setShowPalet(pre => !pre)
     }
 
-    console.log('created post.jsx render');
+
 
     useEffect(() => {
         if (imgContainer.length == 2) {

@@ -126,6 +126,8 @@ const UserProfile = () => {
 
     useEffect(() => {
         localStorage.setItem('__socialPosts', JSON.stringify(posts))
+        console.log('userprofiledata', data);
+
         if (!userPosts.loading) {
             console.log('user posts', userPosts.data.userPosts);
 

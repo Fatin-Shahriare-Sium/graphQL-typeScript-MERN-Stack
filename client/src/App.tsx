@@ -11,6 +11,7 @@ function App() {
   const history = createHistory();
   let client = new ApolloClient({
     uri: "https://social-graphqlx.herokuapp.com/graphql",
+    // uri: 'http://localhost:5000/',
     connectToDevTools: true,
     cache: new InMemoryCache(),
 

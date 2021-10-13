@@ -71,7 +71,6 @@ let PostReducer = (state: POST_DATA, action: any): POST_DATA => {
 
         let { userId, postId } = action.payload
 
-        console.log(postId, userId);
 
         //let newPosts=[...state.posts] will not work.it will give error like "Cannot assign to read only property 'likes' of object in ts"
         //By doing cloning array using spread oparetor will do a shallow copy not deep copy.So,when you want to modify your array ts will 

@@ -10,7 +10,6 @@ interface SINGLE_FRIEND {
 }
 
 const SingleFriendPreview: React.FC<{ friend: SINGLE_FRIEND }> = ({ friend }) => {
-    console.log('SingleFriendPreview render');
 
 
     return (

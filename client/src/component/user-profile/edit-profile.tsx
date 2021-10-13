@@ -6,7 +6,7 @@ import UseHandleProfile from '../hooks/useHandleProfile'
 import defaultcover from '../../assets/defaultcover.jpg'
 
 export interface PROFILE_DATA {
-    id: string,
+    _id: string,
     name: string,
     profileImg: string,
     coverImg: string,
@@ -123,7 +123,7 @@ const EditProfile: React.FC<EDIT_PROFILE> = ({ handleModal, userId, profileData 
         let address = document.getElementById('address') as HTMLInputElement
         let birthdate = document.getElementById('birthdate') as HTMLInputElement
         if (namex.value && address.value) {
-            let { success } = await updateUserProfile(userId, profileData.id, namex.value, bio.value, userImgs.coverImg, userImgs.profilePic, address.value, birthdate.value)
+            let { success } = await updateUserProfile(userId, profileData._id, namex.value, bio.value, userImgs.coverImg, userImgs.profilePic, address.value, birthdate.value)
             if (success) {
                 handleModal()
             }
